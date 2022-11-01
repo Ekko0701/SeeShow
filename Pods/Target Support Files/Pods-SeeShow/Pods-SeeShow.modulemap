@@ -1,0 +1,6 @@
+framework module Pods_SeeShow {
+  umbrella header "Pods-SeeShow-umbrella.h"
+
+  export *
+  module * { export * }
+}

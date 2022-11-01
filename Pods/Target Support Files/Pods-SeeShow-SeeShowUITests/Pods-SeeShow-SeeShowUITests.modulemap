@@ -1,0 +1,6 @@
+framework module Pods_SeeShow_SeeShowUITests {
+  umbrella header "Pods-SeeShow-SeeShowUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}
