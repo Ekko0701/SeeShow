@@ -1,32 +1,34 @@
 //
-//  CategoryCell.swift
+//  KidsCell.swift
 //  SeeShow
 //
-//  Created by Ekko on 2022/11/01.
+//  Created by Ekko on 2022/11/02.
 //
 
 import Foundation
 import UIKit
 import SnapKit
+import Kingfisher
 
-class CategoryCell: UICollectionViewCell {
-    static let identifier = "CategoryCell"
+class KidsCell: UICollectionViewCell {
+    static let identifier = "KidsCell"
     
     private let image: UIImageView = {
         let imageView = UIImageView()
-        //imageView.image = UIImage(systemName: "house")
         imageView.clipsToBounds = true
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 16
         
         return imageView
     }()
     
-    let title: UILabel = {
+    private let title: UILabel = {
         let label = UILabel()
-        //label.textColor = .black
-        //label.applyNoToSansKR(style: .light, size: 16, color: .black)
+        
+        //label.applyNoToSansKR(style: .medium, size: 16, color: .black)
         label.textAlignment = .center
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
 
         return label
     }()
@@ -37,7 +39,7 @@ class CategoryCell: UICollectionViewCell {
         
         configureLayout()
         configureStyle()
-        self.backgroundColor = .cyan
+        
     }
     
     required init?(coder: NSCoder) {
@@ -56,9 +58,11 @@ class CategoryCell: UICollectionViewCell {
         
         // Configure Constraints
         image.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview()
+            make.top.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
+
             make.width.equalToSuperview()
-            make.height.equalTo(image.snp.width).multipliedBy(1)
+            make.height.equalTo(image.snp.width).multipliedBy(1.35)
         }
         
         title.snp.makeConstraints { make in
@@ -67,12 +71,12 @@ class CategoryCell: UICollectionViewCell {
         }
     }
     
-    func configure(image: UIImage, title: String) {
-        self.image.image = image
-        self.title.text = title
-    }
-    
     override func layoutSubviews() {
         super.layoutSubviews()
+    }
+    
+    /// 셀 내부 요소 설정
+    func configure(with data: ViewBoxOffice) {
+        print(data)
     }
 }

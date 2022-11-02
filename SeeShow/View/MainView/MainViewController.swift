@@ -27,6 +27,8 @@ class MainViewController: UIViewController {
     let disposeBag = DisposeBag()
     let viewModel = MainViewModel()
     
+    private var bannerData: [ViewBoxOffice] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         print("MainViewController - viewDidLoad()")
@@ -47,6 +49,7 @@ class MainViewController: UIViewController {
         
         collectionView.register(BannerCell.self, forCellWithReuseIdentifier: BannerCell.identifier)
         collectionView.register(CategoryCell.self, forCellWithReuseIdentifier: CategoryCell.identifier)
+        collectionView.register(KidsCell.self, forCellWithReuseIdentifier: KidsCell.identifier)
         
         collectionView.refreshControl = UIRefreshControl()
     }
@@ -171,6 +174,18 @@ class MainViewController: UIViewController {
         }
     }
     
+    
+    //MARK: - Binding
+//    func dataSource() -> RxCollectionViewSectionedReloadDataSource<MainSectionModel> {
+//        return RxCollectionViewSectionedReloadDataSource<MainSectionModel> (configureCell: { dataSource, collection, indexPath, _  in
+//            switch dataSource[indexPath] {
+//            case let .BannerSectionItem(
+//            }
+//        })
+//    }
+    
+    
+    
     func setupBindings() {
         // ------------------------------
         //  INPUT
@@ -194,6 +209,13 @@ class MainViewController: UIViewController {
             .bind(to: viewModel.fetchKidsBoxOffices)
             .disposed(by: disposeBag)
         
+//        viewModel.allBoxOffices
+//            .debug()
+//            .subscribe(onNext: { [weak self] new in
+//                self?.bannerData = new
+//            })
+//            .disposed(by: disposeBag)
+        
         
         // ------------------------------
         //  OUTPUT
@@ -208,17 +230,17 @@ class MainViewController: UIViewController {
 //            .disposed(by: disposeBag)
         
         
-        let item = Observable.just([1])
-        
-        // 수정 필요
-        item
-            .bind(to: collectionView.rx.items) { (collectionView, row, element) in
-                let indexPath = IndexPath(row: element, section: 0)
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BannerCell.identifier, for: indexPath) as! BannerCell
-
-                return cell
-            }
-            .disposed(by: disposeBag)
+//        let item = Observable.just([1])
+//        
+//        // 수정 필요
+//        item
+//            .bind(to: collectionView.rx.items) { (collectionView, row, element) in
+//                let indexPath = IndexPath(row: element, section: 0)
+//                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BannerCell.identifier, for: indexPath) as! BannerCell
+//
+//                return cell
+//            }
+//            .disposed(by: disposeBag)
         
         
         // loading View
@@ -231,6 +253,53 @@ class MainViewController: UIViewController {
             })
             .bind(to: loadingView.rx.isHidden)
             .disposed(by: disposeBag)
+               
+        let dataSource = createDataSource()
+                
+        let section = [
+            MainSectionModel.BannerSection(title: "Banner", items: [
+                .BannerSectionItem(
+                    viewModel.allBoxOffices // BannerCell에 전달해서 BannerItemCell로 바인딩
+                )
+            ]),
+            MainSectionModel.CategorySection(title: "Category", items: [
+                .CategorySectionItem(image: UIImage(systemName: "sun.min")!, title: "1"),
+                .CategorySectionItem(image: UIImage(systemName: "sun.min")!, title: "1"),
+                .CategorySectionItem(image: UIImage(systemName: "sun.min")!, title: "1"),
+                .CategorySectionItem(image: UIImage(systemName: "sun.min")!, title: "1"),
+                .CategorySectionItem(image: UIImage(systemName: "sun.min")!, title: "1"),
+                .CategorySectionItem(image: UIImage(systemName: "sun.min")!, title: "1"),
+                .CategorySectionItem(image: UIImage(systemName: "sun.min")!, title: "1"),
+                .CategorySectionItem(image: UIImage(systemName: "sun.min")!, title: "1"),
+            ]),
+            MainSectionModel.KidsSection(title: "Kids", items: [
+                .KidsSectionItem(ViewBoxOffice(BoxOfficeModel(area: "d", prfdtcnt: 1, prfpd: "d", cate: "d", prfplcnm: "d", prfnm: "d", rnum: 1, seatcnt: 1, poster: "d", mt20id: "d"))),
+                .KidsSectionItem(ViewBoxOffice(BoxOfficeModel(area: "d", prfdtcnt: 1, prfpd: "d", cate: "d", prfplcnm: "d", prfnm: "d", rnum: 1, seatcnt: 1, poster: "d", mt20id: "d"))),
+                .KidsSectionItem(ViewBoxOffice(BoxOfficeModel(area: "d", prfdtcnt: 1, prfpd: "d", cate: "d", prfplcnm: "d", prfnm: "d", rnum: 1, seatcnt: 1, poster: "d", mt20id: "d"))),
+            ])
+        ]
+                
+        Observable.just(section)
+            .bind(to: collectionView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
+    }
+    
+    func createDataSource() -> RxCollectionViewSectionedReloadDataSource<MainSectionModel> {
+        return RxCollectionViewSectionedReloadDataSource<MainSectionModel>(configureCell: {dataSource, collection, indexPath, _ in
+            switch dataSource[indexPath] {
+            case let .BannerSectionItem(data):
+                guard let cell: BannerCell = collection.dequeueReusableCell(withReuseIdentifier: BannerCell.identifier, for: indexPath) as? BannerCell else { return UICollectionViewCell() }
+                cell.configure(data: data)
+                return cell
+            case let .CategorySectionItem(image, title):
+                guard let cell: CategoryCell = collection.dequeueReusableCell(withReuseIdentifier: CategoryCell.identifier, for: indexPath) as? CategoryCell else { return UICollectionViewCell() }
+                cell.configure(image: image, title: title)
+                return cell
+            case let .KidsSectionItem(_):
+                guard let cell: KidsCell = collection.dequeueReusableCell(withReuseIdentifier: KidsCell.identifier, for: indexPath) as? KidsCell else { return UICollectionViewCell() }
+                return cell
+            }
+        })
     }
 }
 
