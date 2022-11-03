@@ -29,11 +29,7 @@ class BannerCell: UICollectionViewCell {
     
     var itemCount: Int = 1
     
-    let viewModel = MainViewModel()
-    
     let disposeBag = DisposeBag()
-    
-    var dataArray: [ViewBoxOffice] = []
     
     private let collectionView: UICollectionView = {
         var layout = UICollectionViewFlowLayout()
@@ -49,7 +45,7 @@ class BannerCell: UICollectionViewCell {
         
         configureCollectionView()
         configureLayout()
-        //setupBindings()
+        
         pagingTimer()
     }
     
@@ -72,21 +68,7 @@ class BannerCell: UICollectionViewCell {
         }
     }
     
-    func setupBindings() {
-        viewModel.allBoxOffices
-            .bind(to: collectionView.rx.items(cellIdentifier: BannerItemCell.identifier , cellType: BannerItemCell.self)) {
-                _, item, cell in
-
-                cell.onData.onNext(item)
-            }
-            .disposed(by: disposeBag)
-        
-        //viewModel.
-    }
-    
     func configure(data: Observable<[ViewBoxOffice]> ) {
-        print("Banner Cell입니다. \(dataArray)")
-        
         data
             .bind(to: collectionView.rx.items(cellIdentifier: BannerItemCell.identifier , cellType: BannerItemCell.self)) {
             _, item, cell in

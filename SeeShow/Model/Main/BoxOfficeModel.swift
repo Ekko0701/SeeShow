@@ -10,6 +10,7 @@ import SWXMLHash
 
 /// 박스 오피스 모델
 /// API response에 사용
+
 struct BoxOfficeModel: XMLObjectDeserialization {
     let area: String?    // 지역
     let prfdtcnt: Int?   // 상연횟수

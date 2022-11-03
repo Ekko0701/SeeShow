@@ -9,6 +9,9 @@ import Foundation
 import Differentiator
 import RxSwift
 
+
+///
+/// DataSource에 사용될 SecionModel
 enum MainSectionModel {
     case BannerSection(title: String, items: [SectionItem])
     case CategorySection(title: String, items: [SectionItem])
@@ -17,7 +20,7 @@ enum MainSectionModel {
 enum SectionItem {
     case BannerSectionItem(Observable<[ViewBoxOffice]>)
     case CategorySectionItem(image: UIImage, title: String)
-    case KidsSectionItem(ViewBoxOffice)
+    case KidsSectionItem(Observable<ViewBoxOffice>)
 }
 
 extension MainSectionModel: SectionModelType {

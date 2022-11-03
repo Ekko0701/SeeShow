@@ -26,9 +26,6 @@ protocol MainViewModelType {
 }
 
 class MainViewModel: MainViewModelType {
-    
-    
-    
     let disposeBag = DisposeBag()
 
     // INPUT
@@ -40,10 +37,6 @@ class MainViewModel: MainViewModelType {
     let pushKidsBoxOffices: Observable<[ViewBoxOffice]> // 이게 받아줘야 하는데 이름이 같아서 오류
     let activated: Observable<Bool> // Indicator, SkeletonView 동작
     
-    let dataSource: Observable<RxCollectionViewSectionedReloadDataSource<MainSectionModel>> // collectionView의 dataSource 반환
-    //var pushAllBoxOfficesData: [ViewBoxOffice]
-    //var pushKidsBoxOfficesData: [ViewBoxOffice]
-    
     init(domain: BoxOfficeFetchable = BoxOfficeStore()) {
         print("HomeViewModel init")
 
@@ -53,23 +46,30 @@ class MainViewModel: MainViewModelType {
         let activating = BehaviorSubject<Bool>(value: false)
         
         
-        // 여기에 기본값을 넣어주면 되려나
-        let boxoffices = BehaviorSubject<[ViewBoxOffice]>(value: [ViewBoxOffice(BoxOfficeModel(area: "test", prfdtcnt: 0, prfpd: "test", cate: "test", prfplcnm: "test", prfnm: "test", rnum: 0, seatcnt: 0, poster: "test", mt20id: "test")),ViewBoxOffice(BoxOfficeModel(area: "test", prfdtcnt: 0, prfpd: "test", cate: "test", prfplcnm: "test", prfnm: "에코", rnum: 0, seatcnt: 0, poster: "test", mt20id: "test")),ViewBoxOffice(BoxOfficeModel(area: "test", prfdtcnt: 0, prfpd: "test", cate: "test", prfplcnm: "test", prfnm: "test", rnum: 0, seatcnt: 0, poster: "test", mt20id: "test")),ViewBoxOffice(BoxOfficeModel(area: "test", prfdtcnt: 0, prfpd: "test", cate: "test", prfplcnm: "test", prfnm: "test", rnum: 0, seatcnt: 0, poster: "test", mt20id: "test")),ViewBoxOffice(BoxOfficeModel(area: "test", prfdtcnt: 0, prfpd: "test", cate: "test", prfplcnm: "test", prfnm: "test", rnum: 0, seatcnt: 0, poster: "test", mt20id: "test")),ViewBoxOffice(BoxOfficeModel(area: "test", prfdtcnt: 0, prfpd: "test", cate: "test", prfplcnm: "test", prfnm: "test", rnum: 0, seatcnt: 0, poster: "test", mt20id: "test"))])
+        let defaultViewBoxOffice: [ViewBoxOffice] = [
+            ViewBoxOffice(BoxOfficeModel(area: "Empty", prfdtcnt: 0, prfpd: "Empty", cate: "Empty", prfplcnm: "Empty", prfnm: "Empty", rnum: 0, seatcnt: 0, poster: "Empty", mt20id: "Empty")),
+            ViewBoxOffice(BoxOfficeModel(area: "Empty", prfdtcnt: 0, prfpd: "Empty", cate: "Empty", prfplcnm: "Empty", prfnm: "Empty", rnum: 0, seatcnt: 0, poster: "Empty", mt20id: "Empty")),
+            ViewBoxOffice(BoxOfficeModel(area: "Empty", prfdtcnt: 0, prfpd: "Empty", cate: "Empty", prfplcnm: "Empty", prfnm: "Empty", rnum: 0, seatcnt: 0, poster: "Empty", mt20id: "Empty")),
+            ViewBoxOffice(BoxOfficeModel(area: "Empty", prfdtcnt: 0, prfpd: "Empty", cate: "Empty", prfplcnm: "Empty", prfnm: "Empty", rnum: 0, seatcnt: 0, poster: "Empty", mt20id: "Empty")),
+            ViewBoxOffice(BoxOfficeModel(area: "Empty", prfdtcnt: 0, prfpd: "Empty", cate: "Empty", prfplcnm: "Empty", prfnm: "Empty", rnum: 0, seatcnt: 0, poster: "Empty", mt20id: "Empty")),
+            ViewBoxOffice(BoxOfficeModel(area: "Empty", prfdtcnt: 0, prfpd: "Empty", cate: "Empty", prfplcnm: "Empty", prfnm: "Empty", rnum: 0, seatcnt: 0, poster: "Empty", mt20id: "Empty")),
+            ViewBoxOffice(BoxOfficeModel(area: "Empty", prfdtcnt: 0, prfpd: "Empty", cate: "Empty", prfplcnm: "Empty", prfnm: "Empty", rnum: 0, seatcnt: 0, poster: "Empty", mt20id: "Empty")),
+            ViewBoxOffice(BoxOfficeModel(area: "Empty", prfdtcnt: 0, prfpd: "Empty", cate: "Empty", prfplcnm: "Empty", prfnm: "Empty", rnum: 0, seatcnt: 0, poster: "Empty", mt20id: "Empty")),
+            ViewBoxOffice(BoxOfficeModel(area: "Empty", prfdtcnt: 0, prfpd: "Empty", cate: "Empty", prfplcnm: "Empty", prfnm: "Empty", rnum: 0, seatcnt: 0, poster: "Empty", mt20id: "Empty")),
+            ViewBoxOffice(BoxOfficeModel(area: "Empty", prfdtcnt: 0, prfpd: "Empty", cate: "Empty", prfplcnm: "Empty", prfnm: "Empty", rnum: 0, seatcnt: 0, poster: "Empty", mt20id: "Empty")),
+            ViewBoxOffice(BoxOfficeModel(area: "Empty", prfdtcnt: 0, prfpd: "Empty", cate: "Empty", prfplcnm: "Empty", prfnm: "Empty", rnum: 0, seatcnt: 0, poster: "Empty", mt20id: "Empty")),
+        ]
         
-        let kidsBoxOffices = BehaviorSubject<[ViewBoxOffice]>(value: [])
+        let boxoffices = BehaviorSubject<[ViewBoxOffice]>(value: defaultViewBoxOffice)
+        let kidsBoxOffices = BehaviorSubject<[ViewBoxOffice]>(value: defaultViewBoxOffice)
         
-        var allBoxOfficesData: [ViewBoxOffice]
-        var kidsBoxOfficesData: [ViewBoxOffice]
         
         // INPUT
-        
+        //
         fetchBoxOffices = fetching.asObserver() // fetcing 과 FetchboxOffice를 연결
         fetchKidsBoxOffices = fetchingKids.asObserver()
         
-        //let zipObservable = Observable.zip(fetching, fetchingKids)
-        
         fetching
-            //.debug()
             .do(onNext: { _ in activating.onNext(true) })
             .flatMap(domain.fetchBoxOffices) // -> [BoxOfficeModel]
             .map { $0.map { ViewBoxOffice($0) } } // -> [ViewBoxOffice]
@@ -77,14 +77,14 @@ class MainViewModel: MainViewModelType {
             .disposed(by: disposeBag)
         
         fetchingKids
-            //.debug()
-            .flatMap(domain.fetchBoxOffices)
+            .do(onNext: { _ in activating.onNext(true) })
+            .flatMap(domain.fetchKidsBoxOffice)
             .map { $0.map { ViewBoxOffice($0) }}
             .subscribe(onNext: kidsBoxOffices.onNext)
             .disposed(by: disposeBag)
         
         // OUTPUT
-        // CollectionView에 뿌려주는데 사용됨
+        //
         allBoxOffices = boxoffices
         pushKidsBoxOffices = kidsBoxOffices
         
@@ -97,52 +97,8 @@ class MainViewModel: MainViewModelType {
             //print(values)
             }).disposed(by: disposeBag)
                 
-        let dataSoureTest = PublishSubject<RxCollectionViewSectionedReloadDataSource<MainSectionModel>>()
-                
-        dataSource = dataSoureTest.asObserver()
-                
         activated = activating.distinctUntilChanged() // distinctUntilChanged = 연달아서 중복된 값이 올 경우 무시
-         
-//        ziptest.subscribe(onNext: { first, second in
-//            print("일번 \(first[1])")
-//        }).disposed(by: disposeBag)
-                
-    }
-    
-    func createDataSource() -> RxCollectionViewSectionedReloadDataSource<MainSectionModel> {
-        return RxCollectionViewSectionedReloadDataSource<MainSectionModel>(configureCell: {dataSource, collection, indexPath, _ in
-            switch dataSource[indexPath] {
-            case let .BannerSectionItem(data):
-                guard let cell: BannerCell = collection.dequeueReusableCell(withReuseIdentifier: BannerCell.identifier, for: indexPath) as? BannerCell else { return UICollectionViewCell() }
-                cell.configure(data: data)
-                return cell
-            case let .CategorySectionItem(image, title):
-                guard let cell: CategoryCell = collection.dequeueReusableCell(withReuseIdentifier: CategoryCell.identifier, for: indexPath) as? CategoryCell else { return UICollectionViewCell() }
-                cell.configure(image: image, title: title)
-                return cell
-            case let .KidsSectionItem(_):
-                return UICollectionViewCell()
-            }
-        })
+      
     }
     
 }
-
-/*
- func dataSource() -> RxCollectionViewSectionedReloadDataSource<MainSectionModel> {
-     return RxCollectionViewSectionedReloadDataSource<MainSectionModel>(configureCell:{ dataSource, collection, indexPath, _ in
-         switch dataSource[indexPath] {
-         case let .BannerSectionItem(<#T##[ViewBoxOffice]#>)
-         }
-     })
- }
- */
-
-/*
-         viewModel.allBoxOffices
-             .debug()
-             .subscribe(onNext: { [weak self] new in
-                 self?.bannerData = new
-             })
-             .disposed(by: disposeBag)
- */

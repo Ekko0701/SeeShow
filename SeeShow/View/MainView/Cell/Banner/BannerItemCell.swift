@@ -43,10 +43,6 @@ class BannerItemCell: UICollectionViewCell {
         return imageView
     }()
     
-    
-    
-    
-    
     override init(frame: CGRect) {
         
         let data = PublishSubject<ViewBoxOffice>()

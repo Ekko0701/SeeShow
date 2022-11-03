@@ -9,6 +9,8 @@ import Foundation
 import UIKit
 import SnapKit
 import Kingfisher
+import RxSwift
+import RxCocoa
 
 class KidsCell: UICollectionViewCell {
     static let identifier = "KidsCell"
@@ -32,6 +34,9 @@ class KidsCell: UICollectionViewCell {
 
         return label
     }()
+    
+    var disposeBag = DisposeBag()
+    private let cellDisposeBag = DisposeBag()
     
     //MARK: - Initializer
     override init(frame: CGRect) {
@@ -75,8 +80,16 @@ class KidsCell: UICollectionViewCell {
         super.layoutSubviews()
     }
     
-    /// 셀 내부 요소 설정
-    func configure(with data: ViewBoxOffice) {
-        print(data)
+    func configure(with data: Observable<ViewBoxOffice>) {
+        data.observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] boxoffice in
+                self?.image.image = UIImage(systemName: "house")
+                self?.title.text = boxoffice.prfnm
+            }).disposed(by: cellDisposeBag)
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()
     }
 }

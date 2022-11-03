@@ -11,6 +11,7 @@ import SWXMLHash
 
 protocol BoxOfficeFetchable {
     func fetchBoxOffices() -> Observable<[BoxOfficeModel]>
+    func fetchKidsBoxOffice() -> Observable<[BoxOfficeModel]>
 }
 
 class BoxOfficeStore: BoxOfficeFetchable {
@@ -25,8 +26,35 @@ class BoxOfficeStore: BoxOfficeFetchable {
                 do {
                     let parsedData: [BoxOfficeModel] = try xml["boxofs"]["boxof"].value()
                     print("BoxOfficeStore - fetchBoxOffices()")
-                    return parsedData
+                    
+                    let min = min(parsedData.count, 10)
+                    var sliceData = parsedData[0..<min] // 최대 10개로 제한
+                    
+                    return Array(sliceData)
+                }
+            }
+    }
+    
+    func fetchKidsBoxOffice() -> Observable<[BoxOfficeModel]> {
+        print("fetchKidsBoxOffices")
+        
+        return KopisAPIService.fetchKidsBoxOffice()
+            .map { data -> [BoxOfficeModel] in
+                let xml = XMLHash.parse(data)
+                do {
+                    let parsedData: [BoxOfficeModel] = try xml["boxofs"]["boxof"].value()
+                    print("BoxOfficeStore - fetchBoxOffices()")
+                    
+                    let min = min(parsedData.count, 10)
+                    var sliceData = parsedData[0..<min] // 최대 10개로 제한
+                    
+                    return Array(sliceData)
                 }
             }
     }
 }
+
+//let min = min(data.count, 10)
+//let sliceArray = data[..<min]
+//print("데이터\(data)")
+//print("슬라이스\(sliceArray)")

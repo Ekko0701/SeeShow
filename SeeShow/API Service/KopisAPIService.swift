@@ -43,7 +43,7 @@ class KopisAPIService {
             "service" : "a848d37955ab4ade9eba0a398af255e2",
             "ststype" : "week",
             "date" : "20221025",
-            "catacode" : "KID"
+            "catecode" : "KID"
         ]
         return Observable.create { observer in
             _ = AF.request("http://kopis.or.kr/openApi/restful/boxoffice", method: .get, parameters: parameters)

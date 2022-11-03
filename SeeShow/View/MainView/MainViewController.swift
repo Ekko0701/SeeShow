@@ -16,18 +16,16 @@ import RxDataSources
 class MainViewController: UIViewController {
     
     var collectionView: UICollectionView!
-    var loadingView: UIView = {
+    private var loadingView: UIView = {
         let view = UIView()
         view.backgroundColor = .blue
-        view.alpha = 0.9
+        view.alpha = 1
         
         return view
     }()
     
-    let disposeBag = DisposeBag()
     let viewModel = MainViewModel()
-    
-    private var bannerData: [ViewBoxOffice] = []
+    let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,21 +38,29 @@ class MainViewController: UIViewController {
         
     }
     
+    /// CollectionView 설정
     private func configureCollectionView() {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: createCompositionalLayout())
         
         collectionView.backgroundColor = .white
         
+        // Attach Delegate
         collectionView.delegate = self
         
+        // Register Cell
         collectionView.register(BannerCell.self, forCellWithReuseIdentifier: BannerCell.identifier)
         collectionView.register(CategoryCell.self, forCellWithReuseIdentifier: CategoryCell.identifier)
         collectionView.register(KidsCell.self, forCellWithReuseIdentifier: KidsCell.identifier)
         
+        // Register SupplementaryView
+        collectionView.register(KidsSectionHeader.self, forSupplementaryViewOfKind: KidsSectionHeader.sectionHeaderID, withReuseIdentifier: KidsSectionHeader.identifier)
+        
+        // Add UIRefreshControl()
         collectionView.refreshControl = UIRefreshControl()
     }
     
-    func createCompositionalLayout() -> UICollectionViewCompositionalLayout{
+    /// Compositional 레이아웃 생성
+    private func createCompositionalLayout() -> UICollectionViewCompositionalLayout{
         return UICollectionViewCompositionalLayout{ (sectionNumber, env) -> NSCollectionLayoutSection? in
             if sectionNumber == 0 {
                 let itemInset: CGFloat = 0.0
@@ -67,10 +73,8 @@ class MainViewController: UIViewController {
 
                 // Group
                 let pageWidth = self.collectionView.bounds.width - sectionMargin * 2
-                //let layoutGroupSize = NSCollectionLayoutSize(widthDimension: .absolute(CGFloat(pageWidth)), heightDimension: .estimated(self.collectionView.frame.height))
                 let layoutGroupSize = NSCollectionLayoutSize(widthDimension: .absolute(CGFloat(pageWidth)), heightDimension: .estimated(CGFloat(pageWidth) * 1.2))
                 
-                    
                 let layoutGroup = NSCollectionLayoutGroup.horizontal(layoutSize: layoutGroupSize, subitems: [layoutItem])
                 
                 // Section
@@ -79,23 +83,19 @@ class MainViewController: UIViewController {
                 
                 return layoutSection
                 
-            } else {
+            } else if sectionNumber == 1 {
                 
-                /// item
-                //let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(0.25), heightDimension: .fractionalHeight(0.25)))
+                // item
                 let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(0.2), heightDimension: .fractionalWidth(0.3)))
                 item.contentInsets.top = 8
                 item.contentInsets.trailing = 8
                 item.contentInsets.bottom = 8
                 item.contentInsets.leading = 8
                 
-                
-                /// group
+                // group
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .estimated(500)), subitems: [item])
                 
-                //let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1)), subitems: [item])
-                
-                /// section
+                // section
                 let section = NSCollectionLayoutSection(group: group)
                 section.contentInsets.leading = 16
                 section.contentInsets.trailing = 16
@@ -103,33 +103,33 @@ class MainViewController: UIViewController {
                 
                 return section
                 
+            } else {
+
+                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1)))
+                item.contentInsets = .init(top: 0, leading: 5, bottom: 0, trailing: 5)
+
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(0.4), heightDimension:  .fractionalWidth(0.7)), subitems: [item])
+
+                let section = NSCollectionLayoutSection(group: group)
+
+                section.orthogonalScrollingBehavior = .continuous
+                section.contentInsets = .init(top: 0, leading: 16, bottom: 0, trailing: 16)
+
+                /// header
+                let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(50))
+                let header = NSCollectionLayoutBoundarySupplementaryItem(
+                    layoutSize: headerSize,
+                    elementKind: KidsSectionHeader.sectionHeaderID,
+                    alignment: .top
+                )
+
+                section.boundarySupplementaryItems = [
+                    header
+                ]
+
+                return section
             }
-//            else if sectionNumber == 2{
-//
-//                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1)))
-//                item.contentInsets = .init(top: 0, leading: 5, bottom: 0, trailing: 5)
-//
-//                let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(0.4), heightDimension:  .fractionalWidth(0.7)), subitems: [item])
-//
-//                let section = NSCollectionLayoutSection(group: group)
-//
-//                section.orthogonalScrollingBehavior = .continuous
-//                section.contentInsets = .init(top: 0, leading: 16, bottom: 0, trailing: 16)
-//
-//                /// header
-//                let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(50))
-//                let header = NSCollectionLayoutBoundarySupplementaryItem(
-//                    layoutSize: headerSize,
-//                    elementKind: TheaterHeader.theaterHeaderId,
-//                    alignment: .top
-//                )
-//
-//                section.boundarySupplementaryItems = [
-//                    header
-//                ]
-//
-//                return section
-//            } else {
+//            else {
 //                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1)))
 //                item.contentInsets = .init(top: 0, leading: 5, bottom: 0, trailing: 5)
 //
@@ -159,7 +159,8 @@ class MainViewController: UIViewController {
         }
     }
     
-    func configureLayout() {
+    /// 레이아웃 설정
+    private func configureLayout() {
         // Add Subviews
         view.addSubview(collectionView)
         view.addSubview(loadingView)
@@ -174,33 +175,25 @@ class MainViewController: UIViewController {
         }
     }
     
-    
     //MARK: - Binding
-//    func dataSource() -> RxCollectionViewSectionedReloadDataSource<MainSectionModel> {
-//        return RxCollectionViewSectionedReloadDataSource<MainSectionModel> (configureCell: { dataSource, collection, indexPath, _  in
-//            switch dataSource[indexPath] {
-//            case let .BannerSectionItem(
-//            }
-//        })
-//    }
-    
-    
-    
+    /// Binding 설정
     func setupBindings() {
         // ------------------------------
         //  INPUT
         // ------------------------------
-        // 처음 로딩할때 실행
+        
+        // viewWillAppear시 이벤트 발생
         let firstLoad = rx.viewWillAppear
             .take(1)
             .map { _ in
                 ()
             }
-        
+        // Refresh시 이벤트 발생
         let reload = collectionView.refreshControl?.rx
             .controlEvent(.valueChanged)
             .map { _ in () } ?? Observable.just(())
         
+        // Load 또는 Refresh될 때 viewModel에서 api호출
         Observable.merge([firstLoad, reload])
             .bind(to: viewModel.fetchBoxOffices)
             .disposed(by: disposeBag)
@@ -209,43 +202,15 @@ class MainViewController: UIViewController {
             .bind(to: viewModel.fetchKidsBoxOffices)
             .disposed(by: disposeBag)
         
-//        viewModel.allBoxOffices
-//            .debug()
-//            .subscribe(onNext: { [weak self] new in
-//                self?.bannerData = new
-//            })
-//            .disposed(by: disposeBag)
-        
+
         
         // ------------------------------
         //  OUTPUT
         // ------------------------------
-//        viewModel.allBoxOffices
-//            .bind(to: collectionView.rx.items(cellIdentifier: BannerItemCell.identifier , cellType: BannerItemCell.self)) {
-//                index, item, cell in
-//                if index == 0 {
-//                    cell.onData.onNext(item)
-//                }
-//            }
-//            .disposed(by: disposeBag)
         
-        
-//        let item = Observable.just([1])
-//        
-//        // 수정 필요
-//        item
-//            .bind(to: collectionView.rx.items) { (collectionView, row, element) in
-//                let indexPath = IndexPath(row: element, section: 0)
-//                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BannerCell.identifier, for: indexPath) as! BannerCell
-//
-//                return cell
-//            }
-//            .disposed(by: disposeBag)
-        
-        
-        // loading View
+        // Loading View
         viewModel.activated
-            .map { !$0 } // 초기값 true -> !$0 = false
+            .map { !$0 }
             .do(onNext: { [weak self] finished in
                 if finished {
                     self?.collectionView.refreshControl?.endRefreshing()
@@ -254,8 +219,10 @@ class MainViewController: UIViewController {
             .bind(to: loadingView.rx.isHidden)
             .disposed(by: disposeBag)
                
+        // DataSource
         let dataSource = createDataSource()
                 
+        // Section, SectionItems
         let section = [
             MainSectionModel.BannerSection(title: "Banner", items: [
                 .BannerSectionItem(
@@ -263,40 +230,62 @@ class MainViewController: UIViewController {
                 )
             ]),
             MainSectionModel.CategorySection(title: "Category", items: [
-                .CategorySectionItem(image: UIImage(systemName: "sun.min")!, title: "1"),
-                .CategorySectionItem(image: UIImage(systemName: "sun.min")!, title: "1"),
-                .CategorySectionItem(image: UIImage(systemName: "sun.min")!, title: "1"),
-                .CategorySectionItem(image: UIImage(systemName: "sun.min")!, title: "1"),
-                .CategorySectionItem(image: UIImage(systemName: "sun.min")!, title: "1"),
-                .CategorySectionItem(image: UIImage(systemName: "sun.min")!, title: "1"),
-                .CategorySectionItem(image: UIImage(systemName: "sun.min")!, title: "1"),
-                .CategorySectionItem(image: UIImage(systemName: "sun.min")!, title: "1"),
+                .CategorySectionItem(image: UIImage(named: "test1")!, title: "연극"),
+                .CategorySectionItem(image: UIImage(named: "test2")!, title: "뮤지컬"),
+                .CategorySectionItem(image: UIImage(named: "test3")!, title: "무용"),
+                .CategorySectionItem(image: UIImage(named: "test4")!, title: "클래식"),
+                .CategorySectionItem(image: UIImage(named: "test5")!, title: "오페라"),
+                .CategorySectionItem(image: UIImage(named: "test6")!, title: "국악"),
+                .CategorySectionItem(image: UIImage(named: "test7")!, title: "기타"),
+                .CategorySectionItem(image: UIImage(named: "test8")!, title: "축제"),
+                .CategorySectionItem(image: UIImage(named: "test9")!, title: "공연장"),
+                .CategorySectionItem(image: UIImage(named: "test10")!, title: "더보기"),
             ]),
             MainSectionModel.KidsSection(title: "Kids", items: [
-                .KidsSectionItem(ViewBoxOffice(BoxOfficeModel(area: "d", prfdtcnt: 1, prfpd: "d", cate: "d", prfplcnm: "d", prfnm: "d", rnum: 1, seatcnt: 1, poster: "d", mt20id: "d"))),
-                .KidsSectionItem(ViewBoxOffice(BoxOfficeModel(area: "d", prfdtcnt: 1, prfpd: "d", cate: "d", prfplcnm: "d", prfnm: "d", rnum: 1, seatcnt: 1, poster: "d", mt20id: "d"))),
-                .KidsSectionItem(ViewBoxOffice(BoxOfficeModel(area: "d", prfdtcnt: 1, prfpd: "d", cate: "d", prfplcnm: "d", prfnm: "d", rnum: 1, seatcnt: 1, poster: "d", mt20id: "d"))),
+                .KidsSectionItem(viewModel.pushKidsBoxOffices.map { $0[0] }),
+                .KidsSectionItem(viewModel.pushKidsBoxOffices.map { $0[1] }),
+                .KidsSectionItem(viewModel.pushKidsBoxOffices.map { $0[2] }),
+                .KidsSectionItem(viewModel.pushKidsBoxOffices.map { $0[3] }),
+                .KidsSectionItem(viewModel.pushKidsBoxOffices.map { $0[4] }),
+                .KidsSectionItem(viewModel.pushKidsBoxOffices.map { $0[5] }),
+                .KidsSectionItem(viewModel.pushKidsBoxOffices.map { $0[6] }),
+                .KidsSectionItem(viewModel.pushKidsBoxOffices.map { $0[7] }),
+                .KidsSectionItem(viewModel.pushKidsBoxOffices.map { $0[8] }),
+                .KidsSectionItem(viewModel.pushKidsBoxOffices.map { $0[9] }),
             ])
         ]
                 
+         
+                
+        // DataSource에 Section Header 추가
+        dataSource.configureSupplementaryView = {(dataSource, collection, kind, indexPath) in
+            guard let cell = collection.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: KidsSectionHeader.identifier , for: indexPath) as? KidsSectionHeader else { return UICollectionReusableView() }
+            cell.sectionTitle.text = "주긴 Kids 인기 순위"
+            return cell
+        }
         Observable.just(section)
             .bind(to: collectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
     }
     
-    func createDataSource() -> RxCollectionViewSectionedReloadDataSource<MainSectionModel> {
+    /// CollectionView의 DataSource생성
+    private func createDataSource() -> RxCollectionViewSectionedReloadDataSource<MainSectionModel> {
         return RxCollectionViewSectionedReloadDataSource<MainSectionModel>(configureCell: {dataSource, collection, indexPath, _ in
             switch dataSource[indexPath] {
+                
             case let .BannerSectionItem(data):
                 guard let cell: BannerCell = collection.dequeueReusableCell(withReuseIdentifier: BannerCell.identifier, for: indexPath) as? BannerCell else { return UICollectionViewCell() }
                 cell.configure(data: data)
                 return cell
+                
             case let .CategorySectionItem(image, title):
                 guard let cell: CategoryCell = collection.dequeueReusableCell(withReuseIdentifier: CategoryCell.identifier, for: indexPath) as? CategoryCell else { return UICollectionViewCell() }
                 cell.configure(image: image, title: title)
                 return cell
-            case let .KidsSectionItem(_):
+                
+            case let .KidsSectionItem(data):
                 guard let cell: KidsCell = collection.dequeueReusableCell(withReuseIdentifier: KidsCell.identifier, for: indexPath) as? KidsCell else { return UICollectionViewCell() }
+                cell.configure(with: data)
                 return cell
             }
         })

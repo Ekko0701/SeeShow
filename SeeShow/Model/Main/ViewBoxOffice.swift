@@ -9,7 +9,6 @@ import Foundation
 
 /// ViewModel
 /// HomeViewModel에서 allBoxOffice 옵저버를 통해 HomewViewController로 OutPut할 데이터 구조
-///
 
 struct ViewBoxOffice {
     var prfnm: String   // 공연명
