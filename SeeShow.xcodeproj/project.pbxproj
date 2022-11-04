@@ -32,6 +32,19 @@
 		6A7BA28A291250D5004266E1 /* MainSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7BA289291250D5004266E1 /* MainSectionModel.swift */; };
 		6A7BA28D291289D4004266E1 /* KidsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7BA28C291289D4004266E1 /* KidsCell.swift */; };
 		6AC814EA29137E1F00FCA392 /* KidsSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC814E929137E1F00FCA392 /* KidsSectionHeader.swift */; };
+		6AC814ED2914B1FD00FCA392 /* UIImageView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC814EC2914B1FD00FCA392 /* UIImageView+Ext.swift */; };
+		6AC814EF2914CFBE00FCA392 /* ImagePlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC814EE2914CFBE00FCA392 /* ImagePlaceholderView.swift */; };
+		6AC814F72914E0A200FCA392 /* NotoSansKR-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6AC814F12914E0A200FCA392 /* NotoSansKR-Medium.otf */; };
+		6AC814F82914E0A200FCA392 /* NotoSansKR-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6AC814F22914E0A200FCA392 /* NotoSansKR-Regular.otf */; };
+		6AC814F92914E0A200FCA392 /* NotoSansKR-Thin.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6AC814F32914E0A200FCA392 /* NotoSansKR-Thin.otf */; };
+		6AC814FA2914E0A200FCA392 /* NotoSansKR-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6AC814F42914E0A200FCA392 /* NotoSansKR-Bold.otf */; };
+		6AC814FB2914E0A200FCA392 /* NotoSansKR-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6AC814F52914E0A200FCA392 /* NotoSansKR-Black.otf */; };
+		6AC814FC2914E0A200FCA392 /* NotoSansKR-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6AC814F62914E0A200FCA392 /* NotoSansKR-Light.otf */; };
+		6AC814FF2914E14100FCA392 /* UIFont+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC814FE2914E14100FCA392 /* UIFont+Ext.swift */; };
+		6AC815012914E16500FCA392 /* UILabel+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC815002914E16500FCA392 /* UILabel+Ext.swift */; };
+		6AC815032914E18400FCA392 /* UIViewController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC815022914E18400FCA392 /* UIViewController+Ext.swift */; };
+		6AC815052914E19E00FCA392 /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC815042914E19E00FCA392 /* UIView+Ext.swift */; };
+		6AC815072914E68100FCA392 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC815062914E68100FCA392 /* DetailViewController.swift */; };
 		89D71EDA6DE89B4C6D16A6F6 /* Pods_SeeShowTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC70E28F493948EB30004D56 /* Pods_SeeShowTests.framework */; };
 		E3F3FFC72CFB83F09565204C /* Pods_SeeShow_SeeShowUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B88C1BBEDC2AFC50677F29E7 /* Pods_SeeShow_SeeShowUITests.framework */; };
 /* End PBXBuildFile section */
@@ -86,6 +99,19 @@
 		6A7BA289291250D5004266E1 /* MainSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSectionModel.swift; sourceTree = "<group>"; };
 		6A7BA28C291289D4004266E1 /* KidsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KidsCell.swift; sourceTree = "<group>"; };
 		6AC814E929137E1F00FCA392 /* KidsSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KidsSectionHeader.swift; sourceTree = "<group>"; };
+		6AC814EC2914B1FD00FCA392 /* UIImageView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Ext.swift"; sourceTree = "<group>"; };
+		6AC814EE2914CFBE00FCA392 /* ImagePlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePlaceholderView.swift; sourceTree = "<group>"; };
+		6AC814F12914E0A200FCA392 /* NotoSansKR-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Medium.otf"; sourceTree = "<group>"; };
+		6AC814F22914E0A200FCA392 /* NotoSansKR-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Regular.otf"; sourceTree = "<group>"; };
+		6AC814F32914E0A200FCA392 /* NotoSansKR-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Thin.otf"; sourceTree = "<group>"; };
+		6AC814F42914E0A200FCA392 /* NotoSansKR-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Bold.otf"; sourceTree = "<group>"; };
+		6AC814F52914E0A200FCA392 /* NotoSansKR-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Black.otf"; sourceTree = "<group>"; };
+		6AC814F62914E0A200FCA392 /* NotoSansKR-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Light.otf"; sourceTree = "<group>"; };
+		6AC814FE2914E14100FCA392 /* UIFont+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Ext.swift"; sourceTree = "<group>"; };
+		6AC815002914E16500FCA392 /* UILabel+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Ext.swift"; sourceTree = "<group>"; };
+		6AC815022914E18400FCA392 /* UIViewController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Ext.swift"; sourceTree = "<group>"; };
+		6AC815042914E19E00FCA392 /* UIView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ext.swift"; sourceTree = "<group>"; };
+		6AC815062914E68100FCA392 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		AC70E28F493948EB30004D56 /* Pods_SeeShowTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SeeShowTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B88C1BBEDC2AFC50677F29E7 /* Pods_SeeShow_SeeShowUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SeeShow_SeeShowUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFE558D3FE80FCADFE436575 /* Pods-SeeShow.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeeShow.debug.xcconfig"; path = "Target Support Files/Pods-SeeShow/Pods-SeeShow.debug.xcconfig"; sourceTree = "<group>"; };
@@ -171,6 +197,8 @@
 			isa = PBXGroup;
 			children = (
 				6A1D1DC52910F73E0087410A /* Constants.swift */,
+				6AC814F02914E07C00FCA392 /* Font */,
+				6AC814EB2914B1EA00FCA392 /* Extension */,
 				6A1D1DC42910F7100087410A /* Common */,
 				6A1D1DC12910F6C80087410A /* API Service */,
 				6A1D1DC72910F76A0087410A /* Domain */,
@@ -207,9 +235,11 @@
 			isa = PBXGroup;
 			children = (
 				6A1D1DA62910A69D0087410A /* TabBarController.swift */,
+				6AC814EE2914CFBE00FCA392 /* ImagePlaceholderView.swift */,
 				6A1D1DA92910A6B40087410A /* MainView */,
 				6A1D1DAB2910A6E70087410A /* CategoryView */,
 				6A1D1DAA2910A6C10087410A /* MapView */,
+				6AC815062914E68100FCA392 /* DetailViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -332,6 +362,39 @@
 			path = Kids;
 			sourceTree = "<group>";
 		};
+		6AC814EB2914B1EA00FCA392 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				6AC815042914E19E00FCA392 /* UIView+Ext.swift */,
+				6AC815022914E18400FCA392 /* UIViewController+Ext.swift */,
+				6AC814EC2914B1FD00FCA392 /* UIImageView+Ext.swift */,
+				6AC814FE2914E14100FCA392 /* UIFont+Ext.swift */,
+				6AC815002914E16500FCA392 /* UILabel+Ext.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		6AC814F02914E07C00FCA392 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				6AC814FD2914E0B300FCA392 /* NotoSansKR */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
+		6AC814FD2914E0B300FCA392 /* NotoSansKR */ = {
+			isa = PBXGroup;
+			children = (
+				6AC814F52914E0A200FCA392 /* NotoSansKR-Black.otf */,
+				6AC814F42914E0A200FCA392 /* NotoSansKR-Bold.otf */,
+				6AC814F62914E0A200FCA392 /* NotoSansKR-Light.otf */,
+				6AC814F12914E0A200FCA392 /* NotoSansKR-Medium.otf */,
+				6AC814F22914E0A200FCA392 /* NotoSansKR-Regular.otf */,
+				6AC814F32914E0A200FCA392 /* NotoSansKR-Thin.otf */,
+			);
+			path = NotoSansKR;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -441,9 +504,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6AC814F92914E0A200FCA392 /* NotoSansKR-Thin.otf in Resources */,
+				6AC814FA2914E0A200FCA392 /* NotoSansKR-Bold.otf in Resources */,
+				6AC814F72914E0A200FCA392 /* NotoSansKR-Medium.otf in Resources */,
 				6A1D1DB32910A8AA0087410A /* README.md in Resources */,
 				6A1D1D832910A59C0087410A /* LaunchScreen.storyboard in Resources */,
 				6A1D1D802910A59C0087410A /* Assets.xcassets in Resources */,
+				6AC814FC2914E0A200FCA392 /* NotoSansKR-Light.otf in Resources */,
+				6AC814F82914E0A200FCA392 /* NotoSansKR-Regular.otf in Resources */,
+				6AC814FB2914E0A200FCA392 /* NotoSansKR-Black.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -573,19 +642,26 @@
 			files = (
 				6A1D1DB82910F42A0087410A /* BannerCell.swift in Sources */,
 				6AC814EA29137E1F00FCA392 /* KidsSectionHeader.swift in Sources */,
+				6AC815072914E68100FCA392 /* DetailViewController.swift in Sources */,
+				6AC814EF2914CFBE00FCA392 /* ImagePlaceholderView.swift in Sources */,
 				6A1D1DA72910A69D0087410A /* TabBarController.swift in Sources */,
 				6A1D1D772910A59B0087410A /* AppDelegate.swift in Sources */,
+				6AC815032914E18400FCA392 /* UIViewController+Ext.swift in Sources */,
+				6AC814ED2914B1FD00FCA392 /* UIImageView+Ext.swift in Sources */,
 				6A7BA28D291289D4004266E1 /* KidsCell.swift in Sources */,
+				6AC815052914E19E00FCA392 /* UIView+Ext.swift in Sources */,
 				6A1D1DC02910F6AD0087410A /* BoxOfficeModel.swift in Sources */,
 				6A1D1DC92910F77C0087410A /* BoxOfficeStore.swift in Sources */,
 				6A1D1D792910A59B0087410A /* SceneDelegate.swift in Sources */,
 				6A1D1DCD2910F7DA0087410A /* ViewBoxOffice.swift in Sources */,
 				6A1D1DBB2910F4650087410A /* BannerItemCell.swift in Sources */,
+				6AC815012914E16500FCA392 /* UILabel+Ext.swift in Sources */,
 				6A1D1DCB2910F7B00087410A /* MainViewModel.swift in Sources */,
 				6A1D1DBE2910F47A0087410A /* CategoryCell.swift in Sources */,
 				6A1D1DAF2910A7100087410A /* CategoryViewController.swift in Sources */,
 				6A1D1DC32910F6DA0087410A /* KopisAPIService.swift in Sources */,
 				6A1D1DAD2910A7070087410A /* MainViewController.swift in Sources */,
+				6AC814FF2914E14100FCA392 /* UIFont+Ext.swift in Sources */,
 				6A1D1DB12910A7190087410A /* MapViewController.swift in Sources */,
 				6A1D1DC62910F73E0087410A /* Constants.swift in Sources */,
 				6A7BA28A291250D5004266E1 /* MainSectionModel.swift in Sources */,

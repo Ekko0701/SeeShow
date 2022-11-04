@@ -24,8 +24,7 @@ class CategoryCell: UICollectionViewCell {
     
     let title: UILabel = {
         let label = UILabel()
-        //label.textColor = .black
-        //label.applyNoToSansKR(style: .light, size: 16, color: .black)
+        label.applyNoToSansKR(style: .light, size: 16, color: .black)
         label.textAlignment = .center
 
         return label
@@ -37,7 +36,6 @@ class CategoryCell: UICollectionViewCell {
         
         configureLayout()
         configureStyle()
-        self.backgroundColor = .cyan
     }
     
     required init?(coder: NSCoder) {

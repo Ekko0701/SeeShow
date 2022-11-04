@@ -47,11 +47,11 @@ class MainViewModel: MainViewModelType {
         
         
         let defaultViewBoxOffice: [ViewBoxOffice] = [
-            ViewBoxOffice(BoxOfficeModel(area: "Empty", prfdtcnt: 0, prfpd: "Empty", cate: "Empty", prfplcnm: "Empty", prfnm: "Empty", rnum: 0, seatcnt: 0, poster: "Empty", mt20id: "Empty")),
-            ViewBoxOffice(BoxOfficeModel(area: "Empty", prfdtcnt: 0, prfpd: "Empty", cate: "Empty", prfplcnm: "Empty", prfnm: "Empty", rnum: 0, seatcnt: 0, poster: "Empty", mt20id: "Empty")),
-            ViewBoxOffice(BoxOfficeModel(area: "Empty", prfdtcnt: 0, prfpd: "Empty", cate: "Empty", prfplcnm: "Empty", prfnm: "Empty", rnum: 0, seatcnt: 0, poster: "Empty", mt20id: "Empty")),
-            ViewBoxOffice(BoxOfficeModel(area: "Empty", prfdtcnt: 0, prfpd: "Empty", cate: "Empty", prfplcnm: "Empty", prfnm: "Empty", rnum: 0, seatcnt: 0, poster: "Empty", mt20id: "Empty")),
-            ViewBoxOffice(BoxOfficeModel(area: "Empty", prfdtcnt: 0, prfpd: "Empty", cate: "Empty", prfplcnm: "Empty", prfnm: "Empty", rnum: 0, seatcnt: 0, poster: "Empty", mt20id: "Empty")),
+            ViewBoxOffice(BoxOfficeModel(area: "Empty", prfdtcnt: 0, prfpd: "Empty", cate: "Empty", prfplcnm: "Empty", prfnm: "Empty", rnum: 0, seatcnt: 0, poster: "https://user-images.githubusercontent.com/108163842/193484428-78bd3fb2-3502-43f0-8787-3420c4aff26a.png", mt20id: "Empty")),
+            ViewBoxOffice(BoxOfficeModel(area: "Empty", prfdtcnt: 0, prfpd: "Empty", cate: "Empty", prfplcnm: "Empty", prfnm: "Empty", rnum: 0, seatcnt: 0, poster: "https://user-images.githubusercontent.com/108163842/193484428-78bd3fb2-3502-43f0-8787-3420c4aff26a.png", mt20id: "Empty")),
+            ViewBoxOffice(BoxOfficeModel(area: "Empty", prfdtcnt: 0, prfpd: "Empty", cate: "Empty", prfplcnm: "Empty", prfnm: "Empty", rnum: 0, seatcnt: 0, poster: "https://user-images.githubusercontent.com/108163842/193484428-78bd3fb2-3502-43f0-8787-3420c4aff26a.png", mt20id: "Empty")),
+            ViewBoxOffice(BoxOfficeModel(area: "Empty", prfdtcnt: 0, prfpd: "Empty", cate: "Empty", prfplcnm: "Empty", prfnm: "Empty", rnum: 0, seatcnt: 0, poster: "https://user-images.githubusercontent.com/108163842/193484428-78bd3fb2-3502-43f0-8787-3420c4aff26a.png", mt20id: "Empty")),
+            ViewBoxOffice(BoxOfficeModel(area: "Empty", prfdtcnt: 0, prfpd: "Empty", cate: "Empty", prfplcnm: "Empty", prfnm: "Empty", rnum: 0, seatcnt: 0, poster: "https://user-images.githubusercontent.com/108163842/193484428-78bd3fb2-3502-43f0-8787-3420c4aff26a.png", mt20id: "Empty")),
             ViewBoxOffice(BoxOfficeModel(area: "Empty", prfdtcnt: 0, prfpd: "Empty", cate: "Empty", prfplcnm: "Empty", prfnm: "Empty", rnum: 0, seatcnt: 0, poster: "Empty", mt20id: "Empty")),
             ViewBoxOffice(BoxOfficeModel(area: "Empty", prfdtcnt: 0, prfpd: "Empty", cate: "Empty", prfplcnm: "Empty", prfnm: "Empty", rnum: 0, seatcnt: 0, poster: "Empty", mt20id: "Empty")),
             ViewBoxOffice(BoxOfficeModel(area: "Empty", prfdtcnt: 0, prfpd: "Empty", cate: "Empty", prfplcnm: "Empty", prfnm: "Empty", rnum: 0, seatcnt: 0, poster: "Empty", mt20id: "Empty")),

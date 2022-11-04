@@ -28,7 +28,7 @@ class BoxOfficeStore: BoxOfficeFetchable {
                     print("BoxOfficeStore - fetchBoxOffices()")
                     
                     let min = min(parsedData.count, 10)
-                    var sliceData = parsedData[0..<min] // 최대 10개로 제한
+                    let sliceData = parsedData[0..<min] // 최대 10개로 제한
                     
                     return Array(sliceData)
                 }
@@ -46,7 +46,7 @@ class BoxOfficeStore: BoxOfficeFetchable {
                     print("BoxOfficeStore - fetchBoxOffices()")
                     
                     let min = min(parsedData.count, 10)
-                    var sliceData = parsedData[0..<min] // 최대 10개로 제한
+                    let sliceData = parsedData[0..<min] // 최대 10개로 제한
                     
                     return Array(sliceData)
                 }

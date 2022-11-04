@@ -56,8 +56,16 @@ class BannerItemCell: UICollectionViewCell {
         // data가 변하면 동작
         data.observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] boxoffice in
-                self?.bannerImage.image = UIImage(systemName: "house")
-                self?.label.text = boxoffice.prfnm
+                //self?.bannerImage.image = UIImage(systemName: "house")
+                let url = URL(string: "http://kopis.or.kr" + boxoffice.poster)
+                let processor = RoundCornerImageProcessor(cornerRadius: 16)
+                self?.bannerImage.kf.indicatorType = .activity
+                self?.bannerImage.kf.setImage(with: url,
+                                              placeholder: ImagePlaceholderView(),
+                                              options: [.processor(processor),
+                                                        .cacheOriginalImage
+                                                       ]
+                )
             })
             .disposed(by: cellDisposeBag)
     }
@@ -80,12 +88,8 @@ class BannerItemCell: UICollectionViewCell {
         
         //  Add Subviews
         contentView.addSubview(bannerImage)
-        contentView.addSubview(label)
         
         bannerImage.snp.makeConstraints { make in
-            make.top.bottom.trailing.left.equalToSuperview()
-        }
-        label.snp.makeConstraints { make in
             make.top.bottom.trailing.left.equalToSuperview()
         }
     }

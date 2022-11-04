@@ -260,7 +260,7 @@ class MainViewController: UIViewController {
         // DataSource에 Section Header 추가
         dataSource.configureSupplementaryView = {(dataSource, collection, kind, indexPath) in
             guard let cell = collection.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: KidsSectionHeader.identifier , for: indexPath) as? KidsSectionHeader else { return UICollectionReusableView() }
-            cell.sectionTitle.text = "주긴 Kids 인기 순위"
+            //cell.sectionTitle.text = "주긴 Kids 인기 순위"
             return cell
         }
         Observable.just(section)
@@ -294,7 +294,6 @@ class MainViewController: UIViewController {
 
 //MARK: - UICollectionViewDelegate
 extension MainViewController: UICollectionViewDelegate {
-    
 }
 
 

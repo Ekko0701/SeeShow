@@ -27,3 +27,10 @@
   - Kopis API에서 받은 데이터 CollectionView에 넣을 것 
  
 
+### 2022.11.03
+- MainView코드 정리, 주석 정리
+- BoxOfficeStore의 FetchKidsBoxOffice()추가, 아이템 개수 10개로 제한
+
+### 2022.11.04
+- Font 적용
+- KingFisher 라이브러리를 사용해 포스터 이미지 적용
