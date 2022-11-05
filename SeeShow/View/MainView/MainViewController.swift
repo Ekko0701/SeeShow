@@ -38,6 +38,10 @@ class MainViewController: UIViewController {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = true
+    }
+    
     /// CollectionView 설정
     private func configureCollectionView() {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: createCompositionalLayout())
@@ -263,8 +267,38 @@ class MainViewController: UIViewController {
             //cell.sectionTitle.text = "주긴 Kids 인기 순위"
             return cell
         }
+        
         Observable.just(section)
             .bind(to: collectionView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
+        
+        //MARK: - CollectionView Item seleted - 작업중
+    // https://kyungmosung.github.io/2020/02/13/rxswift-rxcocoa-tableview-collectionview/
+//        collectionView.rx.itemSelected
+//            .subscribe(onNext: { [weak self] indexPah in
+//                self?.collectionView.deselectItem(at: indexPah, animated: true)
+//                print("\(indexPah) 터치 터치 \(indexPah.item)")
+//            }).disposed(by: disposeBag)
+//        collectionView.rx.modelSelected(SectionItem.self)
+//            .subscribe(onNext: { [weak self] product in
+//                print(product)
+//                let vc = DetailViewController()
+//               // vc.configure(data: product.)
+//                self?.navigationController?.pushViewController(DetailViewController(), animated: true)
+//            }).disposed(by: disposeBag)
+        
+        Observable.zip(collectionView.rx.modelSelected(SectionItem.self), collectionView.rx.itemSelected)
+            .bind{ [ weak self ] (product, indexPath) in
+                self?.collectionView.deselectItem(at: indexPath, animated: true)
+                let vc = DetailViewController()
+                if indexPath.section == 1 {
+                    print("\(indexPath.item)카테고리 선택 \(product)")
+                } else if indexPath.section == 2 {
+                    print("\(indexPath.item)연극 선택 \(product)")
+                    vc.configure(data: indexPath.item, data2: (self?.viewModel.pushKidsBoxOffices.map{ $0[indexPath.item]})!)
+                    self?.navigationController?.pushViewController(vc, animated: true)
+                }
+            }
             .disposed(by: disposeBag)
     }
     

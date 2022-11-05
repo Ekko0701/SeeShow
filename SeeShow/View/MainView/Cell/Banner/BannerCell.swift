@@ -76,7 +76,16 @@ class BannerCell: UICollectionViewCell {
             cell.onData.onNext(item)
         }
         .disposed(by: disposeBag)
+        
+        //MARK: - CollectionView Item seleted - 작업중
+        collectionView.rx.itemSelected
+            .subscribe(onNext: { [weak self] indexPah in
+                self?.collectionView.deselectItem(at: indexPah, animated: true)
+                print("\(indexPah) 터치 터치")
+            }).disposed(by: disposeBag)
     }
+    
+    
 }
 
 

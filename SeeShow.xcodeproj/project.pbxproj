@@ -45,6 +45,7 @@
 		6AC815032914E18400FCA392 /* UIViewController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC815022914E18400FCA392 /* UIViewController+Ext.swift */; };
 		6AC815052914E19E00FCA392 /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC815042914E19E00FCA392 /* UIView+Ext.swift */; };
 		6AC815072914E68100FCA392 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC815062914E68100FCA392 /* DetailViewController.swift */; };
+		6AC8150D291508BA00FCA392 /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC8150C291508BA00FCA392 /* DetailViewModel.swift */; };
 		89D71EDA6DE89B4C6D16A6F6 /* Pods_SeeShowTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC70E28F493948EB30004D56 /* Pods_SeeShowTests.framework */; };
 		E3F3FFC72CFB83F09565204C /* Pods_SeeShow_SeeShowUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B88C1BBEDC2AFC50677F29E7 /* Pods_SeeShow_SeeShowUITests.framework */; };
 /* End PBXBuildFile section */
@@ -112,6 +113,7 @@
 		6AC815022914E18400FCA392 /* UIViewController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Ext.swift"; sourceTree = "<group>"; };
 		6AC815042914E19E00FCA392 /* UIView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ext.swift"; sourceTree = "<group>"; };
 		6AC815062914E68100FCA392 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		6AC8150C291508BA00FCA392 /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		AC70E28F493948EB30004D56 /* Pods_SeeShowTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SeeShowTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B88C1BBEDC2AFC50677F29E7 /* Pods_SeeShow_SeeShowUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SeeShow_SeeShowUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFE558D3FE80FCADFE436575 /* Pods-SeeShow.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SeeShow.debug.xcconfig"; path = "Target Support Files/Pods-SeeShow/Pods-SeeShow.debug.xcconfig"; sourceTree = "<group>"; };
@@ -339,6 +341,7 @@
 			isa = PBXGroup;
 			children = (
 				6A1D1DCA2910F7B00087410A /* MainViewModel.swift */,
+				6AC8150B2915088E00FCA392 /* Detail */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -393,6 +396,14 @@
 				6AC814F32914E0A200FCA392 /* NotoSansKR-Thin.otf */,
 			);
 			path = NotoSansKR;
+			sourceTree = "<group>";
+		};
+		6AC8150B2915088E00FCA392 /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				6AC8150C291508BA00FCA392 /* DetailViewModel.swift */,
+			);
+			path = Detail;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -649,6 +660,7 @@
 				6AC815032914E18400FCA392 /* UIViewController+Ext.swift in Sources */,
 				6AC814ED2914B1FD00FCA392 /* UIImageView+Ext.swift in Sources */,
 				6A7BA28D291289D4004266E1 /* KidsCell.swift in Sources */,
+				6AC8150D291508BA00FCA392 /* DetailViewModel.swift in Sources */,
 				6AC815052914E19E00FCA392 /* UIView+Ext.swift in Sources */,
 				6A1D1DC02910F6AD0087410A /* BoxOfficeModel.swift in Sources */,
 				6A1D1DC92910F77C0087410A /* BoxOfficeStore.swift in Sources */,
