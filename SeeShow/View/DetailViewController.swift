@@ -34,7 +34,6 @@ Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots 
     let posterImage: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "test1")
-        imageView.backgroundColor = .blue
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
@@ -124,14 +123,14 @@ Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots 
     /// 공연 상세 포스터
     let detailPosterImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleToFill
         imageView.image = UIImage(systemName: "house")
         return imageView
     }()
     
     let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        scrollView.backgroundColor = .brown
+        //scrollView.backgroundColor = .brown
         return scrollView
     }()
     
@@ -203,7 +202,7 @@ Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots 
     override func viewDidLoad() {
         super.viewDidLoad()
         print("DetailViewController - viewDidLoad()")
-        view.backgroundColor = .darkGray
+        view.backgroundColor = .white
         self.navigationController?.isNavigationBarHidden = false
         
         configureTest()
@@ -215,9 +214,41 @@ Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots 
         posterImage.kf.indicatorType = .activity
         posterImage.kf.setImage(with: url)
         
-        let detailPosterURL = URL(string: "http://www.kopis.or.kr/upload/pfmIntroImage/PF_PF198309_220919_0943210.jpg")
-        detailPosterImage.kf.indicatorType = .activity
-        detailPosterImage.kf.setImage(with: detailPosterURL)
+//        let detailPosterURL = URL(string: "http://www.kopis.or.kr/upload/pfmIntroImage/PF_PF198309_220919_0943210.jpg")
+//        detailPosterImage.kf.indicatorType = .activity
+////        detailPosterImage.kf.setImage(with: detailPosterURL, options: [.scaleFactor(UIScreen.main.scale)])
+//        detailPosterImage.kf.setImage(with: detailPosterURL,options: [],progressBlock: {receivedSize, totalSize in
+//            print(" progressBlock = \(receivedSize) / \(totalSize)")
+//        },
+//        completionHandler: { result in
+//            print("결과 \(result)")
+//        })
+        
+        if let thumbnailURL = URL(string: "http://www.kopis.or.kr/upload/pfmIntroImage/PF_PF198309_220919_0943210.jpg") {
+            KingfisherManager.shared.retrieveImage(with: thumbnailURL, completionHandler: { result in
+                switch (result) {
+                case .success(let imageResult):
+                    let sizeWidth = imageResult.image.size.width
+                    let sizeHeight = imageResult.image.size.height
+                    
+                    let viewWidth = self.view.frame.width
+                    let viewHeight = self.view.frame.height
+                    
+                    let newWidth = viewWidth
+                    let multiplier = viewWidth / sizeWidth
+                    let newHeight = sizeHeight * multiplier
+                    
+                    let newSize: CGSize = CGSize(width: newWidth, height: newHeight)
+                    
+                    let resized = imageResult.image.kf.resize(to: newSize, for: .aspectFill)
+                    
+                    self.detailPosterImage.image = resized
+                    
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            })                                
+        }
     }
     
     func configureLayout() {
@@ -284,16 +315,18 @@ Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots 
             //make.bottom.equalTo(contentView.snp.bottom)
         }
         
+        detailPosterImage.snp.makeConstraints { make in
+            //make.height.equalTo(5000)
+        }
+        
         detailPosterStack.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().offset(8)
-            make.trailing.equalToSuperview().offset(-8)
+            //make.leading.trailing.equalToSuperview().offset(8)
+            //make.trailing.equalToSuperview().offset(-8)
+            make.leading.trailing.equalToSuperview()
             make.top.equalTo(secondStack.snp.bottom).offset(8)
             make.bottom.equalTo(contentView.snp.bottom)
         }
-        
-        
-        
-        
+         
     }
     
     //MARK: - 작업중

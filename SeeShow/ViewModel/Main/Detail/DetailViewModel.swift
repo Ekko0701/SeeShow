@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UIKit
 import RxSwift
 import RxRelay
 import RxCocoa
@@ -15,11 +14,16 @@ import RxDataSources
 
 protocol DetailViewModelType {
     // INPUT
-    var fetchBoxOffices: AnyObserver<Void> { get }
-    var fetchKidsBoxOffices: AnyObserver<Void> { get }
+    var fetchDetails: AnyObserver<Void> { get }
     
     // OUTPUT
-    var allBoxOffices: Observable<[ViewBoxOffice]> { get }
-    var pushKidsBoxOffices: Observable<[ViewBoxOffice]> { get }
-    var activated: Observable<Bool> { get }
+    var pushDetails: Observable<[ViewBoxOffice]> { get }
 }
+
+//class DetailViewModel: DetailViewModelType {
+//    let fetchDetails: RxSwift.AnyObserver<Void>
+//    
+//    let pushDetails: RxSwift.Observable<[ViewBoxOffice]>
+//    
+//    
+//}

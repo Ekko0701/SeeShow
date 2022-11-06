@@ -34,3 +34,16 @@
 ### 2022.11.04
 - Font 적용
 - KingFisher 라이브러리를 사용해 포스터 이미지 적용
+- MainViewController의 collectionView Cell 터치 이벤트 작업 
+    - collectionView.rx.modelSelected, collectionView.rx.itemSelected 를 zip해서 구현 
+- DetailView UI
+
+- Problem & Todo
+  - MainViewController에서 cell을 터치시 modelSelected와 itemSelected 이벤트가 발생하는데 터치한 cell의 공연 ID를 DetailViewModel로 전달하는 방법 생각해볼것
+  
+
+### 2022.11.05
+- DetailView UI 작업
+
+- Problem & Todo
+    - 공연 상세 설명 이미지의 높이가 커서 .scaleAspectFit을 적용하면 상하단에 빈공간이 발생
