@@ -18,7 +18,7 @@ class BoxOfficeStore: BoxOfficeFetchable {
     /// fetchAllBoxOffice를 통해 받아온 XML 데이터를 BoxOfficeModel로 파싱하고 Observable로 만들어 반환.
     
     func fetchBoxOffices() -> Observable<[BoxOfficeModel]> {
-        print("fetchBoxOffices")
+        print("fetchBoxOffices()")
         /// box office model = api에서 받아온 그대로를 파싱한것
         return KopisAPIService.fetchAllBoxOffice()
             .map { data -> [BoxOfficeModel] in
@@ -36,7 +36,7 @@ class BoxOfficeStore: BoxOfficeFetchable {
     }
     
     func fetchKidsBoxOffice() -> Observable<[BoxOfficeModel]> {
-        print("fetchKidsBoxOffices")
+        print("fetchKidsBoxOffices()")
         
         return KopisAPIService.fetchKidsBoxOffice()
             .map { data -> [BoxOfficeModel] in
@@ -53,8 +53,3 @@ class BoxOfficeStore: BoxOfficeFetchable {
             }
     }
 }
-
-//let min = min(data.count, 10)
-//let sliceArray = data[..<min]
-//print("데이터\(data)")
-//print("슬라이스\(sliceArray)")

@@ -9,25 +9,21 @@ import Foundation
 import UIKit
 import SnapKit
 import RxSwift
+import RxViewController
 import Kingfisher
 
 class DetailViewController: UIViewController {
     
-    let testLabel: UILabel = {
-        let label = UILabel()
+    let disposeBag = DisposeBag()
+    //var viewModel = DetailViewModel(domain: DetailStore(id: "PF198309"))
+    var viewModel = DetailViewModel()
+    
+    private var loadingView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .magenta
+        view.alpha = 1
         
-        label.text = """
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-
-Why do we use it?
-It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
-
-
-Where does it come from?
-Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32"
-"""
-        label.numberOfLines = 0
-        return label
+        return view
     }()
     
     /// 포스터 이미지 poster
@@ -91,7 +87,7 @@ Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots 
     }()
     
     let playtime: UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         label.applyNoToSansKR(text: "화요일 ~ 금요일(19:30), 토요일 ~ 일요일(14:00,18:30), HOL(14:00,18:30)", style: .medium, size: 20, color: .black)
         label.numberOfLines = 0
         return label
@@ -186,7 +182,7 @@ Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots 
         stackView.distribution = .equalSpacing
         stackView.spacing = 8
         return stackView
-
+        
     }()
     
     let detailPosterStack: UIStackView = {
@@ -197,7 +193,7 @@ Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots 
         stackView.spacing = 16
         return stackView
     }()
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -209,20 +205,24 @@ Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots 
         configureLayout()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        
+    }
+    
     func configureTest() {
         let url = URL(string: "http://www.kopis.or.kr/upload/pfmPoster/PF_PF198309_220919_094321.gif")
         posterImage.kf.indicatorType = .activity
         posterImage.kf.setImage(with: url)
         
-//        let detailPosterURL = URL(string: "http://www.kopis.or.kr/upload/pfmIntroImage/PF_PF198309_220919_0943210.jpg")
-//        detailPosterImage.kf.indicatorType = .activity
-////        detailPosterImage.kf.setImage(with: detailPosterURL, options: [.scaleFactor(UIScreen.main.scale)])
-//        detailPosterImage.kf.setImage(with: detailPosterURL,options: [],progressBlock: {receivedSize, totalSize in
-//            print(" progressBlock = \(receivedSize) / \(totalSize)")
-//        },
-//        completionHandler: { result in
-//            print("결과 \(result)")
-//        })
+        //        let detailPosterURL = URL(string: "http://www.kopis.or.kr/upload/pfmIntroImage/PF_PF198309_220919_0943210.jpg")
+        //        detailPosterImage.kf.indicatorType = .activity
+        ////        detailPosterImage.kf.setImage(with: detailPosterURL, options: [.scaleFactor(UIScreen.main.scale)])
+        //        detailPosterImage.kf.setImage(with: detailPosterURL,options: [],progressBlock: {receivedSize, totalSize in
+        //            print(" progressBlock = \(receivedSize) / \(totalSize)")
+        //        },
+        //        completionHandler: { result in
+        //            print("결과 \(result)")
+        //        })
         
         if let thumbnailURL = URL(string: "http://www.kopis.or.kr/upload/pfmIntroImage/PF_PF198309_220919_0943210.jpg") {
             KingfisherManager.shared.retrieveImage(with: thumbnailURL, completionHandler: { result in
@@ -232,14 +232,13 @@ Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots 
                     let sizeHeight = imageResult.image.size.height
                     
                     let viewWidth = self.view.frame.width
-                    let viewHeight = self.view.frame.height
+                    //let viewHeight = self.view.frame.height
                     
                     let newWidth = viewWidth
                     let multiplier = viewWidth / sizeWidth
                     let newHeight = sizeHeight * multiplier
                     
                     let newSize: CGSize = CGSize(width: newWidth, height: newHeight)
-                    
                     let resized = imageResult.image.kf.resize(to: newSize, for: .aspectFill)
                     
                     self.detailPosterImage.image = resized
@@ -247,7 +246,7 @@ Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots 
                 case .failure(let error):
                     print(error.localizedDescription)
                 }
-            })                                
+            })
         }
     }
     
@@ -272,7 +271,7 @@ Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots 
         
         fromToStack.addArrangedSubview(fromToIcon)
         fromToStack.addArrangedSubview(prfpdfromToLabel)
-    
+        
         firstStack.addArrangedSubview(prfnmLabel)
         firstStack.addArrangedSubview(detailStack)
         firstStack.addArrangedSubview(locationStack)
@@ -326,18 +325,76 @@ Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots 
             make.top.equalTo(secondStack.snp.bottom).offset(8)
             make.bottom.equalTo(contentView.snp.bottom)
         }
-         
+        
     }
     
     //MARK: - 작업중
     func configure(data: Int, data2: Observable<ViewBoxOffice> ) {
-        //testLabel.text = data.description
         print(data)
-        //testLabel.text = data.description
         
-        data2.map { $0.mt20id }.subscribe(onNext: {
-            print($0.description)
+        data2.map { $0.mt20id }.subscribe(onNext: { [weak self] prfrID in
+            print(prfrID.description)
+            
+            self?.viewModel = DetailViewModel(domain: DetailStore(id: prfrID))
+            self?.setupBindings(id: prfrID)
+            
         }).disposed(by: DisposeBag())
+    }
+    
+    func setupBindings(id: String) {
+        // ------------------------------
+        //  INPUT
+        // ------------------------------
+        let firstLoad = rx.viewWillAppear
+            .take(1)
+            .map { _ in
+                ()
+            }
+        
+        firstLoad
+            .bind(to: viewModel.fetchDetails)
+            .disposed(by: disposeBag)
+        
+        // ------------------------------
+        //  OUTPUT
+        // ------------------------------
+        
+        // Loading View
+        viewModel.activated
+            .map { !$0 }
+            .bind(to: loadingView.rx.isHidden)
+            .disposed(by: disposeBag)
+        
+        viewModel.pushDetails
+            .map { URL(string: $0.poster) }
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] url in
+                self?.posterImage.kf.indicatorType = .activity
+                self?.posterImage.kf.setImage(with: url,
+                placeholder: ImagePlaceholderView())
+            }).disposed(by: disposeBag)
+        
+        viewModel.pushDetails
+            .map { $0.prfnm }
+            .bind(to: prfnmLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.pushDetails
+            .map { $0.prfage }
+            .bind(to: ageLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.pushDetails
+            .map { $0.prfruntime }
+            .bind(to: runningTimeLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.pushDetails
+            .map { $0.fcltynm }
+            .bind(to: placeLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+    
     }
 }
 

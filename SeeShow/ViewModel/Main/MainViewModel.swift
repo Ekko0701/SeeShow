@@ -33,11 +33,11 @@ class MainViewModel: MainViewModelType {
     
     // OUTPUT
     let allBoxOffices: Observable<[ViewBoxOffice]>
-    let pushKidsBoxOffices: Observable<[ViewBoxOffice]> // 이게 받아줘야 하는데 이름이 같아서 오류
+    let pushKidsBoxOffices: Observable<[ViewBoxOffice]>
     let activated: Observable<Bool> // Indicator, SkeletonView 동작
     
     init(domain: BoxOfficeFetchable = BoxOfficeStore()) {
-        print("HomeViewModel init")
+        print("HomeViewModel init()")
 
         let fetching = PublishSubject<Void>()
         let fetchingKids = PublishSubject<Void>()

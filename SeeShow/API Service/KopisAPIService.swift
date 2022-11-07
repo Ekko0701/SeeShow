@@ -61,5 +61,27 @@ class KopisAPIService {
             return Disposables.create()
         }
     }
+    ///http://www.kopis.or.kr/openApi/restful/pblprfr/PF198309?service=a848d37955ab4ade9eba0a398af255e2
+    static func fetchPrfrDetail(id: String) -> Observable<Data> {
+        let parameters: Parameters = [
+            "service" : "a848d37955ab4ade9eba0a398af255e2",
+        ]
+        
+        return Observable.create { observer in
+            _ = AF.request("http://www.kopis.or.kr/openApi/restful/pblprfr/" + id, method: .get, parameters: parameters).responseData { response in
+                print("response")
+                switch response.result {
+                case .success(let data):
+                    print("fetchPrfrDetail - success \(data)")
+                    observer.onNext(data)
+                case .failure(let error):
+                    print("fetchPrfrDetail - failure \(error.localizedDescription)")
+                    observer.onError(error)
+                }
+                observer.onCompleted()
+            }
+            return Disposables.create()
+        }
+    }
 
 }

@@ -46,4 +46,8 @@
 - DetailView UI 작업
 
 - Problem & Todo
-    - 공연 상세 설명 이미지의 높이가 커서 .scaleAspectFit을 적용하면 상하단에 빈공간이 발생
+    - 공연 상세 설명 이미지의 높이가 커서 .scaleAspectFit을 적용하면 상하단에 빈공간이 발생 ✅
+    
+### 2022.11.06
+- 공연 상세 설명 이미지를 받아올때 KingFisherManager를 사용해 UIImageView에 알맞은 사이즈로 Resizing해 적용해 이슈 해결
+- Kopis 공연 상세 검색 API테스트 및 모델 설정
