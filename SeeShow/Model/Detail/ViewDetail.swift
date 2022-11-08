@@ -32,6 +32,8 @@ struct ViewDetail {
     var prfstate: String
     /// [공연 소개 이미지 url]
     var styurls: [String]
+    /// 공연 시간
+    var dtguidance: String
     
     
     init(_ item: DetailModel) {
@@ -46,5 +48,6 @@ struct ViewDetail {
         genrenm = item.genrenm ?? "공연 기간 정보 없음"
         prfstate = item.prfstate ?? "공연중 정보 없음"
         styurls = item.styurls ?? ["상세 포스터 정보 없음"]
+        dtguidance = item.dtguidance ?? "공연 시간 정보 없음"
     }
 }

@@ -39,7 +39,7 @@
 - DetailView UI
 
 - Problem & Todo
-  - MainViewController에서 cell을 터치시 modelSelected와 itemSelected 이벤트가 발생하는데 터치한 cell의 공연 ID를 DetailViewModel로 전달하는 방법 생각해볼것
+  - MainViewController에서 cell을 터치시 modelSelected와 itemSelected 이벤트가 발생하는데 터치한 cell의 공연 ID를 DetailViewModel로 전달하는 방법 생각해볼것 ✅
   
 
 ### 2022.11.05
@@ -49,5 +49,34 @@
     - 공연 상세 설명 이미지의 높이가 커서 .scaleAspectFit을 적용하면 상하단에 빈공간이 발생 ✅
     
 ### 2022.11.06
-- 공연 상세 설명 이미지를 받아올때 KingFisherManager를 사용해 UIImageView에 알맞은 사이즈로 Resizing해 적용해 이슈 해결
 - Kopis 공연 상세 검색 API테스트 및 모델 설정
+
+- Solved Issue
+    - 공연 상세 설명 이미지를 받아올때 KingFisherManager를 사용해 UIImageView에 알맞은 사이즈로 Resizing해 적용해 이슈 해결
+    
+### 2022.11.07
+- DetailModel 생성 (KOPIS 공연 상세 정보 response 모델 & XML데이터 파싱 모델) 
+- ViewDetail 생성 (DetailModel에서 View를 구성하는데 필요한 데이터 모델)
+- KopisAPIService에 공연 상세 검색 요청 추가, DetailFetchable에서 데이터 파싱 진행
+- DetailViewModel 생성, UI Component와 바인딩 진행중
+
+- Issue 해결
+    - DetailViewController에서 DetailViewModel을 초기화할때 id를 넘겨주었다.
+
+- Problem & Todo 
+    - MainViewController에서 Cell 터치시 DetailView로 넘어갈때 이벤트를 발생시키는 Observable를 만들어서 ID를 넘겨보는 방법을 생각해보자. (MVVM) ✅
+
+### 2022.11.08
+-  셀 터치 이벤트 재설정
+    - 1. Cell을 선택하면 itemSelected Event 발생 MainViewModel의 touchKidsBoxOfficCell ( = PublishSubject)에 indexPath.item을 onNext로 전달.
+    - 2. MainViewModel에서 touchKidsBoxOffice를 kidsCellTouching이 Observe
+    - 3. kidsCellTouching과 kidsBoxOffice를 CombineLatest후 indexPath번째 데이터의 id를 가지는 Observable 반환 => showDetailPage
+    - 4. MainViewCOntroller에서 showDetailPage를 Subscribe하고 DetailViewController과 DetailViewController의 DetailViewModel 생성
+    - 5. NavigationPush
+    
+- DetailView UI 바인딩
+    - 공연 상세 포스터가 존재하지 않는 경우가 있기 때문에 존재하는 경우에만 DetailPosterStack에 전처리 작업을 진행한 detailPosterImage를 추가
+    
+- Problem & Todo
+    - Error 예외처리 -> Observable로 처리
+    - DetailPosterStack에 Default View 추가

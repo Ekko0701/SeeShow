@@ -15,8 +15,17 @@ import Kingfisher
 class DetailViewController: UIViewController {
     
     let disposeBag = DisposeBag()
-    //var viewModel = DetailViewModel(domain: DetailStore(id: "PF198309"))
-    var viewModel = DetailViewModel()
+    var viewModel: DetailViewModelType
+    
+    init(viewModel: DetailViewModelType = DetailViewModel()) {
+        self.viewModel = viewModel
+
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private var loadingView: UIView = {
         let view = UIView()
@@ -194,6 +203,8 @@ class DetailViewController: UIViewController {
         return stackView
     }()
     
+    /// SecondStack의 Bottom 제약조건
+    var secondStackBottomConstraint = NSLayoutConstraint()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -203,10 +214,11 @@ class DetailViewController: UIViewController {
         
         configureTest()
         configureLayout()
+        setupBindings()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
+        print("DetailViewController - viewWillAppear")
     }
     
     func configureTest() {
@@ -242,6 +254,7 @@ class DetailViewController: UIViewController {
                     let resized = imageResult.image.kf.resize(to: newSize, for: .aspectFill)
                     
                     self.detailPosterImage.image = resized
+                
                     
                 case .failure(let error):
                     print(error.localizedDescription)
@@ -282,7 +295,8 @@ class DetailViewController: UIViewController {
         secondStack.addArrangedSubview(playtime)
         
         // 3. Add Subview to Detail
-        detailPosterStack.addArrangedSubview(detailPosterImage)
+        //MARK: - !!!!!!! 주의 !!!!!!!!! 테스트중
+        //detailPosterStack.addArrangedSubview(detailPosterImage)
         
         // Autolayout
         scrollView.snp.makeConstraints { make in
@@ -304,14 +318,11 @@ class DetailViewController: UIViewController {
         firstStack.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().offset(8)
             make.top.equalTo(posterImage.snp.bottom)
-            //make.bottom.equalToSuperview()
-            //make.bottom.equalTo(secondStack.snp.top)
         }
         
         secondStack.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().offset(8)
             make.top.equalTo(firstStack.snp.bottom).offset(8)
-            //make.bottom.equalTo(contentView.snp.bottom)
         }
         
         detailPosterImage.snp.makeConstraints { make in
@@ -319,8 +330,6 @@ class DetailViewController: UIViewController {
         }
         
         detailPosterStack.snp.makeConstraints { make in
-            //make.leading.trailing.equalToSuperview().offset(8)
-            //make.trailing.equalToSuperview().offset(-8)
             make.leading.trailing.equalToSuperview()
             make.top.equalTo(secondStack.snp.bottom).offset(8)
             make.bottom.equalTo(contentView.snp.bottom)
@@ -328,20 +337,8 @@ class DetailViewController: UIViewController {
         
     }
     
-    //MARK: - 작업중
-    func configure(data: Int, data2: Observable<ViewBoxOffice> ) {
-        print(data)
-        
-        data2.map { $0.mt20id }.subscribe(onNext: { [weak self] prfrID in
-            print(prfrID.description)
-            
-            self?.viewModel = DetailViewModel(domain: DetailStore(id: prfrID))
-            self?.setupBindings(id: prfrID)
-            
-        }).disposed(by: DisposeBag())
-    }
-    
-    func setupBindings(id: String) {
+    //MARK: - 바인딩 작업중
+    func setupBindings() {
         // ------------------------------
         //  INPUT
         // ------------------------------
@@ -374,27 +371,57 @@ class DetailViewController: UIViewController {
                 placeholder: ImagePlaceholderView())
             }).disposed(by: disposeBag)
         
-        viewModel.pushDetails
-            .map { $0.prfnm }
-            .bind(to: prfnmLabel.rx.text)
-            .disposed(by: disposeBag)
+        viewModel.prfnmText.bind(to: prfnmLabel.rx.text).disposed(by: disposeBag)
+        
+        viewModel.fcltynmText.bind(to: placeLabel.rx.text).disposed(by: disposeBag)
+        
+        viewModel.prfageText.bind(to: ageLabel.rx.text).disposed(by: disposeBag)
+
+        viewModel.prfruntimeText.bind(to: runningTimeLabel.rx.text).disposed(by: disposeBag)
+        
+        viewModel.prfpdFromToText.bind(to: prfpdfromToLabel.rx.text).disposed(by: disposeBag)
+        
+        viewModel.dtguidanceText.bind(to: playtime.rx.text).disposed(by: disposeBag)
         
         viewModel.pushDetails
-            .map { $0.prfage }
-            .bind(to: ageLabel.rx.text)
-            .disposed(by: disposeBag)
-        
-        viewModel.pushDetails
-            .map { $0.prfruntime }
-            .bind(to: runningTimeLabel.rx.text)
-            .disposed(by: disposeBag)
-        
-        viewModel.pushDetails
-            .map { $0.fcltynm }
-            .bind(to: placeLabel.rx.text)
-            .disposed(by: disposeBag)
-        
-    
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { detail in
+                _ = detail.styurls.map { [weak self] detailURLString in
+                    if let detailURL = URL(string: detailURLString) {
+                        KingfisherManager.shared.retrieveImage(with: detailURL, completionHandler: { result in
+                            switch (result) {
+                            case.success(let imageResult):
+                                let sizeWidth = imageResult.image.size.width
+                                let sizeHeight = imageResult.image.size.height
+                                
+                                let viewWidth = self?.view.frame.width ?? 0
+                                //let viewHeight = self.view.frame.height
+                                
+                                let newWidth = viewWidth
+                                let multiplier = viewWidth / sizeWidth
+                                let newHeight = sizeHeight * multiplier
+                                
+                                let newSize: CGSize = CGSize(width: newWidth, height: newHeight)
+                                let resized = imageResult.image.kf.resize(to: newSize, for: .aspectFill)
+                                
+                                self?.detailPosterImage.image = resized
+                               
+                                #warning("TODO : - self! 생각해보기..  순환참조 공부 필요 ")
+                                self?.detailPosterStack.addArrangedSubview(self!.detailPosterImage)
+                            case .failure(let error):
+                                #warning("TODO : - viewModel error로 보내는 방법 ? ")
+                                print(error.localizedDescription)
+                            }
+                            
+                        })
+                    } else {
+                        #warning("TODO : detailPosterStack을 없애고, secondStack의 bottomConstraints를 추가해야함. 반대도 괜찮음. ")
+                        self?.detailPosterStack.isHidden = true
+                        print("상세 포스터 없음 !!!!! ")
+                        
+                    }
+                }
+            }).disposed(by: disposeBag)
     }
 }
 

@@ -17,14 +17,19 @@ protocol MainViewModelType {
     var fetchBoxOffices: AnyObserver<Void> { get }
     var fetchKidsBoxOffices: AnyObserver<Void> { get }
     
+    var touchKidsBoxOfficeCell: PublishSubject<Int> { get }
+    
     // OUTPUT
     var allBoxOffices: Observable<[ViewBoxOffice]> { get }
     var pushKidsBoxOffices: Observable<[ViewBoxOffice]> { get }
     var activated: Observable<Bool> { get }
+    var showDetailPage: Observable<String> { get }
     
 }
 
 class MainViewModel: MainViewModelType {
+    var touchKidsBoxOfficeCell: PublishSubject<Int>
+    
     let disposeBag = DisposeBag()
 
     // INPUT
@@ -35,12 +40,15 @@ class MainViewModel: MainViewModelType {
     let allBoxOffices: Observable<[ViewBoxOffice]>
     let pushKidsBoxOffices: Observable<[ViewBoxOffice]>
     let activated: Observable<Bool> // Indicator, SkeletonView 동작
+    let showDetailPage: Observable<String> // ID 전달할거야
     
     init(domain: BoxOfficeFetchable = BoxOfficeStore()) {
         print("HomeViewModel init()")
 
         let fetching = PublishSubject<Void>()
         let fetchingKids = PublishSubject<Void>()
+        
+        let kidsCellTouching = PublishSubject<Int>() // 셀 터치
         
         let activating = BehaviorSubject<Bool>(value: false)
         
@@ -82,6 +90,10 @@ class MainViewModel: MainViewModelType {
             .subscribe(onNext: kidsBoxOffices.onNext)
             .disposed(by: disposeBag)
         
+       
+       
+        
+        
         // OUTPUT
         //
         allBoxOffices = boxoffices
@@ -97,7 +109,22 @@ class MainViewModel: MainViewModelType {
             }).disposed(by: disposeBag)
                 
         activated = activating.distinctUntilChanged() // distinctUntilChanged = 연달아서 중복된 값이 올 경우 무시
-      
+                
+        #warning("TODO : - boxoffice랑 kidsboxoffice 묶어서 하지 ")
+        
+    
+        //MARK: - 터치 테스트 입니다.
+        touchKidsBoxOfficeCell = kidsCellTouching.asObserver()
+                
+//                showDetailPage = kidsCellTouching.map({ index in
+//                    kidsBoxOffices.flatMap { array in
+//                        array[index].mt20id
+//                    }
+//                })
+                
+        showDetailPage = Observable.combineLatest(kidsCellTouching, kidsBoxOffices, resultSelector: { (index, kidsBoxOfficesArray) in
+            return kidsBoxOfficesArray[index].mt20id
+        })
     }
     
 }

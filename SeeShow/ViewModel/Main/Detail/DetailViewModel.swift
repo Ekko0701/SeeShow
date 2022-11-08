@@ -11,6 +11,7 @@ import RxRelay
 import RxCocoa
 import SWXMLHash
 import RxDataSources
+import Kingfisher
 
 protocol DetailViewModelType {
     // INPUT
@@ -22,29 +23,29 @@ protocol DetailViewModelType {
     var activated: Observable<Bool> { get }
     var errorMessage: Observable<NSError> { get }
     
-//    // OUTPUT (UI)
-//    /// 공연명
-//    var prfnmText: Observable<String> { get }
-//    /// 공연 시작일
-//    var prfpdfromText: Observable<String> { get }
-//    /// 공연 마감일
-//    var prfpdtoText: Observable<String> { get }
-//    /// 공연장
-//    var fcltynmText: Observable<String> { get }
-//    /// 공연 런타임
-//    var prfruntimeText: Observable<String> { get }
-//    /// 공연 관람 연령
-//    var prfageText: Observable<String> { get }
+    // OUTPUT (UI)
+    /// 공연명
+    var prfnmText: Observable<String> { get }
+    ///공연 기간
+    var prfpdFromToText: Observable<String> { get }
+    /// 공연장
+    var fcltynmText: Observable<String> { get }
+    /// 공연 런타임
+    var prfruntimeText: Observable<String> { get }
+    /// 공연 관람 연령
+    var prfageText: Observable<String> { get }
+    /// 공연 시간
+    var dtguidanceText: Observable<String> { get }
 //    /// 공연 가격
 //    var pcseguidanceText: Observable<String> { get }
-//    /// 포스터
-//    var posterImage: Observable<UIImage> { get }
+    /// 포스터
+    //var posterImage: Observable<UIImage> { get }
 //    /// 장르
 //    var gerenmText: Observable<String> { get }
 //    /// 공연 상태
 //    var prfstateText: Observable<String> { get }
-//    /// [공연 소개 이미지]
-//    var styImageArray: Observable<[UIImage]> { get }
+    /// [공연 소개 이미지]
+    //var styImageArray: Observable<[KFCrossPlatformImage]> { get }
 }
 
 class DetailViewModel: DetailViewModelType {
@@ -61,28 +62,28 @@ class DetailViewModel: DetailViewModelType {
     let activated: Observable<Bool>
     let errorMessage: Observable<NSError>
     
-//    /// 공연명
-//    let prfnmText: Observable<String>
-//    /// 공연 시작일
-//    let prfpdfromText: Observable<String>
-//    /// 공연 마감일
-//    let prfpdtoText: Observable<String>
-//    /// 공연장
-//    let fcltynmText: Observable<String>
-//    /// 공연 런타임
-//    let prfruntimeText: Observable<String>
-//    /// 공연 관람 연령
-//    let prfageText: Observable<String>
+    /// 공연명
+    let prfnmText: Observable<String>
+    /// 공연 기간
+    let prfpdFromToText: Observable<String>
+    /// 공연장
+    let fcltynmText: Observable<String>
+    /// 공연 런타임
+    let prfruntimeText: Observable<String>
+    /// 공연 관람 연령
+    let prfageText: Observable<String>
+    /// 공연 시간
+    let dtguidanceText: Observable<String>
 //    /// 공연 가격
 //    let pcseguidanceText: Observable<String>
-//    /// 포스터
-//    let posterImage: Observable<UIImage>
+    /// 포스터
+    //let posterImage: Observable<UIImage>
 //    /// 장르
 //    let gerenmText: Observable<String>
 //    /// 공연 상태
 //    let prfstateText: Observable<String>
-//    /// [공연 소개 이미지]
-//    let styImageArray: Observable<[UIImage]>
+    /// [공연 소개 이미지]
+    //let styImageArray: Observable<[KFCrossPlatformImage]>
     
     
     init(domain: DetailFetchable = DetailStore(id: prfrID)) {
@@ -117,8 +118,23 @@ class DetailViewModel: DetailViewModelType {
         
         activated = activating.distinctUntilChanged()
                 
-        errorMessage = error.map { $0 as NSError }
+        //UI
+        prfnmText = details.map({ detail in
+            detail.prfnm
+        })
+                
+        prfpdFromToText = details.map({ detail in
+            detail.prfpdfrom + "~" + detail.prfpdto
+        })
+                
+        fcltynmText = details.map{ $0.fcltynm }
+        prfageText = details.map{ $0.prfage }
+        prfruntimeText = details.map { $0.prfruntime }
+        dtguidanceText = details.map { $0.dtguidance }
         
+        
+        #warning("TODO : - ErrorMessage 추가하자. MainViewController도.. ")
+        errorMessage = error.map { $0 as NSError }
     }
     
 }
