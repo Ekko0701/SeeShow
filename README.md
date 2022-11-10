@@ -80,3 +80,15 @@
 - Problem & Todo
     - Error 예외처리 -> Observable로 처리
     - DetailPosterStack에 Default View 추가
+
+### 2022.11.09
+- 연극, 대학로, 오픈런 박스오피스 요청 추가, MainView에 추가
+
+- Problem & Todo
+    - MainView에 추가는 잘 돼지만 스크롤시 에러가 발생함.
+        - Assertion failed: This is a feature to warn you that there is already a delegate (or data source) set somewhere previously... 에러가 발생
+        - 에러 메시지와, RxDataSource 깃허브 이슈를 참고해 UI Binding 전에 datasource = nil 을 추가했지만 해결하지 못했다.
+
+### 2022.11.10
+- 에러 관련해서 테스트를 해보니 ViewModel에는 해당사항 없음, UI에서 문제점을 발견. MainView 상단 BannerCell은 Cell 안에 다른 Cell을 추가해서 구성했다. 그래서 BannerCell에서 위의 Assertion failed가 발생했다.
+    - BannerCell 재구성

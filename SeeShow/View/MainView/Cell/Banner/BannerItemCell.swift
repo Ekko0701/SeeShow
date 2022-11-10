@@ -19,7 +19,7 @@ protocol BannerItemCellDelegate: AnyObject {
 class BannerItemCell: UICollectionViewCell {
     static let identifier = "BannerCollectionViewCell"
     
-    weak var delegate: BannerItemCellDelegate?
+    //weak var delegate: BannerItemCellDelegate?
     
     private let cellDisposeBag = DisposeBag()
     
@@ -98,18 +98,18 @@ class BannerItemCell: UICollectionViewCell {
         
     }
     
-    @objc
-    private func handlePan(_ pan: UIPanGestureRecognizer) {
-        print("BannerCollectionViewCell - handlePan(_:) called")
-        delegate?.invalidateTimer()
-    }
+//    @objc
+//    private func handlePan(_ pan: UIPanGestureRecognizer) {
+//        print("BannerCollectionViewCell - handlePan(_:) called")
+//        delegate?.invalidateTimer()
+//    }
 }
 
-//MARK: - UIGestureRecognizerDelegate
-extension BannerItemCell: UIGestureRecognizerDelegate {
-    /// if true
-    /// 동시 여러 제스처 인식 허용
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
-    }
-}
+////MARK: - UIGestureRecognizerDelegate
+//extension BannerItemCell: UIGestureRecognizerDelegate {
+//    /// if true
+//    /// 동시 여러 제스처 인식 허용
+//    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+//        return true
+//    }
+//}

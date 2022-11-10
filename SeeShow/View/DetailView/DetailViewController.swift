@@ -383,6 +383,7 @@ class DetailViewController: UIViewController {
         
         viewModel.dtguidanceText.bind(to: playtime.rx.text).disposed(by: disposeBag)
         
+        // 상세 포스터
         viewModel.pushDetails
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { detail in
@@ -395,7 +396,6 @@ class DetailViewController: UIViewController {
                                 let sizeHeight = imageResult.image.size.height
                                 
                                 let viewWidth = self?.view.frame.width ?? 0
-                                //let viewHeight = self.view.frame.height
                                 
                                 let newWidth = viewWidth
                                 let multiplier = viewWidth / sizeWidth
@@ -415,8 +415,6 @@ class DetailViewController: UIViewController {
                             
                         })
                     } else {
-                        #warning("TODO : detailPosterStack을 없애고, secondStack의 bottomConstraints를 추가해야함. 반대도 괜찮음. ")
-                        self?.detailPosterStack.isHidden = true
                         print("상세 포스터 없음 !!!!! ")
                         
                     }

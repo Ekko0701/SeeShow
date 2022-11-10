@@ -1,8 +1,8 @@
 //
-//  KidsCell.swift
+//  TheaterCell.swift
 //  SeeShow
 //
-//  Created by Ekko on 2022/11/02.
+//  Created by Ekko on 2022/11/09.
 //
 
 import Foundation
@@ -12,15 +12,14 @@ import Kingfisher
 import RxSwift
 import RxCocoa
 
-class KidsCell: UICollectionViewCell {
-    static let identifier = "KidsCell"
+class TheaterCell: UICollectionViewCell {
+    static let identifier = "TheaterCell"
     
     private let image: UIImageView = {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 16
-        imageView.image = UIImage(systemName: "house")
         
         return imageView
     }()
@@ -28,7 +27,6 @@ class KidsCell: UICollectionViewCell {
     private let title: UILabel = {
         let label = UILabel()
         
-        label.text = "집이당!"
         label.applyNoToSansKR(style: .medium, size: 16, color: .black)
         label.textAlignment = .center
         label.numberOfLines = 2
@@ -85,6 +83,7 @@ class KidsCell: UICollectionViewCell {
     func configure(with data: Observable<ViewBoxOffice>) {
         data.observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] boxoffice in
+                
                 let url = URL(string: boxoffice.poster)
                 let processor = RoundCornerImageProcessor(cornerRadius: 16)
                 self?.image.kf.indicatorType = .activity

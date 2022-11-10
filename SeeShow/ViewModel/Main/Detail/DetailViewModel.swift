@@ -49,8 +49,6 @@ protocol DetailViewModelType {
 }
 
 class DetailViewModel: DetailViewModelType {
-    #warning("TODO : - 다음 변수 삭제 ")
-    static var prfrID: String  = ""
     
     let disposeBag = DisposeBag()
     
@@ -86,16 +84,14 @@ class DetailViewModel: DetailViewModelType {
     //let styImageArray: Observable<[KFCrossPlatformImage]>
     
     
-    init(domain: DetailFetchable = DetailStore(id: prfrID)) {
+    init(domain: DetailFetchable = DetailStore(id: String())) {
         print("DetailViewModel init()")
         
         let fetching = PublishSubject<Void>()
         
         let activating = BehaviorSubject<Bool>(value: false)
         
-        // -----------
-        #warning("TODO : - detailVC에서 기본값으로 설정한 poster url이 한 번 실행된다. Placeholder image url을 추가하던지, skip(1)을 처리해주자.")
-        let details = BehaviorSubject<ViewDetail>(value: ViewDetail(DetailModel(mt20id: "test", prfnm: "test", prfpdfrom: "test", prfpdto: "test", fcltynm: "test", prfcast: "test", prfcrew: "test", prfruntime: "test", prfage: "test", entrpsnm: "test", pcseguidance: "test", poster: "http://www.kopis.or.kr/upload/pfmPoster/PF_PF198309_220919_094321.gif", sty: "test", genrenm: "test", prfstate: "test", openrun: "test", styurls: ["test"], dtguidance: "test")))
+        let details = BehaviorSubject<ViewDetail>(value: ViewDetail(DetailModel(mt20id: "Empty", prfnm: "Empty", prfpdfrom: "Empty", prfpdto: "Empty", fcltynm: "Empty", prfcast: "Empty", prfcrew: "Empty", prfruntime: "Empty", prfage: "Empty", entrpsnm: "Empty", pcseguidance: "Empty", poster: "", sty: "Empty", genrenm: "Empty", prfstate: "Empty", openrun: "Empty", styurls: [], dtguidance: "Empty")))
         
         let error = PublishSubject<Error>()
         

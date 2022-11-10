@@ -1,8 +1,8 @@
 //
-//  KidsCell.swift
+//  MainCollectionViewCell.swift
 //  SeeShow
 //
-//  Created by Ekko on 2022/11/02.
+//  Created by Ekko on 2022/11/09.
 //
 
 import Foundation
@@ -12,15 +12,13 @@ import Kingfisher
 import RxSwift
 import RxCocoa
 
-class KidsCell: UICollectionViewCell {
-    static let identifier = "KidsCell"
+class MainCollectionViewCell: UICollectionViewCell {
     
-    private let image: UIImageView = {
+    let image: UIImageView = {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 16
-        imageView.image = UIImage(systemName: "house")
         
         return imageView
     }()
@@ -28,7 +26,6 @@ class KidsCell: UICollectionViewCell {
     private let title: UILabel = {
         let label = UILabel()
         
-        label.text = "집이당!"
         label.applyNoToSansKR(style: .medium, size: 16, color: .black)
         label.textAlignment = .center
         label.numberOfLines = 2

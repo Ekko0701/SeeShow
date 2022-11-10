@@ -19,7 +19,7 @@ struct ViewBoxOffice {
     init(_ item: BoxOfficeModel) {
         prfnm = item.prfnm ?? "공연명 정보 없음"
         rnum = item.rnum ?? 0
-        poster = item.poster ?? "포스터 url 없음"
+        poster = "http://kopis.or.kr" + (item.poster ?? "포스터 url 없음") 
         mt20id = item.mt20id ?? "공연 Id 없음"
     }
 }

@@ -16,6 +16,8 @@ import RxDataSources
 class MainViewController: UIViewController {
     
     var collectionView: UICollectionView!
+    var dataSource: RxCollectionViewSectionedReloadDataSource<MainSectionModel>!
+    
     private var loadingView: UIView = {
         let view = UIView()
         view.backgroundColor = .blue
@@ -25,7 +27,7 @@ class MainViewController: UIViewController {
     }()
     
     let viewModel = MainViewModel()
-    let disposeBag = DisposeBag()
+    var disposeBag = DisposeBag()
     let touchCell = PublishSubject<String>()
     
     override func viewDidLoad() {
@@ -48,25 +50,30 @@ class MainViewController: UIViewController {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: createCompositionalLayout())
         
         collectionView.backgroundColor = .white
-        
-        // Attach Delegate
-        collectionView.delegate = self
+        collectionView.dataSource = nil
         
         // Register Cell
         collectionView.register(BannerCell.self, forCellWithReuseIdentifier: BannerCell.identifier)
         collectionView.register(CategoryCell.self, forCellWithReuseIdentifier: CategoryCell.identifier)
+        collectionView.register(TheaterCell.self, forCellWithReuseIdentifier: TheaterCell.identifier)
+        collectionView.register(UNICell.self, forCellWithReuseIdentifier: UNICell.identifier)
+        collectionView.register(OpenRunCell.self, forCellWithReuseIdentifier: OpenRunCell.identifier)
         collectionView.register(KidsCell.self, forCellWithReuseIdentifier: KidsCell.identifier)
         
         // Register SupplementaryView
         collectionView.register(KidsSectionHeader.self, forSupplementaryViewOfKind: KidsSectionHeader.sectionHeaderID, withReuseIdentifier: KidsSectionHeader.identifier)
+        collectionView.register(TheaterHeader.self, forSupplementaryViewOfKind: TheaterHeader.sectionHeaderID, withReuseIdentifier: TheaterHeader.identifier)
+        collectionView.register(UNIHeader.self, forSupplementaryViewOfKind: UNIHeader.sectionHeaderID, withReuseIdentifier: UNIHeader.identifier)
+        collectionView.register(OpenRunHeader.self, forSupplementaryViewOfKind: OpenRunHeader.sectionHeaderID, withReuseIdentifier: OpenRunHeader.identifier)
         
         // Add UIRefreshControl()
         collectionView.refreshControl = UIRefreshControl()
     }
     
     /// Compositional 레이아웃 생성
-    private func createCompositionalLayout() -> UICollectionViewCompositionalLayout{
+    func createCompositionalLayout() -> UICollectionViewCompositionalLayout{
         return UICollectionViewCompositionalLayout{ (sectionNumber, env) -> NSCollectionLayoutSection? in
+            // Banner Section
             if sectionNumber == 0 {
                 let itemInset: CGFloat = 0.0
                 let sectionMargin: CGFloat = 0.0
@@ -88,7 +95,9 @@ class MainViewController: UIViewController {
                 
                 return layoutSection
                 
-            } else if sectionNumber == 1 {
+            }
+            // Category Section
+            else if sectionNumber == 1 {
                 
                 // item
                 let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(0.2), heightDimension: .fractionalWidth(0.3)))
@@ -108,8 +117,90 @@ class MainViewController: UIViewController {
                 
                 return section
                 
-            } else {
+            }
+            // Theater Section
+            else if sectionNumber == 2 {
 
+                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1)))
+                item.contentInsets = .init(top: 0, leading: 5, bottom: 0, trailing: 5)
+
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(0.4), heightDimension:  .fractionalWidth(0.7)), subitems: [item])
+
+                let section = NSCollectionLayoutSection(group: group)
+
+                section.orthogonalScrollingBehavior = .continuous
+                section.contentInsets = .init(top: 0, leading: 16, bottom: 0, trailing: 16)
+
+                /// header
+                let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(50))
+                let header = NSCollectionLayoutBoundarySupplementaryItem(
+                    layoutSize: headerSize,
+                    elementKind: TheaterHeader.sectionHeaderID,
+                    alignment: .top
+                )
+
+                section.boundarySupplementaryItems = [
+                    header
+                ]
+
+                return section
+                
+            }
+            // UNI Section
+            else if sectionNumber == 3 {
+                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1)))
+                item.contentInsets = .init(top: 0, leading: 5, bottom: 0, trailing: 5)
+
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(0.4), heightDimension:  .fractionalWidth(0.7)), subitems: [item])
+
+                let section = NSCollectionLayoutSection(group: group)
+
+                section.orthogonalScrollingBehavior = .continuous
+                section.contentInsets = .init(top: 0, leading: 16, bottom: 0, trailing: 16)
+
+                /// header
+                let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(50))
+                let header = NSCollectionLayoutBoundarySupplementaryItem(
+                    layoutSize: headerSize,
+                    elementKind: UNIHeader.sectionHeaderID,
+                    alignment: .top
+                )
+
+                section.boundarySupplementaryItems = [
+                    header
+                ]
+
+                return section
+                
+            }
+            // OPENRun Section
+            else if sectionNumber == 4 {
+                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1)))
+                item.contentInsets = .init(top: 0, leading: 5, bottom: 0, trailing: 5)
+
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(0.4), heightDimension:  .fractionalWidth(0.7)), subitems: [item])
+
+                let section = NSCollectionLayoutSection(group: group)
+
+                section.orthogonalScrollingBehavior = .continuous
+                section.contentInsets = .init(top: 0, leading: 16, bottom: 0, trailing: 16)
+
+                /// header
+                let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(50))
+                let header = NSCollectionLayoutBoundarySupplementaryItem(
+                    layoutSize: headerSize,
+                    elementKind: OpenRunHeader.sectionHeaderID,
+                    alignment: .top
+                )
+
+                section.boundarySupplementaryItems = [
+                    header
+                ]
+
+                return section
+            }
+            // Kids Section
+            else {
                 let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1)))
                 item.contentInsets = .init(top: 0, leading: 5, bottom: 0, trailing: 5)
 
@@ -134,33 +225,6 @@ class MainViewController: UIViewController {
 
                 return section
             }
-//            else {
-//                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1)))
-//                item.contentInsets = .init(top: 0, leading: 5, bottom: 0, trailing: 5)
-//
-//                let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(0.4), heightDimension:  .fractionalWidth(0.7)), subitems: [item])
-//
-//                let section = NSCollectionLayoutSection(group: group)
-//
-//                section.orthogonalScrollingBehavior = .continuous
-////                section.contentInsets = .init(top: 0, leading: 16, bottom: 0, trailing: 16)
-//
-//                section.contentInsets = .init(top: 0, leading: 16, bottom: 100, trailing: 16)
-//
-//                /// header
-//                let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1), heightDimension: .estimated(50))
-//                let header = NSCollectionLayoutBoundarySupplementaryItem(
-//                    layoutSize: headerSize,
-//                    elementKind: KidsHeader.kidsHeaderId,
-//                    alignment: .top
-//                )
-//
-//                section.boundarySupplementaryItems = [
-//                    header
-//                ]
-//
-//                return section
-//            }
         }
     }
     
@@ -204,10 +268,22 @@ class MainViewController: UIViewController {
             .disposed(by: disposeBag)
 
         Observable.merge([firstLoad, reload])
+            .bind(to: viewModel.fetchTheaterBoxOffices)
+            .disposed(by: disposeBag)
+        
+        Observable.merge([firstLoad, reload])
+            .bind(to: viewModel.fetchUNIBoxOffices)
+            .disposed(by: disposeBag)
+        
+        Observable.merge([firstLoad, reload])
+            .bind(to: viewModel.fetchOpenRunBoxOffices)
+            .disposed(by: disposeBag)
+        
+        Observable.merge([firstLoad, reload])
             .bind(to: viewModel.fetchKidsBoxOffices)
             .disposed(by: disposeBag)
         
-
+        
         
         // ------------------------------
         //  OUTPUT
@@ -224,56 +300,44 @@ class MainViewController: UIViewController {
             .bind(to: loadingView.rx.isHidden)
             .disposed(by: disposeBag)
                
-        // DataSource
-        let dataSource = createDataSource()
+        // Create DataSource
+        dataSource = createDataSource()
                 
-        // Section, SectionItems
-        let section = [
-            MainSectionModel.BannerSection(title: "Banner", items: [
-                .BannerSectionItem(
-                    viewModel.allBoxOffices // BannerCell에 전달해서 BannerItemCell로 바인딩
-                )
-            ]),
-            MainSectionModel.CategorySection(title: "Category", items: [
-                .CategorySectionItem(image: UIImage(named: "test1")!, title: "연극"),
-                .CategorySectionItem(image: UIImage(named: "test2")!, title: "뮤지컬"),
-                .CategorySectionItem(image: UIImage(named: "test3")!, title: "무용"),
-                .CategorySectionItem(image: UIImage(named: "test4")!, title: "클래식"),
-                .CategorySectionItem(image: UIImage(named: "test5")!, title: "오페라"),
-                .CategorySectionItem(image: UIImage(named: "test6")!, title: "국악"),
-                .CategorySectionItem(image: UIImage(named: "test7")!, title: "기타"),
-                .CategorySectionItem(image: UIImage(named: "test8")!, title: "축제"),
-                .CategorySectionItem(image: UIImage(named: "test9")!, title: "공연장"),
-                .CategorySectionItem(image: UIImage(named: "test10")!, title: "더보기"),
-            ]),
-            MainSectionModel.KidsSection(title: "Kids", items: [
-                .KidsSectionItem(viewModel.pushKidsBoxOffices.map { $0[0] }),
-                .KidsSectionItem(viewModel.pushKidsBoxOffices.map { $0[1] }),
-                .KidsSectionItem(viewModel.pushKidsBoxOffices.map { $0[2] }),
-                .KidsSectionItem(viewModel.pushKidsBoxOffices.map { $0[3] }),
-                .KidsSectionItem(viewModel.pushKidsBoxOffices.map { $0[4] }),
-                .KidsSectionItem(viewModel.pushKidsBoxOffices.map { $0[5] }),
-                .KidsSectionItem(viewModel.pushKidsBoxOffices.map { $0[6] }),
-                .KidsSectionItem(viewModel.pushKidsBoxOffices.map { $0[7] }),
-                .KidsSectionItem(viewModel.pushKidsBoxOffices.map { $0[8] }),
-                .KidsSectionItem(viewModel.pushKidsBoxOffices.map { $0[9] }),
-            ])
-        ]
-                
+        // Create Section Items
+        let section = viewModel.section
          
-                
-        // DataSource에 Section Header 추가
+        // dataSource에 Section Header 추가
         dataSource.configureSupplementaryView = {(dataSource, collection, kind, indexPath) in
-            guard let cell = collection.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: KidsSectionHeader.identifier , for: indexPath) as? KidsSectionHeader else { return UICollectionReusableView() }
-            //cell.sectionTitle.text = "주긴 Kids 인기 순위"
-            return cell
+            switch dataSource[indexPath] {
+            case .TheaterSectionItem:
+                guard let cell = collection.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: TheaterHeader.identifier , for: indexPath) as? TheaterHeader else { return UICollectionReusableView() }
+                return cell
+            case .UNISectionItem:
+                guard let cell = collection.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: UNIHeader.identifier , for: indexPath) as? UNIHeader else { return UICollectionReusableView() }
+                return cell
+            case .OpenRunSectionItem:
+                guard let cell = collection.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: OpenRunHeader.identifier , for: indexPath) as? OpenRunHeader else { return UICollectionReusableView() }
+                return cell
+            case .KidsSectionItem:
+                guard let cell = collection.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: KidsSectionHeader.identifier , for: indexPath) as? KidsSectionHeader else { return UICollectionReusableView() }
+                return cell
+            default:
+                return UICollectionReusableView()
+                
+            }
         }
         
-        Observable.just(section)
+        // CollectionView와 바인딩할 BehaviorRelay 생성
+        let sectionSubject = BehaviorRelay(value: [MainSectionModel]())
+        
+        sectionSubject.accept(section)
+        
+        // CollectionView 바인딩
+        sectionSubject
             .bind(to: collectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         
-        //MARK: - CollectionView Item seleted - 작업중
+        //MARK: - CollectionView Item seleted & Push View
         
         // 셀 선택 ( 다음의 코드는 2번 Section의 ItemSeleted Event만 해당함)
         collectionView.rx.itemSelected.subscribe(onNext: { [weak self] indexPath in
@@ -295,17 +359,31 @@ class MainViewController: UIViewController {
     
     /// CollectionView의 DataSource생성
     private func createDataSource() -> RxCollectionViewSectionedReloadDataSource<MainSectionModel> {
-        return RxCollectionViewSectionedReloadDataSource<MainSectionModel>(configureCell: {dataSource, collection, indexPath, _ in
+        return RxCollectionViewSectionedReloadDataSource<MainSectionModel>(configureCell: {dataSource, collection, indexPath, item in
             switch dataSource[indexPath] {
-                
             case let .BannerSectionItem(data):
                 guard let cell: BannerCell = collection.dequeueReusableCell(withReuseIdentifier: BannerCell.identifier, for: indexPath) as? BannerCell else { return UICollectionViewCell() }
-                cell.configure(data: data)
+                cell.configure(with: data)
                 return cell
                 
             case let .CategorySectionItem(image, title):
                 guard let cell: CategoryCell = collection.dequeueReusableCell(withReuseIdentifier: CategoryCell.identifier, for: indexPath) as? CategoryCell else { return UICollectionViewCell() }
                 cell.configure(image: image, title: title)
+                return cell
+                
+            case let .TheaterSectionItem(data):
+                guard let cell: TheaterCell = collection.dequeueReusableCell(withReuseIdentifier: TheaterCell.identifier, for: indexPath) as? TheaterCell else { return UICollectionViewCell() }
+                cell.configure(with: data)
+                return cell
+                
+            case let .UNISectionItem(data):
+                guard let cell: UNICell = collection.dequeueReusableCell(withReuseIdentifier: UNICell.identifier, for: indexPath) as? UNICell else { return UICollectionViewCell() }
+                cell.configure(with: data)
+                return cell
+                
+            case let .OpenRunSectionItem(data):
+                guard let cell: OpenRunCell = collection.dequeueReusableCell(withReuseIdentifier: OpenRunCell.identifier, for: indexPath) as? OpenRunCell else { return UICollectionViewCell() }
+                cell.configure(with: data)
                 return cell
                 
             case let .KidsSectionItem(data):
@@ -317,8 +395,5 @@ class MainViewController: UIViewController {
     }
 }
 
-//MARK: - UICollectionViewDelegate
-extension MainViewController: UICollectionViewDelegate {
-}
 
 
