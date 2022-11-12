@@ -49,7 +49,6 @@ class BannerItemCell: UICollectionViewCell {
         onData = data.asObserver()
         
         super.init(frame: frame)
-        self.backgroundColor = .red
         
         configureLayout()
         
@@ -57,8 +56,8 @@ class BannerItemCell: UICollectionViewCell {
         data.observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] boxoffice in
                 //self?.bannerImage.image = UIImage(systemName: "house")
-                let url = URL(string: "http://kopis.or.kr" + boxoffice.poster)
-                let processor = RoundCornerImageProcessor(cornerRadius: 16)
+                let url = URL(string: boxoffice.poster)
+                let processor = RoundCornerImageProcessor(cornerRadius: 8)
                 self?.bannerImage.kf.indicatorType = .activity
                 self?.bannerImage.kf.setImage(with: url,
                                               placeholder: ImagePlaceholderView(),

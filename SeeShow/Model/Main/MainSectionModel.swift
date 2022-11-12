@@ -21,7 +21,7 @@ enum MainSectionModel {
     case KidsSection(title: String, items: [SectionItem])
 }
 enum SectionItem {
-    case BannerSectionItem(Observable<ViewBoxOffice>)
+    case BannerSectionItem(Observable<[ViewBoxOffice]>)
     case CategorySectionItem(image: UIImage, title: String)
     case TheaterSectionItem(Observable<ViewBoxOffice>)
     case UNISectionItem(Observable<ViewBoxOffice>)

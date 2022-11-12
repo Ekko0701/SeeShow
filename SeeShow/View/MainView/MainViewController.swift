@@ -13,7 +13,9 @@ import RxCocoa
 import RxViewController
 import RxDataSources
 
-class MainViewController: UIViewController {
+class MainViewController: UIViewController, TouchCellProtocol {
+    
+    
     
     var collectionView: UICollectionView!
     var dataSource: RxCollectionViewSectionedReloadDataSource<MainSectionModel>!
@@ -28,7 +30,6 @@ class MainViewController: UIViewController {
     
     let viewModel = MainViewModel()
     var disposeBag = DisposeBag()
-    let touchCell = PublishSubject<String>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +37,7 @@ class MainViewController: UIViewController {
         
         configureCollectionView()
         configureLayout()
+        
         setupBindings()
         
     }
@@ -84,13 +86,14 @@ class MainViewController: UIViewController {
 
                 // Group
                 let pageWidth = self.collectionView.bounds.width - sectionMargin * 2
-                let layoutGroupSize = NSCollectionLayoutSize(widthDimension: .absolute(CGFloat(pageWidth)), heightDimension: .estimated(CGFloat(pageWidth) * 1.2))
+                let layoutGroupSize = NSCollectionLayoutSize(widthDimension: .absolute(CGFloat(pageWidth)), heightDimension: .estimated(CGFloat(pageWidth) * 1))
                 
                 let layoutGroup = NSCollectionLayoutGroup.horizontal(layoutSize: layoutGroupSize, subitems: [layoutItem])
                 
                 // Section
                 let layoutSection = NSCollectionLayoutSection(group: layoutGroup)
                 layoutSection.orthogonalScrollingBehavior = .groupPagingCentered
+                
                 
                 return layoutSection
                 
@@ -352,13 +355,18 @@ class MainViewController: UIViewController {
                                                  
     }
     
+    func touchBannerCell(_ IndexPath: IndexPath) {
+        viewModel.touchCell.onNext(IndexPath)
+    
+    }
     /// CollectionView의 DataSource생성
     private func createDataSource() -> RxCollectionViewSectionedReloadDataSource<MainSectionModel> {
         return RxCollectionViewSectionedReloadDataSource<MainSectionModel>(configureCell: {dataSource, collection, indexPath, item in
             switch dataSource[indexPath] {
             case let .BannerSectionItem(data):
                 guard let cell: BannerCell = collection.dequeueReusableCell(withReuseIdentifier: BannerCell.identifier, for: indexPath) as? BannerCell else { return UICollectionViewCell() }
-                cell.configure(with: data)
+                cell.delegate = self
+                cell.configure(data: data)
                 return cell
                 
             case let .CategorySectionItem(image, title):

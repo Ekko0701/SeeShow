@@ -163,17 +163,7 @@ class MainViewModel: MainViewModelType {
         
                 
         // Section, SectionItems
-                
-        var bannerSectionItemArr: [SectionItem] = [ .BannerSectionItem(allBoxOffices.map { $0[0] }),
-                                                    .BannerSectionItem(allBoxOffices.map { $0[1] }),
-                                                    .BannerSectionItem(allBoxOffices.map { $0[2] }),
-                                                    .BannerSectionItem(allBoxOffices.map { $0[3] }),
-                                                    .BannerSectionItem(allBoxOffices.map { $0[4] }),
-                                                    .BannerSectionItem(allBoxOffices.map { $0[5] }),
-                                                    .BannerSectionItem(allBoxOffices.map { $0[6] }),
-                                                    .BannerSectionItem(allBoxOffices.map { $0[7] }),
-                                                    .BannerSectionItem(allBoxOffices.map { $0[8] }),
-                                                    .BannerSectionItem(allBoxOffices.map { $0[9] }),]
+        var bannerSectionItemArr: [SectionItem] = [ .BannerSectionItem(allBoxOffices) ]
                 
         var theaterSectionItemsArr: [SectionItem] = [.TheaterSectionItem(pushTheaterBoxOffices.map { $0[0] }),
                                                      .TheaterSectionItem(pushTheaterBoxOffices.map { $0[1] }),

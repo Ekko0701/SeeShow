@@ -95,3 +95,6 @@
 
 ### 2022.11.12
 - Cell Touch Event 완료
+- ScrollToItem과 Timer를 이용해 AutoScroll을 구현했다. 하지만 ScrollToItem을 할 때 Section 0으로 이동해 CollectionView가 맨위로 스크롤 되는 문제점 발견. -> Cell안에 UICollectionViewCell을 넣고 안에 있는 cell에서 timer가 동작하도록 변경해 해결함.
+- Banner Cell - AutoScroll, Paging 구현
+- Banner Cell Touch - protocol delegate를 이용해서 구현
