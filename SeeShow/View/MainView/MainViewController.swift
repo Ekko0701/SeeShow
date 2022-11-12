@@ -33,7 +33,6 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("MainViewController - viewDidLoad()")
-        view.backgroundColor = .magenta
         
         configureCollectionView()
         configureLayout()
@@ -338,13 +337,9 @@ class MainViewController: UIViewController {
             .disposed(by: disposeBag)
         
         //MARK: - CollectionView Item seleted & Push View
-        
-        // 셀 선택 ( 다음의 코드는 2번 Section의 ItemSeleted Event만 해당함)
         collectionView.rx.itemSelected.subscribe(onNext: { [weak self] indexPath in
             self?.collectionView.deselectItem(at: indexPath, animated: true)
-            if indexPath.section == 2 {
-                self?.viewModel.touchKidsBoxOfficeCell.onNext(indexPath.item)
-            }
+            self?.viewModel.touchCell.onNext(indexPath)
         }).disposed(by: disposeBag)
         
         // 화면 전환
@@ -395,5 +390,17 @@ class MainViewController: UIViewController {
     }
 }
 
+//MARK: - Preview
 
+#if DEBUG
+import SwiftUI
+struct MainViewController_Previews: PreviewProvider {
+    static var previews: some View {
+        MainViewController().getPreview()
+            .ignoresSafeArea()
+    }
+}
+/// option + command +enter -> 접었다 폈다
+/// option + command + p -> 미리보기 실행
+#endif
 

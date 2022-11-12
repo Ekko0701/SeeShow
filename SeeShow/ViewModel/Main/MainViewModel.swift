@@ -20,7 +20,7 @@ protocol MainViewModelType {
     var fetchOpenRunBoxOffices: AnyObserver<Void> { get }
     var fetchKidsBoxOffices: AnyObserver<Void> { get }
     
-    var touchKidsBoxOfficeCell: PublishSubject<Int> { get }
+    var touchCell: PublishSubject<IndexPath> { get }
     
     // OUTPUT
     var allBoxOffices: Observable<[ViewBoxOffice]> { get }
@@ -34,18 +34,26 @@ protocol MainViewModelType {
 }
 
 class MainViewModel: MainViewModelType {
-    var touchKidsBoxOfficeCell: PublishSubject<Int>
+    
     
     let disposeBag = DisposeBag()
 
+    // ----------------------------
     // INPUT
+    //----------------------------
+
     let fetchBoxOffices: AnyObserver<Void>
     let fetchTheaterBoxOffices: AnyObserver<Void>
     let fetchUNIBoxOffices: AnyObserver<Void>
     let fetchOpenRunBoxOffices: AnyObserver<Void>
     let fetchKidsBoxOffices: AnyObserver<Void>
     
+    var touchCell: PublishSubject<IndexPath>
+    
+    //----------------------------
     // OUTPUT
+    //----------------------------
+
     let allBoxOffices: Observable<[ViewBoxOffice]>
     let pushTheaterBoxOffices: Observable<[ViewBoxOffice]>
     let pushUNIBoxOffices: Observable<[ViewBoxOffice]>
@@ -55,6 +63,7 @@ class MainViewModel: MainViewModelType {
     let section: [MainSectionModel]
     
     let activated: Observable<Bool> // Indicator, SkeletonView 동작
+    
     let showDetailPage: Observable<String> // ID 전달할거야
     
     
@@ -68,10 +77,9 @@ class MainViewModel: MainViewModelType {
         let fetchingKids = PublishSubject<Void>()
         
         // Cell Event
-        let kidsCellTouching = PublishSubject<Int>()
+        let cellTouching = PublishSubject<IndexPath>()
         
         let activating = BehaviorSubject<Bool>(value: false)
-        
         
         let defaultViewBoxOffice: [ViewBoxOffice] = [
             ViewBoxOffice(BoxOfficeModel(area: "Empty", prfdtcnt: 0, prfpd: "Empty", cate: "Empty", prfplcnm: "Empty", prfnm: "Empty", rnum: 0, seatcnt: 0, poster: "", mt20id: "Empty")),
@@ -231,19 +239,31 @@ class MainViewModel: MainViewModelType {
             MainSectionModel.TheaterSection(title: "OPEN RUN", items: openrunSectionItemArr),
             MainSectionModel.KidsSection(title: "Kids", items: kidsSectionItemArr),
         ]
-                
+        
+        touchCell = cellTouching.asObserver()
         
                 
-        #warning("TODO : - boxoffice랑 kidsboxoffice 묶어서 하지 ")
-        
-    
-        //MARK: - 터치 테스트 입니다.
-        touchKidsBoxOfficeCell = kidsCellTouching.asObserver()
-        
-        showDetailPage = Observable.combineLatest(kidsCellTouching, kidsBoxOffices, resultSelector: { (index, kidsBoxOfficesArray) in
-            return kidsBoxOfficesArray[index].mt20id
+        showDetailPage = Observable.combineLatest(cellTouching, boxoffices, pushTheaterBoxOffices, pushUNIBoxOffices, pushOpenRunBoxOffices, pushKidsBoxOffices ,resultSelector: { (indexPath, bannerData , theaterData, uniData, openRunData, kidsData ) in
+                    
+            switch indexPath.section {
+            case 0:
+                return bannerData[indexPath.item].mt20id
+            case 1:
+            #warning("TODO : - Category View로 이동해야함. ")
+                return theaterData[indexPath.item].mt20id
+            case 2:
+                return theaterData[indexPath.item].mt20id
+            case 3:
+                return uniData[indexPath.item].mt20id
+            case 4:
+                return openRunData[indexPath.item].mt20id
+            case 5:
+                return kidsData[indexPath.item].mt20id
+            default:
+                return String()
+            }
         })
-        
-    }
+                
+        }
     
 }

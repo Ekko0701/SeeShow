@@ -92,3 +92,6 @@
 ### 2022.11.10
 - 에러 관련해서 테스트를 해보니 ViewModel에는 해당사항 없음, UI에서 문제점을 발견. MainView 상단 BannerCell은 Cell 안에 다른 Cell을 추가해서 구성했다. 그래서 BannerCell에서 위의 Assertion failed가 발생했다.
     - BannerCell 재구성
+
+### 2022.11.12
+- Cell Touch Event 완료
