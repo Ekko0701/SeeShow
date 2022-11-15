@@ -26,6 +26,7 @@ class KopisAPIService {
                     switch response.result {
                     case .success(let data):
                         print("sucess")
+
                         observer.onNext(data)
                         //observer.onCompleted()
                     case .failure(let error):
@@ -137,11 +138,11 @@ class KopisAPIService {
         }
     }
     
-    static func fetchBoxOfficeWithCateCode(date: Date ,cateCode: CateCode) -> Observable<Data> {
+    static func fetchBoxOfficeWithCateCode(cateCode: CateCode) -> Observable<Data> {
         let parameters: Parameters = [
             "service" : "a848d37955ab4ade9eba0a398af255e2",
             "ststype" : "week",
-            "date" : dateToString(date: date),
+            "date" : dateToString(date: Date()),
             "catecode" : cateCode.cateCodeToString()
         ]
         return Observable.create { observer in

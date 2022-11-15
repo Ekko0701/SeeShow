@@ -14,9 +14,6 @@ import RxViewController
 import RxDataSources
 
 class MainViewController: UIViewController, TouchCellProtocol {
-    
-    
-    
     var collectionView: UICollectionView!
     var dataSource: RxCollectionViewSectionedReloadDataSource<MainSectionModel>!
     

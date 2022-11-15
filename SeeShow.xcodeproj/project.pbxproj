@@ -31,9 +31,25 @@
 		6A1D1DCD2910F7DA0087410A /* ViewBoxOffice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A1D1DCC2910F7DA0087410A /* ViewBoxOffice.swift */; };
 		6A2D7B962917A08600FFE52D /* DetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A2D7B952917A08600FFE52D /* DetailModel.swift */; };
 		6A2D7B982917A40F00FFE52D /* ViewDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A2D7B972917A40F00FFE52D /* ViewDetail.swift */; };
-		6A2D7B9A2918AE6800FFE52D /* DetailFetchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A2D7B992918AE6800FFE52D /* DetailFetchable.swift */; };
+		6A2D7B9A2918AE6800FFE52D /* DetailStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A2D7B992918AE6800FFE52D /* DetailStore.swift */; };
 		6A2D7B9D291AA3E200FFE52D /* DetailPosterDefaultStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A2D7B9C291AA3E200FFE52D /* DetailPosterDefaultStackView.swift */; };
 		6A2D7B9F291AB34900FFE52D /* KopisAPICommonCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A2D7B9E291AB34900FFE52D /* KopisAPICommonCode.swift */; };
+		6A6B7A16292323000088F029 /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6B7A15292323000088F029 /* CategoryViewModel.swift */; };
+		6A6B7A192923240A0088F029 /* AllPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6B7A182923240A0088F029 /* AllPageViewController.swift */; };
+		6A6B7A1B292324670088F029 /* TheaterPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6B7A1A292324670088F029 /* TheaterPageViewController.swift */; };
+		6A6B7A1D292324970088F029 /* MusicalPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6B7A1C292324970088F029 /* MusicalPageViewController.swift */; };
+		6A6B7A1F2923255E0088F029 /* OperaPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6B7A1E2923255E0088F029 /* OperaPageViewController.swift */; };
+		6A6B7A21292325720088F029 /* DancePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6B7A20292325720088F029 /* DancePageViewController.swift */; };
+		6A6B7A232923258A0088F029 /* KoreanMusicPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6B7A222923258A0088F029 /* KoreanMusicPageViewController.swift */; };
+		6A6B7A25292325A00088F029 /* ComplexityPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6B7A24292325A00088F029 /* ComplexityPageViewController.swift */; };
+		6A6B7A27292325B40088F029 /* KidsPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6B7A26292325B40088F029 /* KidsPageViewController.swift */; };
+		6A6B7A29292325C20088F029 /* OpenRunPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6B7A28292325C20088F029 /* OpenRunPageViewController.swift */; };
+		6A6B7A2B292326670088F029 /* ViewPagerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6B7A2A292326670088F029 /* ViewPagerCell.swift */; };
+		6A6B7A2D292367C80088F029 /* ClassicPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6B7A2C292367C80088F029 /* ClassicPageViewController.swift */; };
+		6A787D1A2921C39500442719 /* CategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A787D192921C39500442719 /* CategoryModel.swift */; };
+		6A787D242921C9CF00442719 /* ViewCategoryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A787D232921C9CF00442719 /* ViewCategoryData.swift */; };
+		6A787D2E29222CCC00442719 /* CategoryBOStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A787D2D29222CCC00442719 /* CategoryBOStore.swift */; };
+		6A787D3429223C1900442719 /* PageSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A787D3329223C1900442719 /* PageSectionModel.swift */; };
 		6A7BA28A291250D5004266E1 /* MainSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7BA289291250D5004266E1 /* MainSectionModel.swift */; };
 		6A7BA28D291289D4004266E1 /* KidsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7BA28C291289D4004266E1 /* KidsCell.swift */; };
 		6A7CF66D291BCBB4004C14CD /* TheaterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7CF66C291BCBB4004C14CD /* TheaterCell.swift */; };
@@ -112,9 +128,25 @@
 		6A1D1DCC2910F7DA0087410A /* ViewBoxOffice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewBoxOffice.swift; sourceTree = "<group>"; };
 		6A2D7B952917A08600FFE52D /* DetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailModel.swift; sourceTree = "<group>"; };
 		6A2D7B972917A40F00FFE52D /* ViewDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewDetail.swift; sourceTree = "<group>"; };
-		6A2D7B992918AE6800FFE52D /* DetailFetchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailFetchable.swift; sourceTree = "<group>"; };
+		6A2D7B992918AE6800FFE52D /* DetailStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailStore.swift; sourceTree = "<group>"; };
 		6A2D7B9C291AA3E200FFE52D /* DetailPosterDefaultStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPosterDefaultStackView.swift; sourceTree = "<group>"; };
 		6A2D7B9E291AB34900FFE52D /* KopisAPICommonCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KopisAPICommonCode.swift; sourceTree = "<group>"; };
+		6A6B7A15292323000088F029 /* CategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewModel.swift; sourceTree = "<group>"; };
+		6A6B7A182923240A0088F029 /* AllPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllPageViewController.swift; sourceTree = "<group>"; };
+		6A6B7A1A292324670088F029 /* TheaterPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheaterPageViewController.swift; sourceTree = "<group>"; };
+		6A6B7A1C292324970088F029 /* MusicalPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicalPageViewController.swift; sourceTree = "<group>"; };
+		6A6B7A1E2923255E0088F029 /* OperaPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperaPageViewController.swift; sourceTree = "<group>"; };
+		6A6B7A20292325720088F029 /* DancePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DancePageViewController.swift; sourceTree = "<group>"; };
+		6A6B7A222923258A0088F029 /* KoreanMusicPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KoreanMusicPageViewController.swift; sourceTree = "<group>"; };
+		6A6B7A24292325A00088F029 /* ComplexityPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplexityPageViewController.swift; sourceTree = "<group>"; };
+		6A6B7A26292325B40088F029 /* KidsPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KidsPageViewController.swift; sourceTree = "<group>"; };
+		6A6B7A28292325C20088F029 /* OpenRunPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenRunPageViewController.swift; sourceTree = "<group>"; };
+		6A6B7A2A292326670088F029 /* ViewPagerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewPagerCell.swift; sourceTree = "<group>"; };
+		6A6B7A2C292367C80088F029 /* ClassicPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassicPageViewController.swift; sourceTree = "<group>"; };
+		6A787D192921C39500442719 /* CategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryModel.swift; sourceTree = "<group>"; };
+		6A787D232921C9CF00442719 /* ViewCategoryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewCategoryData.swift; sourceTree = "<group>"; };
+		6A787D2D29222CCC00442719 /* CategoryBOStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryBOStore.swift; sourceTree = "<group>"; };
+		6A787D3329223C1900442719 /* PageSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageSectionModel.swift; sourceTree = "<group>"; };
 		6A7BA289291250D5004266E1 /* MainSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSectionModel.swift; sourceTree = "<group>"; };
 		6A7BA28C291289D4004266E1 /* KidsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KidsCell.swift; sourceTree = "<group>"; };
 		6A7CF66C291BCBB4004C14CD /* TheaterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheaterCell.swift; sourceTree = "<group>"; };
@@ -265,9 +297,9 @@
 				6A1D1DA62910A69D0087410A /* TabBarController.swift */,
 				6AC814EE2914CFBE00FCA392 /* ImagePlaceholderView.swift */,
 				6A1D1DA92910A6B40087410A /* MainView */,
+				6A2D7B9B291AA33E00FFE52D /* DetailView */,
 				6A1D1DAB2910A6E70087410A /* CategoryView */,
 				6A1D1DAA2910A6C10087410A /* MapView */,
-				6A2D7B9B291AA33E00FFE52D /* DetailView */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -293,6 +325,8 @@
 			isa = PBXGroup;
 			children = (
 				6A1D1DAE2910A7100087410A /* CategoryViewController.swift */,
+				6A6B7A2A292326670088F029 /* ViewPagerCell.swift */,
+				6A6B7A17292323EA0088F029 /* PageView */,
 			);
 			path = CategoryView;
 			sourceTree = "<group>";
@@ -300,8 +334,10 @@
 		6A1D1DB42910F1F50087410A /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				6A1D1DBF2910F6AD0087410A /* BoxOfficeModel.swift */,
 				6A1D1DD12911436D0087410A /* Main */,
 				6A2D7B942917A07400FFE52D /* Detail */,
+				6A787D182921C38000442719 /* Category */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -310,6 +346,7 @@
 			isa = PBXGroup;
 			children = (
 				6A1D1DCE2910F7EB0087410A /* Main */,
+				6A787D1B2921C40000442719 /* Category */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -366,7 +403,8 @@
 			isa = PBXGroup;
 			children = (
 				6A1D1DC82910F77C0087410A /* BoxOfficeStore.swift */,
-				6A2D7B992918AE6800FFE52D /* DetailFetchable.swift */,
+				6A2D7B992918AE6800FFE52D /* DetailStore.swift */,
+				6A787D2D29222CCC00442719 /* CategoryBOStore.swift */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -383,7 +421,6 @@
 		6A1D1DD12911436D0087410A /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				6A1D1DBF2910F6AD0087410A /* BoxOfficeModel.swift */,
 				6A1D1DCC2910F7DA0087410A /* ViewBoxOffice.swift */,
 				6A7BA289291250D5004266E1 /* MainSectionModel.swift */,
 			);
@@ -406,6 +443,57 @@
 				6A2D7B9C291AA3E200FFE52D /* DetailPosterDefaultStackView.swift */,
 			);
 			path = DetailView;
+			sourceTree = "<group>";
+		};
+		6A6B7A17292323EA0088F029 /* PageView */ = {
+			isa = PBXGroup;
+			children = (
+				6A6B7A182923240A0088F029 /* AllPageViewController.swift */,
+				6A6B7A1A292324670088F029 /* TheaterPageViewController.swift */,
+				6A6B7A1C292324970088F029 /* MusicalPageViewController.swift */,
+				6A6B7A2C292367C80088F029 /* ClassicPageViewController.swift */,
+				6A6B7A1E2923255E0088F029 /* OperaPageViewController.swift */,
+				6A6B7A20292325720088F029 /* DancePageViewController.swift */,
+				6A6B7A222923258A0088F029 /* KoreanMusicPageViewController.swift */,
+				6A6B7A24292325A00088F029 /* ComplexityPageViewController.swift */,
+				6A6B7A26292325B40088F029 /* KidsPageViewController.swift */,
+				6A6B7A28292325C20088F029 /* OpenRunPageViewController.swift */,
+			);
+			path = PageView;
+			sourceTree = "<group>";
+		};
+		6A787D182921C38000442719 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				6A787D192921C39500442719 /* CategoryModel.swift */,
+				6A787D3129223B9300442719 /* Page */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
+		6A787D1B2921C40000442719 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				6A6B7A15292323000088F029 /* CategoryViewModel.swift */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
+		6A787D3129223B9300442719 /* Page */ = {
+			isa = PBXGroup;
+			children = (
+				6A787D232921C9CF00442719 /* ViewCategoryData.swift */,
+				6A787D3229223B9B00442719 /* DataSource */,
+			);
+			path = Page;
+			sourceTree = "<group>";
+		};
+		6A787D3229223B9B00442719 /* DataSource */ = {
+			isa = PBXGroup;
+			children = (
+				6A787D3329223C1900442719 /* PageSectionModel.swift */,
+			);
+			path = DataSource;
 			sourceTree = "<group>";
 		};
 		6A7BA28B2912899E004266E1 /* Kids */ = {
@@ -736,24 +824,33 @@
 				6A2D7B9F291AB34900FFE52D /* KopisAPICommonCode.swift in Sources */,
 				6AC815072914E68100FCA392 /* DetailViewController.swift in Sources */,
 				6AC814EF2914CFBE00FCA392 /* ImagePlaceholderView.swift in Sources */,
+				6A787D3429223C1900442719 /* PageSectionModel.swift in Sources */,
+				6A6B7A1B292324670088F029 /* TheaterPageViewController.swift in Sources */,
 				6A1D1DA72910A69D0087410A /* TabBarController.swift in Sources */,
 				6A7CF66F291BE9E7004C14CD /* MainCollectionViewCell.swift in Sources */,
 				6A1D1D772910A59B0087410A /* AppDelegate.swift in Sources */,
+				6A6B7A25292325A00088F029 /* ComplexityPageViewController.swift in Sources */,
 				6A7CF67D291BF8B3004C14CD /* UNIHeader.swift in Sources */,
 				6AC815032914E18400FCA392 /* UIViewController+Ext.swift in Sources */,
 				6AC814ED2914B1FD00FCA392 /* UIImageView+Ext.swift in Sources */,
-				6A2D7B9A2918AE6800FFE52D /* DetailFetchable.swift in Sources */,
+				6A2D7B9A2918AE6800FFE52D /* DetailStore.swift in Sources */,
+				6A787D1A2921C39500442719 /* CategoryModel.swift in Sources */,
 				6A7BA28D291289D4004266E1 /* KidsCell.swift in Sources */,
+				6A6B7A2B292326670088F029 /* ViewPagerCell.swift in Sources */,
 				6AC8150D291508BA00FCA392 /* DetailViewModel.swift in Sources */,
 				6AC815052914E19E00FCA392 /* UIView+Ext.swift in Sources */,
 				6A1D1DC02910F6AD0087410A /* BoxOfficeModel.swift in Sources */,
 				6A7CF67B291BF87A004C14CD /* TheaterHeader.swift in Sources */,
 				6A1D1DC92910F77C0087410A /* BoxOfficeStore.swift in Sources */,
+				6A6B7A21292325720088F029 /* DancePageViewController.swift in Sources */,
 				6A7CF677291BED1C004C14CD /* OpenRunCell.swift in Sources */,
 				6A1D1D792910A59B0087410A /* SceneDelegate.swift in Sources */,
+				6A6B7A232923258A0088F029 /* KoreanMusicPageViewController.swift in Sources */,
 				6A1D1DCD2910F7DA0087410A /* ViewBoxOffice.swift in Sources */,
 				6A1D1DBB2910F4650087410A /* BannerItemCell.swift in Sources */,
+				6A6B7A2D292367C80088F029 /* ClassicPageViewController.swift in Sources */,
 				6A7CF67F291BF8D5004C14CD /* OpenRunHeader.swift in Sources */,
+				6A787D242921C9CF00442719 /* ViewCategoryData.swift in Sources */,
 				6AC815012914E16500FCA392 /* UILabel+Ext.swift in Sources */,
 				6A1D1DCB2910F7B00087410A /* MainViewModel.swift in Sources */,
 				6A1D1DBE2910F47A0087410A /* CategoryCell.swift in Sources */,
@@ -762,12 +859,19 @@
 				6A1D1DC32910F6DA0087410A /* KopisAPIService.swift in Sources */,
 				6A2D7B982917A40F00FFE52D /* ViewDetail.swift in Sources */,
 				6A7CF66D291BCBB4004C14CD /* TheaterCell.swift in Sources */,
+				6A6B7A29292325C20088F029 /* OpenRunPageViewController.swift in Sources */,
 				6A2D7B962917A08600FFE52D /* DetailModel.swift in Sources */,
+				6A6B7A16292323000088F029 /* CategoryViewModel.swift in Sources */,
+				6A6B7A192923240A0088F029 /* AllPageViewController.swift in Sources */,
 				6A1D1DAD2910A7070087410A /* MainViewController.swift in Sources */,
 				6AC814FF2914E14100FCA392 /* UIFont+Ext.swift in Sources */,
+				6A787D2E29222CCC00442719 /* CategoryBOStore.swift in Sources */,
 				6A1D1DB12910A7190087410A /* MapViewController.swift in Sources */,
+				6A6B7A27292325B40088F029 /* KidsPageViewController.swift in Sources */,
+				6A6B7A1F2923255E0088F029 /* OperaPageViewController.swift in Sources */,
 				6A7CF679291BF82A004C14CD /* MainSectionHeader.swift in Sources */,
 				6A1D1DC62910F73E0087410A /* Constants.swift in Sources */,
+				6A6B7A1D292324970088F029 /* MusicalPageViewController.swift in Sources */,
 				6A7BA28A291250D5004266E1 /* MainSectionModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

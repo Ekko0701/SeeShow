@@ -24,7 +24,11 @@ protocol MainViewModelType {
     
     // OUTPUT
     var allBoxOffices: Observable<[ViewBoxOffice]> { get }
+    var pushTheaterBoxOffices: Observable<[ViewBoxOffice]> { get }
     var pushKidsBoxOffices: Observable<[ViewBoxOffice]> { get }
+    var pushUNIBoxOffices: Observable<[ViewBoxOffice]> { get }
+    var pushOpenRunBoxOffices: Observable<[ViewBoxOffice]> { get }
+    
     
     var section: [MainSectionModel] { get }
     
@@ -38,7 +42,7 @@ class MainViewModel: MainViewModelType {
     
     let disposeBag = DisposeBag()
 
-    // ----------------------------
+    // ---------------------------
     // INPUT
     //----------------------------
 

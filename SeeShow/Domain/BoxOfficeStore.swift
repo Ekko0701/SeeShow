@@ -24,6 +24,7 @@ class BoxOfficeStore: BoxOfficeFetchable {
         /// box office model = api에서 받아온 그대로를 파싱한것
         return KopisAPIService.fetchAllBoxOffice()
             .map { data -> [BoxOfficeModel] in
+                //let xml = XMLHash.parse(data)
                 let xml = XMLHash.parse(data)
                 do {
                     let parsedData: [BoxOfficeModel] = try xml["boxofs"]["boxof"].value()
@@ -101,4 +102,5 @@ class BoxOfficeStore: BoxOfficeFetchable {
             }
 
     }
+    
 }

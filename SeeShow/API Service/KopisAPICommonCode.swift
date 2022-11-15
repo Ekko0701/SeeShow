@@ -15,12 +15,14 @@ import Foundation
 /// CCCC : 국악
 /// EEEA : 복합
 enum CateCode {
-    case AAAA, AAAB, BBBA, CCCA, CCCB, CCCC, EEEA, KID, OPEN
+    case ALL, AAAA, AAAB, BBBA, CCCA, CCCB, CCCC, EEEA, KID, OPEN
 }
 
 extension CateCode {
     func cateCodeToString() -> String {
         switch self {
+        case .ALL:
+            return ""
         case .AAAA:
             return "AAAA"
         case .AAAB:
