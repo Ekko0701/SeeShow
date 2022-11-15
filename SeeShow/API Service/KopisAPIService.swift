@@ -138,7 +138,7 @@ class KopisAPIService {
         }
     }
     
-    static func fetchBoxOfficeWithCateCode(cateCode: CateCode) -> Observable<Data> {
+    static func fetchPageBoxOffice(cateCode: CateCode) -> Observable<Data> {
         let parameters: Parameters = [
             "service" : "a848d37955ab4ade9eba0a398af255e2",
             "ststype" : "week",
@@ -151,7 +151,7 @@ class KopisAPIService {
                     print("response")
                     switch response.result {
                     case .success(let data):
-                        print("sucess")
+                        print("님sucess")
                         observer.onNext(data)
                     case .failure(let error):
                         observer.onError(error)

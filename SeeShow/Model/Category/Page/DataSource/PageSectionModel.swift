@@ -11,7 +11,7 @@ import Differentiator
 import RxSwift
 
 struct PageData {
-    var data: Observable<ViewPageData>
+    var data: ViewPageData
 }
 
 struct PageSectionModel {

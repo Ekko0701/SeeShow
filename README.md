@@ -99,4 +99,13 @@
 - Banner Cell - AutoScroll, Paging 구현
 - Banner Cell Touch - protocol delegate를 이용해서 구현
 
+### 2022.11.15
+- CategoryView (PageView) 구성 시작
+- CategoryView ViewPager 추가
+- UIPageViewController와 ViewPager CollectionView 연결
+- CategoryView의 Page ViewModel 생성
+- Page의 tableView 데이터 바인딩
 
+- Problem & Todo
+    - Kingfisher를 사용해 이미지를 적용할때 사이즈를 조절해 각 셀의 포스터 이미지 비율과 크기를 동일하게 만들자.
+    - MainView에서 카테고리를 선택해 CategoryView로 이동하면 해당하는 카테고리로 이동하지만 ViewPager가 이동하지 않는다.

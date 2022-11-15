@@ -39,7 +39,7 @@ class CategoryViewModel: CategoryViewModelType {
         ]
         
         pageViewControllers = [
-            AllPageViewController(),
+            AllPageViewController(viewModel: PageViewModel(domain: PageBoxOfficeStore(cateCode: .ALL))),
             TheaterPageViewController(),
             MusicalPageViewController(),
             ClassicPageViewController(),

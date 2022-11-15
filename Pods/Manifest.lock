@@ -9,6 +9,9 @@ PODS:
     - Differentiator (~> 5.0)
     - RxCocoa (~> 6.0)
     - RxSwift (~> 6.0)
+  - RxGesture (4.0.4):
+    - RxCocoa (~> 6.0)
+    - RxSwift (~> 6.0)
   - RxRelay (6.5.0):
     - RxSwift (= 6.5.0)
   - RxSwift (6.5.0)
@@ -23,6 +26,7 @@ DEPENDENCIES:
   - Kingfisher (~> 7.0)
   - RxCocoa (= 6.5.0)
   - RxDataSources (~> 5.0)
+  - RxGesture
   - RxSwift (= 6.5.0)
   - RxViewController
   - SnapKit (~> 5.6.0)
@@ -35,6 +39,7 @@ SPEC REPOS:
     - Kingfisher
     - RxCocoa
     - RxDataSources
+    - RxGesture
     - RxRelay
     - RxSwift
     - RxViewController
@@ -47,12 +52,13 @@ SPEC CHECKSUMS:
   Kingfisher: cd762a593a61b2fbecf7645c00f9a801a3ebfc9c
   RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
   RxDataSources: aa47cc1ed6c500fa0dfecac5c979b723542d79cf
+  RxGesture: f3efb47ed2d26a8082f7b660d4a59970e275a7f8
   RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
   RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
   RxViewController: 56486fa0afd629a1d6b5ba077f3b8cd9dc31b5d2
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   SWXMLHash: cf8682ebf12f124e77554d6a5f9170830626d99e
 
-PODFILE CHECKSUM: 8fb02f964484d99ccf8832ad92037c0c870829c4
+PODFILE CHECKSUM: 335536b8e3e3328e657af8129422d408be7a8ae5
 
 COCOAPODS: 1.11.3

@@ -9,13 +9,13 @@ import Foundation
 import RxSwift
 import SWXMLHash
 
-protocol CategoryBoxOfficeFetchable {
+protocol PageBoxOfficeFetchable {
     var cateCode: CateCode { get set }
     
-    func fetchCateCodeBoxOffice() -> Observable<[BoxOfficeModel]>
+    func fetchPageBoxOffice() -> Observable<[BoxOfficeModel]>
 }
 
-class CategoryBOStore: CategoryBoxOfficeFetchable {
+class PageBoxOfficeStore: PageBoxOfficeFetchable {
     //MARK: - 테스트 진행중...
     
     var cateCode: CateCode = .ALL
@@ -24,17 +24,14 @@ class CategoryBOStore: CategoryBoxOfficeFetchable {
         self.cateCode = cateCode
     }
     
-    func fetchCateCodeBoxOffice() -> Observable<[BoxOfficeModel]> {
-        return KopisAPIService.fetchBoxOfficeWithCateCode(cateCode: cateCode)
+    func fetchPageBoxOffice() -> Observable<[BoxOfficeModel]> {
+        return KopisAPIService.fetchPageBoxOffice(cateCode: cateCode)
             .map { data -> [BoxOfficeModel] in
                 let xml = XMLHash.parse(data)
                 do {
                     let parsedData: [BoxOfficeModel] = try xml["boxofs"]["boxof"].value()
 
-                    let min = min(parsedData.count, 10)
-                    let sliceData = parsedData[0..<min] // 최대 10개로 제한
-
-                    return Array(sliceData)
+                    return parsedData
                 }
             }
 

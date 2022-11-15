@@ -14,6 +14,7 @@ target 'SeeShow' do
   pod 'RxCocoa', '6.5.0'
   pod 'RxViewController'
   pod 'RxDataSources', '~> 5.0'
+  pod "RxGesture"
 
   target 'SeeShowTests' do
     inherit! :search_paths

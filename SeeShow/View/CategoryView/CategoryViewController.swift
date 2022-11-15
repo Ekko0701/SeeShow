@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 import SnapKit
 import RxSwift
+import RxGesture
 
 class CategoryViewController: UIViewController {
     let disposeBag = DisposeBag()
@@ -26,8 +27,8 @@ class CategoryViewController: UIViewController {
     /// PageViewController
     var pageViewController: UIPageViewController = {
         let pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
-         
-         return pageViewController
+        
+        return pageViewController
     }()
     
     /// 현재 페이지
@@ -42,10 +43,11 @@ class CategoryViewController: UIViewController {
         print("MapViewController - viewDidLoad()")
         view.backgroundColor = .systemGreen
         
-        configurePageView()
+        configurePageView(index: currentPage)
         configurePagerCollection()
         configureLayout()
-        configureFirstPage(item: 0)
+        configureFirstPage(item: currentPage)
+//        viewPagerCollectionView.scrollToItem(at: IndexPath(row: currentPage, section: 0), at: .centeredVertically, animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -99,13 +101,18 @@ class CategoryViewController: UIViewController {
     
     /// PageViewController 설정
     #warning("TODO : - 첫번째 페이지 수정해야함 ")
-    private func configurePageView() {
+    private func configurePageView(index: Int) {
         pageViewController.delegate = self
         pageViewController.dataSource = self
         
-        if let firstVC = viewModel.pageViewControllers.first {
-            pageViewController.setViewControllers([firstVC], direction: .forward, animated: true, completion: nil)
-        }
+//        if let firstVC = viewModel.pageViewControllers.first {
+//            pageViewController.setViewControllers([firstVC], direction: .forward, animated: true, completion: nil)
+//        }
+//        if let firstVC = viewModel.pageViewControllers[index] {
+//            pageViewController.setViewControllers([firstVC], direction: .forward, animated: true, completion: nil)
+//        }
+        let firstVC = viewModel.pageViewControllers[index]
+        pageViewController.setViewControllers([firstVC], direction: .forward, animated: true, completion: nil)
     }
     
     private func bind(oldValue: Int, newValue: Int) {
@@ -131,6 +138,14 @@ extension CategoryViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ViewPagerCell.identifier, for: indexPath) as? ViewPagerCell else { return UICollectionViewCell() }
         cell.configure(data: viewModel.categories[indexPath.row])
+        
+        // collection View Touch 구현
+        cell.touchingView.rx.tapGesture(configuration: .none)
+            .when(.recognized)
+            .asDriver { _ in .never() }
+            .drive(onNext: { [weak self] _ in
+                self?.didTapCell(at: indexPath)
+            }).disposed(by: cell.disposeBag)
         
         return cell
     }
