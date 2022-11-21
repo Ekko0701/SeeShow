@@ -63,15 +63,18 @@ class TheaterCell: UICollectionViewCell {
         
         // Configure Constraints
         image.snp.makeConstraints { make in
-            make.top.equalToSuperview()
+            //make.top.equalToSuperview()
             make.leading.trailing.equalToSuperview()
+            make.bottom.equalTo(title.snp.top).offset(8)
 
             make.width.equalToSuperview()
             make.height.equalTo(image.snp.width).multipliedBy(1.35)
         }
         
         title.snp.makeConstraints { make in
-            make.top.equalTo(image.snp.bottom).offset(8)
+            
+            //make.top.equalTo(image.snp.bottom).offset(8)
+            make.bottom.equalToSuperview().offset(8)
             make.leading.trailing.equalToSuperview()
         }
     }
