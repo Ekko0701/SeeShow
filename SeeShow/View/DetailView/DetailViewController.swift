@@ -17,6 +17,8 @@ class DetailViewController: UIViewController {
     let disposeBag = DisposeBag()
     var viewModel: DetailViewModelType
     
+    var navigationBar = DetailNavigationBar()
+    
     init(viewModel: DetailViewModelType = DetailViewModel()) {
         self.viewModel = viewModel
 
@@ -38,7 +40,8 @@ class DetailViewController: UIViewController {
     /// 포스터 이미지 poster
     let posterImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "test1")
+        //imageView.image = UIImage(named: "test1")
+        imageView.image = UIImage(systemName: "house")
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
@@ -212,29 +215,26 @@ class DetailViewController: UIViewController {
         view.backgroundColor = .white
         self.navigationController?.isNavigationBarHidden = false
         
-        configureTest()
+        configure()
         configureLayout()
         setupBindings()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         print("DetailViewController - viewWillAppear")
+        configureNavBar()
     }
     
-    func configureTest() {
+    private func configureNavBar() {
+        self.navigationController?.navigationBar.isHidden = true
+        navigationBar.navigationHeight = 60
+        navigationBar.delegate = self
+    }
+    
+    func configure() {
         let url = URL(string: "http://www.kopis.or.kr/upload/pfmPoster/PF_PF198309_220919_094321.gif")
         posterImage.kf.indicatorType = .activity
         posterImage.kf.setImage(with: url)
-        
-        //        let detailPosterURL = URL(string: "http://www.kopis.or.kr/upload/pfmIntroImage/PF_PF198309_220919_0943210.jpg")
-        //        detailPosterImage.kf.indicatorType = .activity
-        ////        detailPosterImage.kf.setImage(with: detailPosterURL, options: [.scaleFactor(UIScreen.main.scale)])
-        //        detailPosterImage.kf.setImage(with: detailPosterURL,options: [],progressBlock: {receivedSize, totalSize in
-        //            print(" progressBlock = \(receivedSize) / \(totalSize)")
-        //        },
-        //        completionHandler: { result in
-        //            print("결과 \(result)")
-        //        })
         
         if let thumbnailURL = URL(string: "http://www.kopis.or.kr/upload/pfmIntroImage/PF_PF198309_220919_0943210.jpg") {
             KingfisherManager.shared.retrieveImage(with: thumbnailURL, completionHandler: { result in
@@ -267,6 +267,7 @@ class DetailViewController: UIViewController {
         // Add Subview
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
+        view.addSubview(navigationBar)
         
         // Add SubView to ContentView
         contentView.addSubview(posterImage)
@@ -294,13 +295,15 @@ class DetailViewController: UIViewController {
         secondStack.addArrangedSubview(playtimeLabel)
         secondStack.addArrangedSubview(playtime)
         
-        // 3. Add Subview to Detail
-        //MARK: - !!!!!!! 주의 !!!!!!!!! 테스트중
-        //detailPosterStack.addArrangedSubview(detailPosterImage)
-        
         // Autolayout
+        navigationBar.snp.makeConstraints { make in
+            make.top.leading.trailing.equalToSuperview()
+            make.bottom.equalTo(navigationBar.containerView)
+        }
+        
         scrollView.snp.makeConstraints { make in
-            make.top.bottom.leading.trailing.equalToSuperview()
+            make.top.equalTo(navigationBar)
+            make.bottom.leading.trailing.equalToSuperview()
         }
         
         contentView.snp.makeConstraints { make in
@@ -406,10 +409,10 @@ class DetailViewController: UIViewController {
                                 
                                 self?.detailPosterImage.image = resized
                                
-                                #warning("TODO : - self! 생각해보기..  순환참조 공부 필요 ")
+                                //#warning("TODO : - self! 생각해보기..  순환참조 공부 필요 ")
                                 self?.detailPosterStack.addArrangedSubview(self!.detailPosterImage)
                             case .failure(let error):
-                                #warning("TODO : - viewModel error로 보내는 방법 ? ")
+                                //#warning("TODO : - viewModel error로 보내는 방법 ? ")
                                 print(error.localizedDescription)
                             }
                             
@@ -421,6 +424,18 @@ class DetailViewController: UIViewController {
                 }
             }).disposed(by: disposeBag)
     }
+}
+
+extension DetailViewController: DetailNavigationBarProtocol {
+    func touchBackButton() {
+        print("backward")
+    }
+    
+    func touchHomeButton() {
+        print("homebutton")
+    }
+    
+    
 }
 
 //MARK: - Preview

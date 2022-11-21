@@ -167,9 +167,9 @@ class MainViewModel: MainViewModelType {
         
                 
         // Section, SectionItems
-        var bannerSectionItemArr: [SectionItem] = [ .BannerSectionItem(allBoxOffices) ]
+        let bannerSectionItemArr: [SectionItem] = [ .BannerSectionItem(allBoxOffices) ]
                 
-        var theaterSectionItemsArr: [SectionItem] = [.TheaterSectionItem(pushTheaterBoxOffices.map { $0[0] }),
+        let theaterSectionItemsArr: [SectionItem] = [.TheaterSectionItem(pushTheaterBoxOffices.map { $0[0] }),
                                                      .TheaterSectionItem(pushTheaterBoxOffices.map { $0[1] }),
                                                      .TheaterSectionItem(pushTheaterBoxOffices.map { $0[2] }),
                                                      .TheaterSectionItem(pushTheaterBoxOffices.map { $0[3] }),
@@ -180,7 +180,7 @@ class MainViewModel: MainViewModelType {
                                                      .TheaterSectionItem(pushTheaterBoxOffices.map { $0[8] }),
                                                      .TheaterSectionItem(pushTheaterBoxOffices.map { $0[9] }),]
                 
-        var uniSectionItemArr: [SectionItem] = [.UNISectionItem(pushUNIBoxOffices.map { $0[0] }),
+        let uniSectionItemArr: [SectionItem] = [.UNISectionItem(pushUNIBoxOffices.map { $0[0] }),
                                                 .UNISectionItem(pushUNIBoxOffices.map { $0[1] }),
                                                 .UNISectionItem(pushUNIBoxOffices.map { $0[2] }),
                                                 .UNISectionItem(pushUNIBoxOffices.map { $0[3] }),
@@ -191,7 +191,7 @@ class MainViewModel: MainViewModelType {
                                                 .UNISectionItem(pushUNIBoxOffices.map { $0[8] }),
                                                 .UNISectionItem(pushUNIBoxOffices.map { $0[9] }),]
                 
-        var openrunSectionItemArr: [SectionItem] = [.OpenRunSectionItem(pushOpenRunBoxOffices.map { $0[0] }),
+        let openrunSectionItemArr: [SectionItem] = [.OpenRunSectionItem(pushOpenRunBoxOffices.map { $0[0] }),
                                                     .OpenRunSectionItem(pushOpenRunBoxOffices.map { $0[1] }),
                                                     .OpenRunSectionItem(pushOpenRunBoxOffices.map { $0[2] }),
                                                     .OpenRunSectionItem(pushOpenRunBoxOffices.map { $0[3] }),
@@ -202,7 +202,7 @@ class MainViewModel: MainViewModelType {
                                                     .OpenRunSectionItem(pushOpenRunBoxOffices.map { $0[8] }),
                                                     .OpenRunSectionItem(pushOpenRunBoxOffices.map { $0[9] }),]
         
-                var kidsSectionItemArr: [SectionItem] = [.KidsSectionItem(pushKidsBoxOffices.map{ $0[0] }),
+        let kidsSectionItemArr: [SectionItem] = [.KidsSectionItem(pushKidsBoxOffices.map{ $0[0] }),
                                                          .KidsSectionItem(pushKidsBoxOffices.map{ $0[1] }),
                                                          .KidsSectionItem(pushKidsBoxOffices.map{ $0[2] }),
                                                          .KidsSectionItem(pushKidsBoxOffices.map{ $0[3] }),

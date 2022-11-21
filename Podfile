@@ -14,7 +14,9 @@ target 'SeeShow' do
   pod 'RxCocoa', '6.5.0'
   pod 'RxViewController'
   pod 'RxDataSources', '~> 5.0'
-  pod "RxGesture"
+  pod 'RxGesture'
+  pod 'NMapsMap'
+  pod 'ChameleonFramework/Swift', :git => 'https://github.com/wowansm/Chameleon', :branch => 'swift5'
 
   target 'SeeShowTests' do
     inherit! :search_paths

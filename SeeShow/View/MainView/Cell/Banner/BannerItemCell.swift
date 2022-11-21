@@ -49,7 +49,7 @@ class BannerItemCell: UICollectionViewCell {
         onData = data.asObserver()
         
         super.init(frame: frame)
-        
+        self.backgroundColor = .backgroundWhite
         configureLayout()
         
         // data가 변하면 동작
@@ -57,7 +57,7 @@ class BannerItemCell: UICollectionViewCell {
             .subscribe(onNext: { [weak self] boxoffice in
                 //self?.bannerImage.image = UIImage(systemName: "house")
                 let url = URL(string: boxoffice.poster)
-                let processor = RoundCornerImageProcessor(cornerRadius: 8)
+                let processor = RoundCornerImageProcessor(cornerRadius: 4)
                 self?.bannerImage.kf.indicatorType = .activity
                 self?.bannerImage.kf.setImage(with: url,
                                               placeholder: ImagePlaceholderView(),

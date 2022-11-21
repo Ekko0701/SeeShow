@@ -24,12 +24,11 @@ class TheaterHeader: UICollectionReusableView {
         addSubview(sectionTitle)
         
         //sectionTitle.text = "HEADER"
-        sectionTitle.applyNoToSansKR(text: "위클리 연극 베스트", style: .bold, size: 20, color: .black)
+        sectionTitle.applyNoToSansKR(text: "이번주 연극 TOP 10", style: .bold, size: 17, color: .black)
         
         sectionTitle.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(8)
-            make.top.equalToSuperview()
-            make.bottom.equalToSuperview().offset(-8)
+            make.centerY.equalToSuperview()
         }
     }
     

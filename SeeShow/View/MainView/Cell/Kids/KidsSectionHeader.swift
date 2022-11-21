@@ -24,12 +24,11 @@ class KidsSectionHeader: UICollectionReusableView {
         addSubview(sectionTitle)
         
         //sectionTitle.text = "HEADER"
-        sectionTitle.applyNoToSansKR(text: "위클리 Kids 베스트", style: .bold, size: 20, color: .black)
+        sectionTitle.applyNoToSansKR(text: "어린이 공연 베스트", style: .bold, size: 17, color: .black)
         
         sectionTitle.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(8)
-            make.top.equalToSuperview()
-            make.bottom.equalToSuperview().offset(-8)
+            make.centerY.equalToSuperview()
         }
     }
     

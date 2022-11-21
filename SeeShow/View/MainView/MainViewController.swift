@@ -12,16 +12,25 @@ import RxSwift
 import RxCocoa
 import RxViewController
 import RxDataSources
+import ChameleonFramework
 
 class MainViewController: UIViewController, TouchCellProtocol {
     var collectionView: UICollectionView!
     var dataSource: RxCollectionViewSectionedReloadDataSource<MainSectionModel>!
     
+    var navigationBar = MainNavigationBar()
+    
     private var loadingView: UIView = {
         let view = UIView()
-        view.backgroundColor = .blue
+        view.backgroundColor = .systemBlue
         view.alpha = 1
         
+        return view
+    }()
+    
+    private var topBackGroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .backgroundWhite
         return view
     }()
     
@@ -34,20 +43,40 @@ class MainViewController: UIViewController, TouchCellProtocol {
         
         configureCollectionView()
         configureLayout()
+        configureStyle()
         
         setupBindings()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.isNavigationBarHidden = true
+        configureNavBar()
+    }
+    
+    /// NavigationBar 설정
+    private func configureNavBar() {
+        
+        // 기존 NavigationBar 숨김
+        self.navigationController?.navigationBar.isHidden = true
+        navigationBar.navigationHeight = 60
+        
+        navigationBar.delegate = self
+    }
+    
+    /// View Style 설정
+    private func configureStyle() {
+        view.backgroundColor = .backgroundWhite
+        //view.backgroundColor = .backgroundGray
     }
     
     /// CollectionView 설정
     private func configureCollectionView() {
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: createCompositionalLayout())
+        let layout = createCompositionalLayout()
+        layout.register(CategoryDecorationView.self, forDecorationViewOfKind: "CategoryDecorationView")
         
-        collectionView.backgroundColor = .white
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        
+        collectionView.backgroundColor = .backgroundGray
+        
         collectionView.dataSource = nil
         
         // Register Cell
@@ -83,7 +112,7 @@ class MainViewController: UIViewController, TouchCellProtocol {
 
                 // Group
                 let pageWidth = self.collectionView.bounds.width - sectionMargin * 2
-                let layoutGroupSize = NSCollectionLayoutSize(widthDimension: .absolute(CGFloat(pageWidth)), heightDimension: .estimated(CGFloat(pageWidth) * 1))
+                let layoutGroupSize = NSCollectionLayoutSize(widthDimension: .absolute(CGFloat(pageWidth)), heightDimension: .estimated(CGFloat(pageWidth) * 1.3))
                 
                 let layoutGroup = NSCollectionLayoutGroup.horizontal(layoutSize: layoutGroupSize, subitems: [layoutItem])
                 
@@ -110,9 +139,15 @@ class MainViewController: UIViewController, TouchCellProtocol {
                 
                 // section
                 let section = NSCollectionLayoutSection(group: group)
+                section.contentInsets.top = 16
                 section.contentInsets.leading = 16
                 section.contentInsets.trailing = 16
                 section.contentInsets.bottom = 16
+                
+                // DecorationView
+                let decorationView = NSCollectionLayoutDecorationItem.background(elementKind: "CategoryDecorationView")
+                decorationView.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
+                section.decorationItems = [decorationView]
                 
                 return section
                 
@@ -120,7 +155,7 @@ class MainViewController: UIViewController, TouchCellProtocol {
             // Theater Section
             else if sectionNumber == 2 {
 
-                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1)))
+                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1.6)))
                 item.contentInsets = .init(top: 0, leading: 5, bottom: 0, trailing: 5)
 
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(0.4), heightDimension:  .fractionalWidth(0.7)), subitems: [item])
@@ -141,13 +176,19 @@ class MainViewController: UIViewController, TouchCellProtocol {
                 section.boundarySupplementaryItems = [
                     header
                 ]
+                
+                // DecorationView
+                let decorationView = NSCollectionLayoutDecorationItem.background(elementKind: "CategoryDecorationView")
+                decorationView.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 8, trailing: 0)
+                
+                section.decorationItems = [decorationView]
 
                 return section
                 
             }
             // UNI Section
             else if sectionNumber == 3 {
-                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1)))
+                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1.6)))
                 item.contentInsets = .init(top: 0, leading: 5, bottom: 0, trailing: 5)
 
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(0.4), heightDimension:  .fractionalWidth(0.7)), subitems: [item])
@@ -169,12 +210,17 @@ class MainViewController: UIViewController, TouchCellProtocol {
                     header
                 ]
 
-                return section
+                // DecorationView
+                let decorationView = NSCollectionLayoutDecorationItem.background(elementKind: "CategoryDecorationView")
+                decorationView.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 8, trailing: 0)
                 
+                section.decorationItems = [decorationView]
+                
+                return section
             }
             // OPENRun Section
             else if sectionNumber == 4 {
-                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1)))
+                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1.6)))
                 item.contentInsets = .init(top: 0, leading: 5, bottom: 0, trailing: 5)
 
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(0.4), heightDimension:  .fractionalWidth(0.7)), subitems: [item])
@@ -196,11 +242,16 @@ class MainViewController: UIViewController, TouchCellProtocol {
                     header
                 ]
 
+                // DecorationView
+                let decorationView = NSCollectionLayoutDecorationItem.background(elementKind: "CategoryDecorationView")
+                decorationView.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 8, trailing: 0)
+                
+                section.decorationItems = [decorationView]
                 return section
             }
             // Kids Section
             else {
-                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1)))
+                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalWidth(1.6)))
                 item.contentInsets = .init(top: 0, leading: 5, bottom: 0, trailing: 5)
 
                 let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(0.4), heightDimension:  .fractionalWidth(0.7)), subitems: [item])
@@ -222,6 +273,12 @@ class MainViewController: UIViewController, TouchCellProtocol {
                     header
                 ]
 
+                // DecorationView
+                let decorationView = NSCollectionLayoutDecorationItem.background(elementKind: "CategoryDecorationView")
+                decorationView.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 16, trailing: 0)
+                
+                section.decorationItems = [decorationView]
+                
                 return section
             }
         }
@@ -230,12 +287,20 @@ class MainViewController: UIViewController, TouchCellProtocol {
     /// 레이아웃 설정
     private func configureLayout() {
         // Add Subviews
+        
         view.addSubview(collectionView)
+        view.addSubview(navigationBar)
         view.addSubview(loadingView)
         
         // AutoLayout
+        navigationBar.snp.makeConstraints { make in
+            make.top.leading.trailing.equalToSuperview()
+            make.bottom.equalTo(navigationBar.containerView)
+        }
+        
         collectionView.snp.makeConstraints{make in
-            make.top.leading.trailing.bottom.equalToSuperview()
+            make.top.equalTo(navigationBar.snp.bottom)
+            make.leading.trailing.bottom.equalToSuperview()
         }
         
         loadingView.snp.makeConstraints { make in
@@ -395,6 +460,14 @@ class MainViewController: UIViewController, TouchCellProtocol {
     }
 }
 
+extension MainViewController: MainNavigationBarProtocol {
+    func touchRightButton() {
+        print("네비게이션바 터치")
+    }
+    
+    
+}
+
 //MARK: - Preview
 
 #if DEBUG
@@ -408,4 +481,5 @@ struct MainViewController_Previews: PreviewProvider {
 /// option + command +enter -> 접었다 폈다
 /// option + command + p -> 미리보기 실행
 #endif
+
 

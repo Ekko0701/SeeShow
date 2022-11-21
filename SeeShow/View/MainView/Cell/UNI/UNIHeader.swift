@@ -24,12 +24,11 @@ class UNIHeader: UICollectionReusableView {
         addSubview(sectionTitle)
         
         //sectionTitle.text = "HEADER"
-        sectionTitle.applyNoToSansKR(text: "대학로 베스트", style: .bold, size: 20, color: .black)
+        sectionTitle.applyNoToSansKR(text: "지금 대학로에서", style: .bold, size: 17, color: .black)
         
         sectionTitle.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(8)
-            make.top.equalToSuperview()
-            make.bottom.equalToSuperview().offset(-8)
+            make.centerY.equalToSuperview()
         }
     }
     

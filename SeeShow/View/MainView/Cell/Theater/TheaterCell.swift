@@ -19,7 +19,7 @@ class TheaterCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
-        imageView.layer.cornerRadius = 16
+        imageView.layer.cornerRadius = 4
         
         return imageView
     }()
@@ -44,7 +44,6 @@ class TheaterCell: UICollectionViewCell {
         
         configureLayout()
         configureStyle()
-        
     }
     
     required init?(coder: NSCoder) {
@@ -63,9 +62,9 @@ class TheaterCell: UICollectionViewCell {
         
         // Configure Constraints
         image.snp.makeConstraints { make in
-            //make.top.equalToSuperview()
+            make.top.equalToSuperview()
             make.leading.trailing.equalToSuperview()
-            make.bottom.equalTo(title.snp.top).offset(8)
+            //make.bottom.equalTo(title.snp.top).offset(8)
 
             make.width.equalToSuperview()
             make.height.equalTo(image.snp.width).multipliedBy(1.35)
@@ -73,8 +72,8 @@ class TheaterCell: UICollectionViewCell {
         
         title.snp.makeConstraints { make in
             
-            //make.top.equalTo(image.snp.bottom).offset(8)
-            make.bottom.equalToSuperview().offset(8)
+            make.top.equalTo(image.snp.bottom).offset(8)
+            //make.bottom.equalToSuperview().offset(8)
             make.leading.trailing.equalToSuperview()
         }
     }
@@ -88,7 +87,7 @@ class TheaterCell: UICollectionViewCell {
             .subscribe(onNext: { [weak self] boxoffice in
                 
                 let url = URL(string: boxoffice.poster)
-                let processor = RoundCornerImageProcessor(cornerRadius: 16)
+                let processor = RoundCornerImageProcessor(cornerRadius: 4)
                 self?.image.kf.indicatorType = .activity
                 self?.image.kf.setImage(with: url,
                                         placeholder: ImagePlaceholderView(),

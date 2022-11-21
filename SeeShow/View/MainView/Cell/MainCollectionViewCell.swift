@@ -18,7 +18,7 @@ class MainCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
-        imageView.layer.cornerRadius = 16
+        imageView.layer.cornerRadius = 4
         
         return imageView
     }()
@@ -83,7 +83,7 @@ class MainCollectionViewCell: UICollectionViewCell {
         data.observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] boxoffice in
                 let url = URL(string: boxoffice.poster)
-                let processor = RoundCornerImageProcessor(cornerRadius: 16)
+                let processor = RoundCornerImageProcessor(cornerRadius: 4)
                 self?.image.kf.indicatorType = .activity
                 self?.image.kf.setImage(with: url,
                                         placeholder: ImagePlaceholderView(),
