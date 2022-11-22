@@ -17,7 +17,7 @@ protocol DetailNavigationBarProtocol {
 class DetailNavigationBar: UIView {
     var delegate: DetailNavigationBarProtocol?
     
-    var navigationHeight: CGFloat = 60 {
+    var navigationHeight: CGFloat = 45 {
         willSet {
             self.containerView.snp.updateConstraints { make in
                 make.height.equalTo(newValue)
@@ -27,14 +27,22 @@ class DetailNavigationBar: UIView {
     
     let containerView: UIView = {
         let view = UIView()
+        view.backgroundColor = .backgroundWhite.withAlphaComponent(0)
+        
+        return view
+    }()
+    
+    let backgroundView: UIView = {
+        let view = UIView()
         view.backgroundColor = .backgroundWhite
+        view.alpha = 0
         
         return view
     }()
     
     let leftItem: UIButton = {
         let button = UIButton()
-        let itemConfiguration = UIImage.SymbolConfiguration(pointSize: 24, weight: .bold)
+        let itemConfiguration = UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)
         let backwardImage = UIImage(systemName: "chevron.backward", withConfiguration: itemConfiguration)
         
         button.setImage(backwardImage, for: .normal)
@@ -47,7 +55,7 @@ class DetailNavigationBar: UIView {
     
     let rightItem: UIButton = {
         let button = UIButton()
-        let itemConfiguration = UIImage.SymbolConfiguration(pointSize: 24, weight: .bold)
+        let itemConfiguration = UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)
         let backwardImage = UIImage(systemName: "house", withConfiguration: itemConfiguration)
         
         button.setImage(backwardImage, for: .normal)
@@ -73,6 +81,7 @@ extension DetailNavigationBar {
         // Add Subview
         self.addSubview(containerView)
         
+        containerView.addSubview(backgroundView)
         containerView.addSubview(leftItem)
         containerView.addSubview(rightItem)
         
@@ -82,15 +91,19 @@ extension DetailNavigationBar {
             make.height.equalTo(60)
         }
         
+        backgroundView.snp.makeConstraints { make in
+            make.edges.equalTo(containerView)
+        }
+        
         leftItem.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.top.equalToSuperview().offset(8)
+            //make.top.equalToSuperview().offset(0)
             make.leading.equalToSuperview().offset(16)
         }
         
         rightItem.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.top.equalToSuperview().offset(8)
+            //make.top.equalToSuperview().offset(0)
             make.trailing.equalToSuperview().offset(-16)
         }
     }

@@ -37,7 +37,7 @@ class BannerCell: UICollectionViewCell {
     
     var itemCount: Int = 1
     
-    let disposeBag = DisposeBag()
+    var disposeBag = DisposeBag()
     
     var titleLabel: UILabel = {
         let label = UILabel()
@@ -87,6 +87,10 @@ class BannerCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        disposeBag = DisposeBag()
     }
     private func configureStyle() {
         boxView.layer.maskedCorners = [ .layerMaxXMaxYCorner, .layerMinXMaxYCorner]

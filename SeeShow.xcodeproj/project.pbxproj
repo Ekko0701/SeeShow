@@ -64,6 +64,8 @@
 		6A7CF67B291BF87A004C14CD /* TheaterHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7CF67A291BF87A004C14CD /* TheaterHeader.swift */; };
 		6A7CF67D291BF8B3004C14CD /* UNIHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7CF67C291BF8B3004C14CD /* UNIHeader.swift */; };
 		6A7CF67F291BF8D5004C14CD /* OpenRunHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7CF67E291BF8D5004C14CD /* OpenRunHeader.swift */; };
+		6A8C11C2292CBC0000396491 /* CALayer+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8C11C1292CBC0000396491 /* CALayer+Ext.swift */; };
+		6A8C11C4292D3FC500396491 /* DefaultDetailPosterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A8C11C3292D3FC500396491 /* DefaultDetailPosterView.swift */; };
 		6AC814EA29137E1F00FCA392 /* KidsSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC814E929137E1F00FCA392 /* KidsSectionHeader.swift */; };
 		6AC814ED2914B1FD00FCA392 /* UIImageView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC814EC2914B1FD00FCA392 /* UIImageView+Ext.swift */; };
 		6AC814EF2914CFBE00FCA392 /* ImagePlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC814EE2914CFBE00FCA392 /* ImagePlaceholderView.swift */; };
@@ -167,6 +169,8 @@
 		6A7CF67A291BF87A004C14CD /* TheaterHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheaterHeader.swift; sourceTree = "<group>"; };
 		6A7CF67C291BF8B3004C14CD /* UNIHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UNIHeader.swift; sourceTree = "<group>"; };
 		6A7CF67E291BF8D5004C14CD /* OpenRunHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenRunHeader.swift; sourceTree = "<group>"; };
+		6A8C11C1292CBC0000396491 /* CALayer+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Ext.swift"; sourceTree = "<group>"; };
+		6A8C11C3292D3FC500396491 /* DefaultDetailPosterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultDetailPosterView.swift; sourceTree = "<group>"; };
 		6AC814E929137E1F00FCA392 /* KidsSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KidsSectionHeader.swift; sourceTree = "<group>"; };
 		6AC814EC2914B1FD00FCA392 /* UIImageView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Ext.swift"; sourceTree = "<group>"; };
 		6AC814EE2914CFBE00FCA392 /* ImagePlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePlaceholderView.swift; sourceTree = "<group>"; };
@@ -456,6 +460,7 @@
 				6A409410292BA38900752691 /* DetailNavigationBar.swift */,
 				6AC815062914E68100FCA392 /* DetailViewController.swift */,
 				6A2D7B9C291AA3E200FFE52D /* DetailPosterDefaultStackView.swift */,
+				6A8C11C3292D3FC500396491 /* DefaultDetailPosterView.swift */,
 			);
 			path = DetailView;
 			sourceTree = "<group>";
@@ -558,6 +563,7 @@
 				6AC814FE2914E14100FCA392 /* UIFont+Ext.swift */,
 				6AC815002914E16500FCA392 /* UILabel+Ext.swift */,
 				6A40940C292AFDD300752691 /* UIColor+Ext.swift */,
+				6A8C11C1292CBC0000396491 /* CALayer+Ext.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -856,6 +862,7 @@
 				6A2D7B9D291AA3E200FFE52D /* DetailPosterDefaultStackView.swift in Sources */,
 				6AC814EA29137E1F00FCA392 /* KidsSectionHeader.swift in Sources */,
 				6A2D7B9F291AB34900FFE52D /* KopisAPICommonCode.swift in Sources */,
+				6A8C11C4292D3FC500396491 /* DefaultDetailPosterView.swift in Sources */,
 				6AC815072914E68100FCA392 /* DetailViewController.swift in Sources */,
 				6AC814EF2914CFBE00FCA392 /* ImagePlaceholderView.swift in Sources */,
 				6A787D3429223C1900442719 /* PageSectionModel.swift in Sources */,
@@ -875,6 +882,7 @@
 				6AC8150D291508BA00FCA392 /* DetailViewModel.swift in Sources */,
 				6AC815052914E19E00FCA392 /* UIView+Ext.swift in Sources */,
 				6A1D1DC02910F6AD0087410A /* BoxOfficeModel.swift in Sources */,
+				6A8C11C2292CBC0000396491 /* CALayer+Ext.swift in Sources */,
 				6A7CF67B291BF87A004C14CD /* TheaterHeader.swift in Sources */,
 				6A1D1DC92910F77C0087410A /* BoxOfficeStore.swift in Sources */,
 				6A6B7A21292325720088F029 /* DancePageViewController.swift in Sources */,

@@ -120,13 +120,13 @@ class DetailViewModel: DetailViewModelType {
         })
                 
         prfpdFromToText = details.map({ detail in
-            detail.prfpdfrom + "~" + detail.prfpdto
+            detail.prfpdfrom + " ~ " + detail.prfpdto
         })
                 
         fcltynmText = details.map{ $0.fcltynm }
         prfageText = details.map{ $0.prfage }
         prfruntimeText = details.map { $0.prfruntime }
-        dtguidanceText = details.map { $0.dtguidance }
+        dtguidanceText = details.map { $0.dtguidance.replacingOccurrences(of: "), ", with: ")\n") }
         
         
         #warning("TODO : - ErrorMessage 추가하자. MainViewController도.. ")

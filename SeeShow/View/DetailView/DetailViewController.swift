@@ -37,19 +37,37 @@ class DetailViewController: UIViewController {
         return view
     }()
     
+    private var infoBoxView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .backgroundWhite
+        view.layer.applyBorder(color: .clear, radius: 14)
+    
+        return view
+    }()
+    
     /// 포스터 이미지 poster
     let posterImage: UIImageView = {
         let imageView = UIImageView()
         //imageView.image = UIImage(named: "test1")
         imageView.image = UIImage(systemName: "house")
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         return imageView
+    }()
+    
+    /// 포스터 이미지에 alpha값을 적용할 view
+    let posterImageCover: UIView = {
+        let view = UIView()
+        view.backgroundColor = .backgroundWhite
+        view.alpha = 0
+        
+        return view
     }()
     
     /// 공연 제목 prfnm
     let prfnmLabel: UILabel = {
         let label = UILabel()
-        label.applyNoToSansKR(text: "지저스 크라이스트 수퍼스타 50주년 기념 한국 공연", style: .bold, size: 27, color: .black)
+        label.applyNoToSansKR(text: "지저스 크라이스트 수퍼스타 50주년 기념 한국 공연", style: .bold, size: 24, color: .black)
+        label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
         return label
     }()
@@ -65,20 +83,26 @@ class DetailViewController: UIViewController {
     /// 공연 나이 제한 prfage
     let ageLabel: UILabel = {
         let label = UILabel()
-        label.applyNoToSansKR(text: "만 7세 /", style: .medium, size: 16, color: .black)
+        label.applyNoToSansKR(text: "만 7세", style: .medium, size: 16, color: .black)
+        label.backgroundColor = .backgroundGray
+        label.clipsToBounds = true
+        label.layer.applyBorder(color: .clear, radius: 4)
         return label
     }()
     
     let runningTimeLabel: UILabel = {
         let label = UILabel()
         label.applyNoToSansKR(text: "70분", style: .medium, size: 16, color: .black)
+        label.backgroundColor = .backgroundGray
+        label.clipsToBounds = true
+        label.layer.applyBorder(color: .clear, radius: 4)
         return label
     }()
     
     /// 공연 기간 아이콘
     let fromToIcon: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "calendar")
+        imageView.image = UIImage(systemName: "calendar.circle")
         imageView.tintColor = .black
         imageView.contentMode = .scaleAspectFit
         return imageView
@@ -87,20 +111,24 @@ class DetailViewController: UIViewController {
     /// 공연 기간 , 공연 시작일 prfpdfrom, 공연 마감일 prfpdto
     let prfpdfromToLabel: UILabel = {
         let label = UILabel()
-        label.applyNoToSansKR(text: "2022.11.10 ~ 2023.01.15", style: .medium, size: 20, color: .black)
+        label.applyNoToSansKR(text: "2022.11.10 ~ 2023.01.15", style: .medium, size: 18, color: .black)
         return label
     }()
     
     /// 공연 시간 레이블
     let playtimeLabel: UILabel = {
         let label = UILabel()
-        label.applyNoToSansKR(text: "공연시간", style: .medium, size: 24, color: .black)
+        label.applyNoToSansKR(text: "공연시간", style: .medium, size: 20, color: .black)
+        
+        label.backgroundColor = .backgroundGray
+        label.layer.applyBorder(color: .backgroundGray, radius: 4)
         return label
     }()
     
     let playtime: UILabel = {
         let label = UILabel()
-        label.applyNoToSansKR(text: "화요일 ~ 금요일(19:30), 토요일 ~ 일요일(14:00,18:30), HOL(14:00,18:30)", style: .medium, size: 20, color: .black)
+        label.applyNoToSansKR(text: "화요일 ~ 금요일(19:30), 토요일 ~ 일요일(14:00,18:30), HOL(14:00,18:30)", style: .medium, size: 18, color: .black)
+        let text = label.text
         label.numberOfLines = 0
         return label
     }()
@@ -117,7 +145,7 @@ class DetailViewController: UIViewController {
     /// 공연 장소 entrpsnm
     let placeLabel: UILabel = {
         let label = UILabel()
-        label.applyNoToSansKR(text: "광림아트센터 (BBCH홀)", style: .medium, size: 20, color: .black)
+        label.applyNoToSansKR(text: "광림아트센터 (BBCH홀)", style: .medium, size: 18, color: .black)
         return label
     }()
     
@@ -138,7 +166,6 @@ class DetailViewController: UIViewController {
     
     let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        //scrollView.backgroundColor = .brown
         return scrollView
     }()
     
@@ -152,8 +179,8 @@ class DetailViewController: UIViewController {
     let firstStack: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.alignment = .fill
-        stackView.distribution = .equalSpacing
+        stackView.alignment = .leading
+        stackView.distribution = .fill
         stackView.spacing = 8
         return stackView
     }()
@@ -190,9 +217,13 @@ class DetailViewController: UIViewController {
     let secondStack: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.alignment = .fill
+        //stackView.alignment = .fill
+        stackView.alignment = .leading
         stackView.distribution = .equalSpacing
         stackView.spacing = 8
+        
+        stackView.layer.applyBorder(color: .backgroundGray, radius: 4)
+        
         return stackView
         
     }()
@@ -205,9 +236,11 @@ class DetailViewController: UIViewController {
         stackView.spacing = 16
         return stackView
     }()
+
+    let defaultDetailPoster = DefaultDetailPosterView()
     
     /// SecondStack의 Bottom 제약조건
-    var secondStackBottomConstraint = NSLayoutConstraint()
+    var posterImageHeight: CGFloat = 500
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -215,70 +248,45 @@ class DetailViewController: UIViewController {
         view.backgroundColor = .white
         self.navigationController?.isNavigationBarHidden = false
         
-        configure()
+        scrollView.delegate = self
+        scrollView.contentInsetAdjustmentBehavior = .never
+        
         configureLayout()
         setupBindings()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         print("DetailViewController - viewWillAppear")
+        //tabBarController?.tabBar.isHidden = true
         configureNavBar()
     }
     
     private func configureNavBar() {
         self.navigationController?.navigationBar.isHidden = true
-        navigationBar.navigationHeight = 60
-        navigationBar.delegate = self
-    }
-    
-    func configure() {
-        let url = URL(string: "http://www.kopis.or.kr/upload/pfmPoster/PF_PF198309_220919_094321.gif")
-        posterImage.kf.indicatorType = .activity
-        posterImage.kf.setImage(with: url)
         
-        if let thumbnailURL = URL(string: "http://www.kopis.or.kr/upload/pfmIntroImage/PF_PF198309_220919_0943210.jpg") {
-            KingfisherManager.shared.retrieveImage(with: thumbnailURL, completionHandler: { result in
-                switch (result) {
-                case .success(let imageResult):
-                    let sizeWidth = imageResult.image.size.width
-                    let sizeHeight = imageResult.image.size.height
-                    
-                    let viewWidth = self.view.frame.width
-                    //let viewHeight = self.view.frame.height
-                    
-                    let newWidth = viewWidth
-                    let multiplier = viewWidth / sizeWidth
-                    let newHeight = sizeHeight * multiplier
-                    
-                    let newSize: CGSize = CGSize(width: newWidth, height: newHeight)
-                    let resized = imageResult.image.kf.resize(to: newSize, for: .aspectFill)
-                    
-                    self.detailPosterImage.image = resized
-                
-                    
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
-            })
-        }
+        navigationBar.navigationHeight = 45
+        navigationBar.delegate = self
+        
+        navigationBar.backgroundColor = .white.withAlphaComponent(0)
     }
     
     func configureLayout() {
         // Add Subview
+        view.addSubview(posterImage)
+        view.addSubview(posterImageCover)
+        view.addSubview(navigationBar)
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
-        view.addSubview(navigationBar)
         
         // Add SubView to ContentView
-        contentView.addSubview(posterImage)
-        contentView.addSubview(firstStack) // 1
-        contentView.addSubview(secondStack) // 2
-        contentView.addSubview(detailPosterStack) // 3
+        contentView.addSubview(infoBoxView)
         
-        // 1. Add SubView to First StackView
+        // 0. Add Subview to 'BoxView'
+        infoBoxView.addSubview(firstStack)
+        infoBoxView.addSubview(secondStack)
+        infoBoxView.addSubview(detailPosterStack)
         
-        detailStack.addArrangedSubview(ageLabel)
-        detailStack.addArrangedSubview(runningTimeLabel)
+        // 1. Add SubView to 'First' StackView
         
         locationStack.addArrangedSubview(placeIcon)
         locationStack.addArrangedSubview(placeLabel)
@@ -287,22 +295,26 @@ class DetailViewController: UIViewController {
         fromToStack.addArrangedSubview(prfpdfromToLabel)
         
         firstStack.addArrangedSubview(prfnmLabel)
-        firstStack.addArrangedSubview(detailStack)
+        firstStack.addArrangedSubview(ageLabel)
+        firstStack.addArrangedSubview(runningTimeLabel)
         firstStack.addArrangedSubview(locationStack)
         firstStack.addArrangedSubview(fromToStack)
         
-        // 2. Add Subview to Second StackView
+        // 2. Add Subview to 'Second' StackView
         secondStack.addArrangedSubview(playtimeLabel)
         secondStack.addArrangedSubview(playtime)
         
         // Autolayout
         navigationBar.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview()
+            make.top.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
             make.bottom.equalTo(navigationBar.containerView)
         }
         
         scrollView.snp.makeConstraints { make in
-            make.top.equalTo(navigationBar)
+            make.top.equalTo(navigationBar.snp.bottom)
+            
+            //make.top.equalTo(view)
             make.bottom.leading.trailing.equalToSuperview()
         }
         
@@ -314,22 +326,32 @@ class DetailViewController: UIViewController {
         }
         
         posterImage.snp.makeConstraints { make in
-            make.top.equalTo(contentView.snp.top)
+            make.top.equalToSuperview()
             make.leading.trailing.equalToSuperview()
+            make.height.equalTo(posterImageHeight)
+        }
+        
+        posterImageCover.snp.makeConstraints { make in
+            make.edges.equalTo(posterImage)
+        }
+        
+        infoBoxView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(contentView).offset(400)
+            make.bottom.equalTo(contentView)
         }
         
         firstStack.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().offset(8)
-            make.top.equalTo(posterImage.snp.bottom)
+            make.top.equalTo(infoBoxView).offset(16)
+            make.leading.equalTo(infoBoxView).offset(16)
+            make.trailing.equalTo(infoBoxView).offset(-16)
         }
         
         secondStack.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().offset(8)
+            make.leading.equalToSuperview().offset(16)
+            make.trailing.equalToSuperview().offset(-16)
             make.top.equalTo(firstStack.snp.bottom).offset(8)
-        }
-        
-        detailPosterImage.snp.makeConstraints { make in
-            //make.height.equalTo(5000)
+
         }
         
         detailPosterStack.snp.makeConstraints { make in
@@ -340,7 +362,6 @@ class DetailViewController: UIViewController {
         
     }
     
-    //MARK: - 바인딩 작업중
     func setupBindings() {
         // ------------------------------
         //  INPUT
@@ -371,7 +392,43 @@ class DetailViewController: UIViewController {
             .subscribe(onNext: { [weak self] url in
                 self?.posterImage.kf.indicatorType = .activity
                 self?.posterImage.kf.setImage(with: url,
-                placeholder: ImagePlaceholderView())
+                                              placeholder: ImagePlaceholderView(),
+                                              completionHandler: { result in
+                        switch result {
+                        case.success(let imageResult):
+                            let sizeWidth = imageResult.image.size.width
+                            let sizeHeight = imageResult.image.size.height
+                            
+                            let viewWidth = self?.view.frame.width ?? 0
+                            
+                            let newWidth = viewWidth
+                            let multiplier = viewWidth / sizeWidth
+                            let newHeight = sizeHeight * multiplier
+                            
+                            let newSize: CGSize = CGSize(width: newWidth, height: newHeight)
+                            let resized = imageResult.image.kf.resize(to: newSize, for: .aspectFill)
+                            
+                            self?.posterImageHeight = newHeight
+                            self?.posterImage.image = resized
+                            
+                            // Update Constraints
+                            self?.posterImage.snp.updateConstraints{ make in
+                                make.height.equalTo(newSize.height)
+                            }
+                            
+                            let window = UIApplication.shared.windows.first
+                            let top = window?.safeAreaInsets.top
+                            
+                            self?.infoBoxView.snp.updateConstraints({ make in
+                                make.top.equalTo(self!.contentView).offset(newSize.height - (self?.navigationBar.navigationHeight ?? 0) - (top ?? 0) - 16)
+                                //make.top.equalTo(self!.contentView).offset(newSize.height)
+                                                            
+                            })
+                        case .failure(let error):
+                            print(error.localizedDescription)
+                        }
+                    })
+                
             }).disposed(by: disposeBag)
         
         viewModel.prfnmText.bind(to: prfnmLabel.rx.text).disposed(by: disposeBag)
@@ -408,24 +465,72 @@ class DetailViewController: UIViewController {
                                 let resized = imageResult.image.kf.resize(to: newSize, for: .aspectFill)
                                 
                                 self?.detailPosterImage.image = resized
-                               
-                                //#warning("TODO : - self! 생각해보기..  순환참조 공부 필요 ")
-                                self?.detailPosterStack.addArrangedSubview(self!.detailPosterImage)
+                                
+                                guard let self = self else { return }
+                                self.detailPosterStack.addArrangedSubview(self.detailPosterImage)
+                                self.detailPosterStack.addArrangedSubview(self.defaultDetailPoster)
                             case .failure(let error):
-                                //#warning("TODO : - viewModel error로 보내는 방법 ? ")
                                 print(error.localizedDescription)
                             }
-                            
                         })
                     } else {
                         print("상세 포스터 없음 !!!!! ")
-                        
+                        guard let self = self else { return }
+                        self.detailPosterStack.addArrangedSubview(self.defaultDetailPoster)
                     }
                 }
             }).disposed(by: disposeBag)
     }
 }
 
+//MARK: - ScrollView Delegate
+extension DetailViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y + scrollView.contentInset.top
+        let postAlphaSpace = posterImageHeight - navigationBar.navigationHeight - 16
+        print("오프셋: \(offsetY)")
+        //print("공간: \(postAlphaSpace)") // 412.0
+        posterImage.clipsToBounds = offsetY <= 0
+        
+        if offsetY < 0 {
+            posterImage.snp.updateConstraints { make in
+                make.height.equalTo(posterImageHeight - offsetY)
+            }
+            navigationBar.leftItem.tintColor = .backgroundWhite
+            navigationBar.rightItem.tintColor = .backgroundWhite
+        }
+        if offsetY > 0 {
+            posterImageCover.alpha = offsetY / postAlphaSpace - 0.3
+            
+            
+            let navAlpha = offsetY / postAlphaSpace
+            navigationBar.backgroundColor = .backgroundWhite.withAlphaComponent(navAlpha)
+            
+            if navAlpha > 0.5 {
+                navigationBar.leftItem.tintColor = .black
+                navigationBar.rightItem.tintColor = .black
+            } else {
+                navigationBar.leftItem.tintColor = .backgroundWhite
+                navigationBar.rightItem.tintColor = .backgroundWhite
+            }
+        } else if offsetY > postAlphaSpace / 10 * 9 {
+            posterImageCover.alpha = 1
+        }
+    }
+    
+//    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+//
+//        let postAlphaSpace = (posterImageHeight - navigationBar.navigationHeight - 16)
+//        let window = UIApplication.shared.windows.first
+//        let top = window?.safeAreaInsets.top
+//
+//        if targetContentOffset.pointee.y > postAlphaSpace / 10 {
+//            targetContentOffset.pointee.y = postAlphaSpace - navigationBar.navigationHeight - 16
+//        }
+//    }
+}
+
+//MARK: - Detail NavigationBar Protocol
 extension DetailViewController: DetailNavigationBarProtocol {
     func touchBackButton() {
         print("backward")

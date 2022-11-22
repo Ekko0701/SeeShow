@@ -109,3 +109,22 @@
 - Problem & Todo
     - Kingfisher를 사용해 이미지를 적용할때 사이즈를 조절해 각 셀의 포스터 이미지 비율과 크기를 동일하게 만들자.
     - MainView에서 카테고리를 선택해 CategoryView로 이동하면 해당하는 카테고리로 이동하지만 ViewPager가 이동하지 않는다.
+
+### 2022.11.16
+- tableView.rx.setDelegate로 delegate 채택후 heightForRowAt으로 cell 높이 설정
+
+### 2022.11.19
+- NavigationBar 설정
+
+### 2022.11.20
+- UI 수정
+- Problem & Todo
+    - MainView에서 배너 cell을 터치시 showDetail이 2번 동작한다.
+    - MainView의 Section간 거리 조절..
+    
+### 2022.11.21
+- MainView UI 완성
+
+### 2022.11.22
+- DetailView UI 완성
+- MainView의 bannerCell이 재사용 될때마다 disposeBag을 재성정 하지 않아서 touch Event가 여러번 발생하는 오류 해결 ( prepareForReuse )
