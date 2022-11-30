@@ -16,8 +16,6 @@ protocol PageBoxOfficeFetchable {
 }
 
 class PageBoxOfficeStore: PageBoxOfficeFetchable {
-    //MARK: - 테스트 진행중...
-    
     var cateCode: CateCode = .ALL
     
     init(cateCode: CateCode) {
@@ -34,8 +32,6 @@ class PageBoxOfficeStore: PageBoxOfficeFetchable {
                     return parsedData
                 }
             }
-
     }
-    
-    
 }
+

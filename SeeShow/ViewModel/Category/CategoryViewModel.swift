@@ -40,15 +40,15 @@ class CategoryViewModel: CategoryViewModelType {
         
         pageViewControllers = [
             AllPageViewController(viewModel: PageViewModel(domain: PageBoxOfficeStore(cateCode: .ALL))),
-            TheaterPageViewController(),
-            MusicalPageViewController(),
-            ClassicPageViewController(),
-            OperaPageViewController(),
-            DancePageViewController(),
-            KoreanMusicPageViewController(),
-            ComplexityPageViewController(),
-            KidsPageViewController(),
-            OpenRunPageViewController()
+            TheaterPageViewController(viewModel: PageViewModel(domain: PageBoxOfficeStore(cateCode: .AAAA))),
+            MusicalPageViewController(viewModel: PageViewModel(domain: PageBoxOfficeStore(cateCode: .AAAB))),
+            ClassicPageViewController(viewModel: PageViewModel(domain: PageBoxOfficeStore(cateCode: .CCCA))),
+            OperaPageViewController(viewModel: PageViewModel(domain: PageBoxOfficeStore(cateCode: .CCCB))),
+            DancePageViewController(viewModel: PageViewModel(domain: PageBoxOfficeStore(cateCode: .BBBA))),
+            KoreanMusicPageViewController(viewModel: PageViewModel(domain: PageBoxOfficeStore(cateCode: .CCCC))),
+            ComplexityPageViewController(viewModel: PageViewModel(domain: PageBoxOfficeStore(cateCode: .EEEA))),
+            KidsPageViewController(viewModel: PageViewModel(domain: PageBoxOfficeStore(cateCode: .KID))),
+            OpenRunPageViewController(viewModel: PageViewModel(domain: PageBoxOfficeStore(cateCode: .OPEN)))
         ]
     }
     

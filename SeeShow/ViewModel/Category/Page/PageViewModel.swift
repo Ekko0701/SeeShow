@@ -14,6 +14,7 @@ import RxDataSources
 protocol PageViewModelType {
     // INPUT
     var fetchBoxOffices: AnyObserver<Void> { get }
+    var touchCell: PublishSubject<IndexPath> { get }
     
     // OUTPUT
     var pushBoxOffices: PublishRelay<[ViewPageData]> { get }
@@ -22,9 +23,11 @@ protocol PageViewModelType {
     
     var dataSource: RxTableViewSectionedReloadDataSource<PageSectionModel> { get }
     var pushSection: PublishRelay<[PageSectionModel]> { get }
+    var showDetailPage: Observable<String> { get }
 }
 
 class PageViewModel: PageViewModelType {
+    
     
     
     let disposeBag = DisposeBag()
@@ -33,6 +36,7 @@ class PageViewModel: PageViewModelType {
     // INPUT
     //----------------------------
     let fetchBoxOffices: AnyObserver<Void>
+    let touchCell: PublishSubject<IndexPath>
     
     //----------------------------
     // OUTPUT
@@ -41,6 +45,7 @@ class PageViewModel: PageViewModelType {
     let activated: Observable<Bool>
     let dataSource: RxTableViewSectionedReloadDataSource<PageSectionModel>
     var pushSection: PublishRelay<[PageSectionModel]>
+    let showDetailPage: Observable<String>
     
     init(domain: PageBoxOfficeFetchable = PageBoxOfficeStore(cateCode: .ALL)) {
         let fetching = PublishSubject<Void>()
@@ -50,12 +55,14 @@ class PageViewModel: PageViewModelType {
         let boxoffices = PublishRelay<[ViewPageData]>()
         let fetchingSection = PublishRelay<[PageSectionModel]>()
         
-        // INPUT
-        //
+        let cellTouching = PublishSubject<IndexPath>()
+        
+        
         fetchBoxOffices = fetching.asObserver()
+        touchCell = cellTouching.asObserver()
         
         fetching
-            .debug()
+            //.debug()
             .do(onNext: { _ in activating.onNext(true) })
             .flatMap(domain.fetchPageBoxOffice)
             .map { $0.map { ViewPageData($0) }}
@@ -81,5 +88,11 @@ class PageViewModel: PageViewModelType {
             cell.configure(with: item.data)
             return cell
         })
+                
+        showDetailPage =
+                Observable.combineLatest(cellTouching, boxoffices, resultSelector: {
+                    (indexPath, data) in
+                    data[indexPath.item].mt20id
+                })
     }
 }

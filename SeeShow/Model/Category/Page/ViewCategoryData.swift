@@ -18,11 +18,14 @@ struct ViewPageData {
     var prfpd: String
     /// 포스터 URL
     var poster: String
+    /// id
+    var mt20id: String
     
     init(_ item: BoxOfficeModel) {
         prfnm = item.prfnm ?? "공연명 정보 없음"
         prfplcnm = item.prfplcnm ?? "공연장 정보 없음"
         prfpd = item.prfpd ?? "공연 기간 정보 없음"
         poster = "http://kopis.or.kr" + (item.poster ?? "포스터 url 없음")
+        mt20id = item.mt20id ?? "아이디 정보 없음"
     }
 }

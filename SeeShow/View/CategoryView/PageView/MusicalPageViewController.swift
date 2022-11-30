@@ -8,10 +8,9 @@
 import Foundation
 import UIKit
 
-class MusicalPageViewController: UIViewController {
+class MusicalPageViewController: PageViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.backgroundColor = .systemYellow
+        view.backgroundColor = .white
     }
 }

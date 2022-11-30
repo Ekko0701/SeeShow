@@ -48,8 +48,6 @@ class DetailViewController: UIViewController {
     /// 포스터 이미지 poster
     let posterImage: UIImageView = {
         let imageView = UIImageView()
-        //imageView.image = UIImage(named: "test1")
-        imageView.image = UIImage(systemName: "house")
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
@@ -146,6 +144,7 @@ class DetailViewController: UIViewController {
     let placeLabel: UILabel = {
         let label = UILabel()
         label.applyNoToSansKR(text: "광림아트센터 (BBCH홀)", style: .medium, size: 18, color: .black)
+        label.numberOfLines = 1
         return label
     }()
     
@@ -257,7 +256,7 @@ class DetailViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         print("DetailViewController - viewWillAppear")
-        //tabBarController?.tabBar.isHidden = true
+        tabBarController?.tabBar.isHidden = true
         configureNavBar()
     }
     
@@ -534,10 +533,16 @@ extension DetailViewController: UIScrollViewDelegate {
 extension DetailViewController: DetailNavigationBarProtocol {
     func touchBackButton() {
         print("backward")
+        navigationController?.popViewController(animated: true)
     }
     
     func touchHomeButton() {
         print("homebutton")
+        //navigationController?.popViewController(animated: true)
+        //navigationController?.popViewController(animated: true)
+        navigationController?.popToRootViewController(animated: true)
+        tabBarController?.selectedIndex = 0
+        print(navigationController?.viewControllers)
     }
     
     

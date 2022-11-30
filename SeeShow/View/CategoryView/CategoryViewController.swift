@@ -15,6 +15,9 @@ class CategoryViewController: UIViewController {
     let disposeBag = DisposeBag()
     let viewModel = CategoryViewModel()
     
+    /// NavigationBar
+    private let navigationBar = CategoryNavigationBar()
+    
     /// ViewPager의 CollectionView
     private let viewPagerCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -38,22 +41,34 @@ class CategoryViewController: UIViewController {
         }
     }
     
+    var previousPage: Int = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         print("MapViewController - viewDidLoad()")
-        view.backgroundColor = .systemGreen
         
         configurePageView(index: currentPage)
         configurePagerCollection()
         configureLayout()
+        configureStyle()
         configureFirstPage(item: currentPage)
 //        viewPagerCollectionView.scrollToItem(at: IndexPath(row: currentPage, section: 0), at: .centeredVertically, animated: true)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        currentPage = 0
+        currentPage = previousPage
+        tabBarController?.tabBar.isHidden = false
+        configureNavBar()
+    }
+    
+    private func configureNavBar() {
+        navigationController?.navigationBar.isHidden = true
+        navigationBar.navigationHeight = 45
+        
+        navigationBar.delegate = self
     }
     
     /// ViewPagerCollectionView 설정
@@ -72,15 +87,27 @@ class CategoryViewController: UIViewController {
         viewPagerCollectionView.selectItem(at: firstIndexPath, animated: false, scrollPosition: .right)
     }
     
+    private func configureStyle() {
+        view.backgroundColor = .backgroundWhite
+    }
+    
     private func configureLayout() {
         // Add Subview
         view.addSubview(viewPagerCollectionView)
         addChild(pageViewController)
         view.addSubview(pageViewController.view)
+        view.addSubview(navigationBar)
         
         // Constraint
+        navigationBar.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalTo(navigationBar.containerView)
+        }
+        
         viewPagerCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide)
+            //make.top.equalTo(view.safeAreaLayoutGuide)
+            make.top.equalTo(navigationBar.snp.bottom)
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(60)
         }
@@ -97,6 +124,7 @@ class CategoryViewController: UIViewController {
     /// viewPagerCollectionView의 cell을 터치할때 실행 - CurrentPage를 선택한 Page로 바꿔준다.
     func didTapCell(at indexPath: IndexPath) {
         currentPage = indexPath.item
+        previousPage = indexPath.item
     }
     
     /// PageViewController 설정
@@ -112,6 +140,7 @@ class CategoryViewController: UIViewController {
 //            pageViewController.setViewControllers([firstVC], direction: .forward, animated: true, completion: nil)
 //        }
         let firstVC = viewModel.pageViewControllers[index]
+        
         pageViewController.setViewControllers([firstVC], direction: .forward, animated: true, completion: nil)
     }
     
@@ -187,6 +216,11 @@ extension CategoryViewController: UIPageViewControllerDelegate, UIPageViewContro
               let currentIndex = viewModel.pageViewControllers.firstIndex(of: currentVC) else { return }
         currentPage = currentIndex
     }
+    
+}
+
+//MARK: - CategoryNavigationBarProtocol
+extension CategoryViewController: CategoryNavigationBarProtocol {
     
 }
 //MARK: - Preview

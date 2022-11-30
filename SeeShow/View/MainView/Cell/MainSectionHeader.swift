@@ -26,7 +26,8 @@ class MainSectionHeader: UICollectionReusableView {
         
         sectionTitle.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(8)
-            make.top.equalToSuperview()
+            //make.top.equalToSuperview()
+            make.centerY.equalToSuperview()
             make.bottom.equalToSuperview().offset(-8)
         }
     }

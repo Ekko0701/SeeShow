@@ -8,10 +8,9 @@
 import Foundation
 import UIKit
 
-class ComplexityPageViewController: UIViewController {
+class ComplexityPageViewController: PageViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.backgroundColor = .black
+        view.backgroundColor = .white
     }
 }

@@ -8,10 +8,9 @@
 import Foundation
 import UIKit
 
-class OperaPageViewController: UIViewController {
+class OperaPageViewController: PageViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.backgroundColor = .systemOrange
+        view.backgroundColor = .white
     }
 }

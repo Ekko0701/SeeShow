@@ -31,10 +31,6 @@ class KopisAPIService {
                         //observer.onCompleted()
                     case .failure(let error):
                         observer.onError(error)
-                        if let err = error.errorDescription {
-                            print("에로에로 \(err)")
-                        }
-                        print("에러다 에러 \(error)")
                     }
                     observer.onCompleted()
                 }
@@ -198,3 +194,4 @@ class KopisAPIService {
     }
 
 }
+

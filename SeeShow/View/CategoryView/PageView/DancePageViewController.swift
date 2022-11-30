@@ -8,10 +8,9 @@
 import Foundation
 import UIKit
 
-class DancePageViewController: UIViewController {
+class DancePageViewController: PageViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.backgroundColor = .systemPurple
+        view.backgroundColor = .white
     }
 }

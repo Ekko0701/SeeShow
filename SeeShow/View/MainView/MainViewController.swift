@@ -49,6 +49,7 @@ class MainViewController: UIViewController, TouchCellProtocol {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        tabBarController?.tabBar.isHidden = false
         configureNavBar()
     }
     
@@ -65,7 +66,6 @@ class MainViewController: UIViewController, TouchCellProtocol {
     /// View Style 설정
     private func configureStyle() {
         view.backgroundColor = .backgroundWhite
-        //view.backgroundColor = .backgroundGray
     }
     
     /// CollectionView 설정

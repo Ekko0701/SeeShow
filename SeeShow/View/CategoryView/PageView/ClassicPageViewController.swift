@@ -8,10 +8,9 @@
 import Foundation
 import UIKit
 
-class ClassicPageViewController: UIViewController {
+class ClassicPageViewController: PageViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        view.backgroundColor = .systemGray
+        view.backgroundColor = .white
     }
 }

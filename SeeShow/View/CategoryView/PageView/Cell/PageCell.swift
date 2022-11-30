@@ -30,7 +30,9 @@ class PageCell: UITableViewCell {
     private let title: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
-        label.applyNoToSansKR(text: "Empty", style: .regular, size: 20, color: .black)
+        label.numberOfLines = 0
+        label.lineBreakMode = .byCharWrapping
+        label.applyNoToSansKR(text: "Empty", style: .bold, size: 16, color: .black)
         
         return label
     }()
@@ -38,7 +40,8 @@ class PageCell: UITableViewCell {
     private let place: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
-        label.applyNoToSansKR(text: "Empty", style: .regular, size: 20, color: .black)
+        label.applyNoToSansKR(text: "Empty", style: .regular, size: 14, color: .black)
+        label.numberOfLines = 2
         
         return label
     }()
@@ -46,7 +49,8 @@ class PageCell: UITableViewCell {
     private let period: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
-        label.applyNoToSansKR(text: "Empty", style: .regular, size: 20, color: .black)
+        label.applyNoToSansKR(text: "Empty", style: .regular, size: 14, color: .black)
+        label.numberOfLines = 2
         
         return label
     }()
@@ -56,14 +60,13 @@ class PageCell: UITableViewCell {
         stackView.axis = .vertical
         stackView.alignment = .fill
         stackView.distribution = .equalSpacing
-        stackView.spacing = 8
+        stackView.spacing = 4
         return stackView
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureLayout()
-        self.backgroundColor = .blue
     }
     
     required init?(coder: NSCoder) {
@@ -89,26 +92,13 @@ class PageCell: UITableViewCell {
         }
         
         infoStack.snp.makeConstraints { make in
-            make.top.equalTo(image.snp.top)
-            make.bottom.equalTo(image.snp.bottom)
+            make.top.equalTo(image.snp.top).offset(4)
+            //make.bottom.equalTo(image.snp.bottom).offset(-8)
             make.leading.equalTo(image.snp.trailing).offset(8)
         }
     }
     
     func configure(with data: ViewPageData) {
-//        data.observe(on: MainScheduler.instance)
-//            .subscribe(onNext: { [weak self] boxoffice in
-//
-//                let url = URL(string: boxoffice.poster)
-//                self?.image.kf.indicatorType = .activity
-//                self?.image.kf.setImage(with: url,
-//                                        placeholder: ImagePlaceholderView(),
-//                                        options: [
-//                                                  .cacheOriginalImage
-//                                        ]
-//                )
-//                self?.title.text = boxoffice.prfnm
-//            }).disposed(by: disposeBag)
         let url = URL(string: data.poster)
         image.kf.indicatorType = .activity
         image.kf.setImage(with: url,
