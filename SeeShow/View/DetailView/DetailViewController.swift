@@ -420,7 +420,6 @@ class DetailViewController: UIViewController {
                             
                             self?.infoBoxView.snp.updateConstraints({ make in
                                 make.top.equalTo(self!.contentView).offset(newSize.height - (self?.navigationBar.navigationHeight ?? 0) - (top ?? 0) - 16)
-                                //make.top.equalTo(self!.contentView).offset(newSize.height)
                                                             
                             })
                         case .failure(let error):
@@ -487,8 +486,6 @@ extension DetailViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offsetY = scrollView.contentOffset.y + scrollView.contentInset.top
         let postAlphaSpace = posterImageHeight - navigationBar.navigationHeight - 16
-        print("오프셋: \(offsetY)")
-        //print("공간: \(postAlphaSpace)") // 412.0
         posterImage.clipsToBounds = offsetY <= 0
         
         if offsetY < 0 {
@@ -516,17 +513,6 @@ extension DetailViewController: UIScrollViewDelegate {
             posterImageCover.alpha = 1
         }
     }
-    
-//    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-//
-//        let postAlphaSpace = (posterImageHeight - navigationBar.navigationHeight - 16)
-//        let window = UIApplication.shared.windows.first
-//        let top = window?.safeAreaInsets.top
-//
-//        if targetContentOffset.pointee.y > postAlphaSpace / 10 {
-//            targetContentOffset.pointee.y = postAlphaSpace - navigationBar.navigationHeight - 16
-//        }
-//    }
 }
 
 //MARK: - Detail NavigationBar Protocol
@@ -538,8 +524,7 @@ extension DetailViewController: DetailNavigationBarProtocol {
     
     func touchHomeButton() {
         print("homebutton")
-        //navigationController?.popViewController(animated: true)
-        //navigationController?.popViewController(animated: true)
+        
         navigationController?.popToRootViewController(animated: true)
         tabBarController?.selectedIndex = 0
         print(navigationController?.viewControllers)

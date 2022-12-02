@@ -36,6 +36,7 @@ class CultureStore: CultureFetchable {
             let xml = XMLHash.parse(data)
             do {
                 let parsedData: [CultureModel] = try xml["response"]["msgBody"]["perforList"].value()
+                print(parsedData)
                 return parsedData
             }
             

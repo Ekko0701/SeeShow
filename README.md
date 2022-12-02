@@ -128,3 +128,4 @@
 ### 2022.11.22
 - DetailView UI 완성
 - MainView의 bannerCell이 재사용 될때마다 disposeBag을 재성정 하지 않아서 touch Event가 여러번 발생하는 오류 해결 ( prepareForReuse )
+

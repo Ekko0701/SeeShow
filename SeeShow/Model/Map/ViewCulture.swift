@@ -8,6 +8,7 @@
 import Foundation
 
 struct ViewCulture {
+    var seq: String
     var title: String
     var startDate: String
     var endDate: String
@@ -18,6 +19,7 @@ struct ViewCulture {
     var gpsY: String
     
     init(_ item: CultureModel) {
+        self.seq = item.seq ?? "Empty"
         self.title = item.title ?? "Empty"
         self.startDate = item.startDate ?? "Empty"
         self.endDate = item.endDate ?? "Empty"

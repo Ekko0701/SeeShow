@@ -10,6 +10,8 @@ import UIKit
 import NMapsMap
 import CoreLocation
 import RxSwift
+import SnapKit
+import ChameleonFramework
 
 class MapViewController: UIViewController {
     
@@ -19,6 +21,8 @@ class MapViewController: UIViewController {
     //var locationManager = CLLocationManager()
     var locationManager = NMFLocationManager.sharedInstance()
     var viewModel = MapViewModel(domain: CultureStore(gpsxfrom: 126.9928786492578, gpsyfrom: 37.56678910750669, gpsxto: 127.0096156334598, gpsyto: 37.59549354642078))
+    
+    let bottomSheet = BottomSheetView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,6 +76,14 @@ class MapViewController: UIViewController {
     private func configureLayout() {
         // Add Subviews
         view.addSubview(mapView)
+        view.addSubview(bottomSheet)
+        
+        // AutoLayout
+        bottomSheet.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
+            make.height.equalTo(10)
+        }
     }
     
     private func setupBinding() {
@@ -82,6 +94,10 @@ class MapViewController: UIViewController {
             }
         
         firstLoad.bind(to: viewModel.fetchCultures)
+            .disposed(by: disposeBag)
+        
+        let bottomSheetViewModel = BottomSheetViewModel(domain: CultureDetailStore(seq: "207347"))
+        firstLoad.bind(to: bottomSheetViewModel.fetchCultureDetail)
             .disposed(by: disposeBag)
     }
 
@@ -111,12 +127,34 @@ extension MapViewController: NMFMapViewCameraDelegate {
         viewModel.pushMarkers.subscribe { markers in
             _ = markers.map { markers in
                 markers.forEach { marker in
-                    marker.touchHandler = { [weak self] (overlay: NMFOverlay) -> Bool in
+                    marker.marker.touchHandler = { [weak self] (overlay: NMFOverlay) -> Bool in
                         
-
+                        self?.bottomSheet.snp.updateConstraints { make in
+                            make.height.equalTo(170)
+                        }
+                        self?.bottomSheet.title.text = marker.title
+                        self?.bottomSheet.place.text = marker.place
+                        self?.bottomSheet.period.text = marker.period
+                        
+                        self?.bottomSheet.realmName.text = marker.realmName
+                        
+                        self?.bottomSheet.thumbnail.kf.indicatorType = .activity
+                        self?.bottomSheet.thumbnail.kf.setImage(with: URL(string: marker.thumbnail), placeholder: ImagePlaceholderView()) { result in
+                            switch result {
+                            case .success(let value):
+                                let themeColor = AverageColorFromImage(value.image)
+                                self?.bottomSheet.realmName.backgroundColor = themeColor
+                                self?.bottomSheet.realmName.textColor = ContrastColorOf(themeColor, returnFlat: true)
+                                self?.bottomSheet.realmName.layer.masksToBounds = true
+                                self?.bottomSheet.realmName.layer.cornerRadius = 4
+                            case .failure(let error):
+                                print(error.localizedDescription)
+                            }
+                        }
+                        
                         return true
                     }
-                    marker.mapView = mapView
+                    marker.marker.mapView = mapView
                 }
             }
         }.disposed(by: disposeBag)
@@ -126,6 +164,22 @@ extension MapViewController: NMFMapViewCameraDelegate {
 extension MapViewController: NMFMapViewTouchDelegate {
     /// 지도 터치 액션
     func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
-        print("지도 탭")
+        bottomSheet.snp.updateConstraints { make in
+            make.height.equalTo(10)
+        }
     }
 }
+
+//MARK: - Preview
+
+#if DEBUG
+import SwiftUI
+struct MapViewController_Previews: PreviewProvider {
+    static var previews: some View {
+        MapViewController().getPreview()
+            .ignoresSafeArea()
+    }
+}
+/// option + command +enter -> 접었다 폈다
+/// option + command + p -> 미리보기 실행
+#endif

@@ -39,6 +39,8 @@ extension CALayer {
         }
     }
     
+    /// Border 적용
+    /// 
     func applyBorder(
         width: CGFloat = 0.78,
         color: UIColor,
@@ -50,10 +52,6 @@ extension CALayer {
             cornerRadius = radius
         }
     }
-    
-//    func applyRadius(radius: CGFloat) {
-//        cornerRadius = radius
-//    }
     
     func clearBorderColor() {
         borderColor = UIColor.clear.cgColor

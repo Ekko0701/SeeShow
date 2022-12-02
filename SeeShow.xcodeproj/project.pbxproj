@@ -45,6 +45,12 @@
 		6A40940D292AFDD300752691 /* UIColor+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A40940C292AFDD300752691 /* UIColor+Ext.swift */; };
 		6A40940F292AFE6900752691 /* CategoryDecorationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A40940E292AFE6900752691 /* CategoryDecorationView.swift */; };
 		6A409411292BA38900752691 /* DetailNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A409410292BA38900752691 /* DetailNavigationBar.swift */; };
+		6A60917829378932005CB62E /* BottomSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A60917729378932005CB62E /* BottomSheetView.swift */; };
+		6A60917A2938CB5E005CB62E /* BottomSheetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6091792938CB5E005CB62E /* BottomSheetViewModel.swift */; };
+		6A60917D2938CC15005CB62E /* CultureDetailStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A60917C2938CC15005CB62E /* CultureDetailStore.swift */; };
+		6A6091802938CC40005CB62E /* CultureDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A60917F2938CC40005CB62E /* CultureDetailModel.swift */; };
+		6A6091822938CED8005CB62E /* ViewCultureDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6091812938CED8005CB62E /* ViewCultureDetail.swift */; };
+		6A6091842938F786005CB62E /* MapMarkerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6091832938F786005CB62E /* MapMarkerModel.swift */; };
 		6A6B7A16292323000088F029 /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6B7A15292323000088F029 /* CategoryViewModel.swift */; };
 		6A6B7A192923240A0088F029 /* AllPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6B7A182923240A0088F029 /* AllPageViewController.swift */; };
 		6A6B7A1B292324670088F029 /* TheaterPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A6B7A1A292324670088F029 /* TheaterPageViewController.swift */; };
@@ -158,6 +164,12 @@
 		6A40940C292AFDD300752691 /* UIColor+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Ext.swift"; sourceTree = "<group>"; };
 		6A40940E292AFE6900752691 /* CategoryDecorationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDecorationView.swift; sourceTree = "<group>"; };
 		6A409410292BA38900752691 /* DetailNavigationBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailNavigationBar.swift; sourceTree = "<group>"; };
+		6A60917729378932005CB62E /* BottomSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetView.swift; sourceTree = "<group>"; };
+		6A6091792938CB5E005CB62E /* BottomSheetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetViewModel.swift; sourceTree = "<group>"; };
+		6A60917C2938CC15005CB62E /* CultureDetailStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CultureDetailStore.swift; sourceTree = "<group>"; };
+		6A60917F2938CC40005CB62E /* CultureDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CultureDetailModel.swift; sourceTree = "<group>"; };
+		6A6091812938CED8005CB62E /* ViewCultureDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewCultureDetail.swift; sourceTree = "<group>"; };
+		6A6091832938F786005CB62E /* MapMarkerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapMarkerModel.swift; sourceTree = "<group>"; };
 		6A6B7A15292323000088F029 /* CategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewModel.swift; sourceTree = "<group>"; };
 		6A6B7A182923240A0088F029 /* AllPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllPageViewController.swift; sourceTree = "<group>"; };
 		6A6B7A1A292324670088F029 /* TheaterPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheaterPageViewController.swift; sourceTree = "<group>"; };
@@ -350,6 +362,7 @@
 			isa = PBXGroup;
 			children = (
 				6A1D1DB02910A7190087410A /* MapViewController.swift */,
+				6A60917729378932005CB62E /* BottomSheetView.swift */,
 			);
 			path = MapView;
 			sourceTree = "<group>";
@@ -506,6 +519,8 @@
 			children = (
 				6A3CB2B2292F0B9100D0D83E /* CultureModel.swift */,
 				6A3CB2B6292F116300D0D83E /* ViewCulture.swift */,
+				6A6091832938F786005CB62E /* MapMarkerModel.swift */,
+				6A60917E2938CC2D005CB62E /* Detail */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -514,6 +529,7 @@
 			isa = PBXGroup;
 			children = (
 				6A3CB2B8292F16B000D0D83E /* CultureStore.swift */,
+				6A60917C2938CC15005CB62E /* CultureDetailStore.swift */,
 			);
 			path = Culture;
 			sourceTree = "<group>";
@@ -532,8 +548,18 @@
 			isa = PBXGroup;
 			children = (
 				6A3CB2BA292F18F300D0D83E /* MapViewModel.swift */,
+				6A6091792938CB5E005CB62E /* BottomSheetViewModel.swift */,
 			);
 			path = Map;
+			sourceTree = "<group>";
+		};
+		6A60917E2938CC2D005CB62E /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				6A60917F2938CC40005CB62E /* CultureDetailModel.swift */,
+				6A6091812938CED8005CB62E /* ViewCultureDetail.swift */,
+			);
+			path = Detail;
 			sourceTree = "<group>";
 		};
 		6A6B7A17292323EA0088F029 /* PageView */ = {
@@ -930,6 +956,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A60917829378932005CB62E /* BottomSheetView.swift in Sources */,
 				6A1D1DB82910F42A0087410A /* BannerCell.swift in Sources */,
 				6A3CB2B3292F0B9100D0D83E /* CultureModel.swift in Sources */,
 				6A2D7B9D291AA3E200FFE52D /* DetailPosterDefaultStackView.swift in Sources */,
@@ -945,6 +972,7 @@
 				6A3CB2BB292F18F300D0D83E /* MapViewModel.swift in Sources */,
 				6A7CF66F291BE9E7004C14CD /* MainCollectionViewCell.swift in Sources */,
 				6A1D1D772910A59B0087410A /* AppDelegate.swift in Sources */,
+				6A6091842938F786005CB62E /* MapMarkerModel.swift in Sources */,
 				6A6B7A25292325A00088F029 /* ComplexityPageViewController.swift in Sources */,
 				6A7CF67D291BF8B3004C14CD /* UNIHeader.swift in Sources */,
 				6AC815032914E18400FCA392 /* UIViewController+Ext.swift in Sources */,
@@ -972,6 +1000,8 @@
 				6A3CB2B9292F16B000D0D83E /* CultureStore.swift in Sources */,
 				6A1D1DBB2910F4650087410A /* BannerItemCell.swift in Sources */,
 				6A3CB2AE292EBECF00D0D83E /* CultureAPIConstant.swift in Sources */,
+				6A6091802938CC40005CB62E /* CultureDetailModel.swift in Sources */,
+				6A6091822938CED8005CB62E /* ViewCultureDetail.swift in Sources */,
 				6A6B7A2D292367C80088F029 /* ClassicPageViewController.swift in Sources */,
 				6AF0C3AA2923A0A600FC9007 /* PageViewModel.swift in Sources */,
 				6A7CF67F291BF8D5004C14CD /* OpenRunHeader.swift in Sources */,
@@ -980,6 +1010,7 @@
 				6A1D1DCB2910F7B00087410A /* MainViewModel.swift in Sources */,
 				6A1D1DBE2910F47A0087410A /* CategoryCell.swift in Sources */,
 				6A1D1DAF2910A7100087410A /* CategoryViewController.swift in Sources */,
+				6A60917A2938CB5E005CB62E /* BottomSheetViewModel.swift in Sources */,
 				6A7CF673291BEB17004C14CD /* UNICell.swift in Sources */,
 				6A1D1DC32910F6DA0087410A /* KopisAPIService.swift in Sources */,
 				6A2D7B982917A40F00FFE52D /* ViewDetail.swift in Sources */,
@@ -995,6 +1026,7 @@
 				6A787D2E29222CCC00442719 /* PageBoxOfficeStore.swift in Sources */,
 				6A1D1DB12910A7190087410A /* MapViewController.swift in Sources */,
 				6A3CB2AC292EBE3700D0D83E /* CultureAPIService.swift in Sources */,
+				6A60917D2938CC15005CB62E /* CultureDetailStore.swift in Sources */,
 				6A6B7A27292325B40088F029 /* KidsPageViewController.swift in Sources */,
 				6A6B7A1F2923255E0088F029 /* OperaPageViewController.swift in Sources */,
 				6A7CF679291BF82A004C14CD /* MainSectionHeader.swift in Sources */,
