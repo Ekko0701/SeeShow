@@ -12,14 +12,21 @@ import CoreLocation
 import RxSwift
 import SnapKit
 import ChameleonFramework
+import Kingfisher
 
-class MapViewController: UIViewController {
-    
+class MapViewController: UIViewController, CLLocationManagerDelegate {
+
     var disposeBag = DisposeBag()
     
     var mapView = NMFNaverMapView()
-    //var locationManager = CLLocationManager()
-    var locationManager = NMFLocationManager.sharedInstance()
+    
+    private var locationButton: NMFLocationButton!
+    
+    var locationManager: CLLocationManager!
+    
+    var lat: Double?
+    var long: Double?
+    
     var viewModel = MapViewModel(domain: CultureStore(gpsxfrom: 126.9928786492578, gpsyfrom: 37.56678910750669, gpsxto: 127.0096156334598, gpsyto: 37.59549354642078))
     
     let bottomSheet = BottomSheetView()
@@ -28,8 +35,6 @@ class MapViewController: UIViewController {
         super.viewDidLoad()
         print("MapViewController - viewDidLoad()")
         view.backgroundColor = .systemGreen
-        
-        locationManager?.add(self)
         
         configureMapView()
         configureStyle()
@@ -44,8 +49,6 @@ class MapViewController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        
-        locationManager?.remove(self)
     }
     
     /// 네비게이션 설정
@@ -57,15 +60,39 @@ class MapViewController: UIViewController {
     private func configureMapView() {
         mapView = NMFNaverMapView(frame: view.frame)
         mapView.mapView.positionMode = .normal
-        mapView.showLocationButton = true
+        mapView.showLocationButton = false
+        
+        locationButton = NMFLocationButton()
+        locationButton.mapView = mapView.mapView // 새로 만든 locationButton 삽입
         
         // Attack Delegate
         mapView.mapView.addCameraDelegate(delegate: self)
         mapView.mapView.touchDelegate = self
         
+        mapView.mapView.positionMode = .direction
         
-        locationManager?.startUpdatingLocation()
+        // Current 위치
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
+        
+        switch locationManager.authorizationStatus {
+        case .denied:
+            print("거부")
+        case .notDetermined, .restricted:
+            locationManager.requestWhenInUseAuthorization()
+        default:
+            break
+        }
+        
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.startUpdatingLocation()
+        
+        let space = locationManager.location?.coordinate
+        lat = space?.latitude
+        long = space?.longitude
     }
+    
+    
     
     /// 스타일 설정
     private func configureStyle() {
@@ -77,13 +104,23 @@ class MapViewController: UIViewController {
         // Add Subviews
         view.addSubview(mapView)
         view.addSubview(bottomSheet)
+        view.addSubview(locationButton)
         
         // AutoLayout
         bottomSheet.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.bottom.equalTo(view.safeAreaLayoutGuide)
-            make.height.equalTo(10)
+            make.height.equalTo(170)
         }
+        
+        bottomSheet.isHidden = true // 초기 숨김 상태
+        
+        locationButton.snp.makeConstraints { make in
+            make.leading.equalTo(view.safeAreaLayoutGuide).offset(8)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-40)
+        }
+        
+    
     }
     
     private func setupBinding() {
@@ -93,6 +130,13 @@ class MapViewController: UIViewController {
                 ()
             }
         
+        // Error
+        viewModel.errorMessage
+            .map { $0.domain }
+            .subscribe(onNext: { [weak self] message in
+                self?.showAlert("Network Error", message)
+            }).disposed(by: disposeBag)
+        
         firstLoad.bind(to: viewModel.fetchCultures)
             .disposed(by: disposeBag)
         
@@ -100,6 +144,8 @@ class MapViewController: UIViewController {
         firstLoad.bind(to: bottomSheetViewModel.fetchCultureDetail)
             .disposed(by: disposeBag)
     }
+    
+   
 
 }
 
@@ -112,7 +158,9 @@ extension MapViewController: NMFMapViewCameraDelegate {
     }
     
     func mapView(_ mapView: NMFMapView, cameraDidChangeByReason reason: Int, animated: Bool) {
-        
+    }
+    
+    func mapViewCameraIdle(_ mapView: NMFMapView) {
         let frameLatLng = mapView.projection.latlngBounds(fromViewBounds: self.view.frame)
         let swLng = frameLatLng.southWestLng
         let swLat = frameLatLng.southWestLat
@@ -129,9 +177,8 @@ extension MapViewController: NMFMapViewCameraDelegate {
                 markers.forEach { marker in
                     marker.marker.touchHandler = { [weak self] (overlay: NMFOverlay) -> Bool in
                         
-                        self?.bottomSheet.snp.updateConstraints { make in
-                            make.height.equalTo(170)
-                        }
+                        self?.bottomSheet.isHidden = false
+                        
                         self?.bottomSheet.title.text = marker.title
                         self?.bottomSheet.place.text = marker.place
                         self?.bottomSheet.period.text = marker.period
@@ -152,6 +199,9 @@ extension MapViewController: NMFMapViewCameraDelegate {
                             }
                         }
                         
+                        // locationButton 위치 조절
+                        self?.updateLocationButtonLayout()
+                        
                         return true
                     }
                     marker.marker.mapView = mapView
@@ -159,13 +209,24 @@ extension MapViewController: NMFMapViewCameraDelegate {
             }
         }.disposed(by: disposeBag)
     }
+    
+    func updateLocationButtonLayout() {
+        locationButton.snp.removeConstraints()
+        locationButton.snp.makeConstraints { make in
+            make.leading.equalTo(view.safeAreaLayoutGuide).offset(8)
+            make.bottom.equalTo(bottomSheet.snp.top).offset(-8)
+        }
+    }
 }
 
 extension MapViewController: NMFMapViewTouchDelegate {
     /// 지도 터치 액션
     func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
-        bottomSheet.snp.updateConstraints { make in
-            make.height.equalTo(10)
+        bottomSheet.isHidden = true
+        locationButton.snp.removeConstraints()
+        locationButton.snp.makeConstraints { make in
+            make.leading.equalTo(view.safeAreaLayoutGuide).offset(8)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-40)
         }
     }
 }

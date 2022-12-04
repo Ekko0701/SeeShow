@@ -43,7 +43,8 @@ class BottomSheetView: UIView {
     
     var thumbnail: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
+        imageView.layer.applyBorder(color: .backgroundGray, radius: 0)
         
         return imageView
     }()

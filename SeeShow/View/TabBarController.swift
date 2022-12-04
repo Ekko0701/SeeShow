@@ -22,12 +22,13 @@ class TapBarController: UITabBarController, UITabBarControllerDelegate {
  
         viewControllers = [
             generateNavController(viewController: MainViewController(), title: "Main",image: UIImage(systemName: "house")),
-            generateNavController(viewController: CategoryViewController(), title: "Category", image:UIImage(systemName: "list.bullet.rectangle")),
+            generateNavController(viewController: CategoryViewController(selectedPage: 0), title: "Category", image:UIImage(systemName: "list.bullet.rectangle")),
             generateNavController(viewController: MapViewController(), title: "Map", image: UIImage(systemName: "map")),
         ]
         
-        self.tabBar.backgroundColor = .white
-        self.tabBar.tintColor = .black
+        self.tabBar.barTintColor = .backgroundWhite
+        self.tabBar.layer.addBorder([.top], color: .backgroundGray, width: 1)
+        self.tabBar.tintColor = .flatBlack()
     }
     
     /// ViewController를 NavigationController로 변환하는 함수

@@ -21,6 +21,8 @@ protocol MapViewModelType {
     var pushMarkers: PublishRelay<[MapMarkerModel]> { get }
     var activated: Observable<Bool> { get }
     
+    var errorMessage: Observable<NSError> { get }
+    
 }
 
 class MapViewModel: MapViewModelType {
@@ -41,6 +43,8 @@ class MapViewModel: MapViewModelType {
     var pushMarkers: PublishRelay<[MapMarkerModel]>
     var activated: Observable<Bool>
     
+    var errorMessage: Observable<NSError>
+    
     init(domain: CultureFetchable = CultureStore(gpsxfrom: 0, gpsyfrom: 0, gpsxto: 0, gpsyto: 0)) {
         
         let fetching = PublishSubject<Void>()
@@ -59,8 +63,9 @@ class MapViewModel: MapViewModelType {
             .flatMap(domain.fetchCultures)
             .map { $0.map { ViewCulture($0) }}
             .do(onNext: { _ in activating.onNext(false) })
-                .subscribe(onNext: cultures.accept)
-                .disposed(by: disposeBag)
+            .do(onError: { err in error.onNext(err) })
+            .subscribe(onNext: cultures.accept)
+            .disposed(by: disposeBag)
         
         cultures.map { array in
             var markers: [MapMarkerModel] = []
@@ -88,5 +93,7 @@ class MapViewModel: MapViewModelType {
         pushCultures = cultures
         pushMarkers = markers
         activated = activating.distinctUntilChanged()
+        
+        errorMessage = error.map { $0 as NSError }
     }
 }

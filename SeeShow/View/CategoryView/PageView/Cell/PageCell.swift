@@ -21,18 +21,23 @@ class PageCell: UITableViewCell {
     let image: UIImageView = {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
-        imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(systemName: "house")
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.applyBorder(color: .backgroundGray, radius: 0)
         
         return imageView
     }()
     
+    private let titleBehindView: UIView = {
+        let view = UIView()
+        
+        return view
+    }()
+    
     private let title: UILabel = {
         let label = UILabel()
-        label.textAlignment = .left
+        
+        label.applyNoToSansKR(text: "", style: .bold, size: 16, color: .black)
         label.numberOfLines = 0
-        label.lineBreakMode = .byCharWrapping
-        label.applyNoToSansKR(text: "Empty", style: .bold, size: 16, color: .black)
         
         return label
     }()
@@ -40,7 +45,7 @@ class PageCell: UITableViewCell {
     private let place: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
-        label.applyNoToSansKR(text: "Empty", style: .regular, size: 14, color: .black)
+        label.applyNoToSansKR(text: "", style: .regular, size: 14, color: .black)
         label.numberOfLines = 2
         
         return label
@@ -49,7 +54,7 @@ class PageCell: UITableViewCell {
     private let period: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
-        label.applyNoToSansKR(text: "Empty", style: .regular, size: 14, color: .black)
+        label.applyNoToSansKR(text: "", style: .regular, size: 14, color: .black)
         label.numberOfLines = 2
         
         return label
@@ -58,14 +63,15 @@ class PageCell: UITableViewCell {
     private let infoStack: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.alignment = .fill
-        stackView.distribution = .equalSpacing
+        stackView.alignment = .leading
+        stackView.distribution = .fill
         stackView.spacing = 4
         return stackView
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.backgroundColor = .backgroundWhite
         configureLayout()
     }
     
@@ -79,9 +85,11 @@ class PageCell: UITableViewCell {
         contentView.addSubview(infoStack)
         
         // Add Subview to infoStack
-        infoStack.addArrangedSubview(title)
+        infoStack.addArrangedSubview(titleBehindView)
         infoStack.addArrangedSubview(place)
         infoStack.addArrangedSubview(period)
+        
+        titleBehindView.addSubview(title)
         
         // Constraint
         image.snp.makeConstraints { make in
@@ -93,8 +101,14 @@ class PageCell: UITableViewCell {
         
         infoStack.snp.makeConstraints { make in
             make.top.equalTo(image.snp.top).offset(4)
-            //make.bottom.equalTo(image.snp.bottom).offset(-8)
             make.leading.equalTo(image.snp.trailing).offset(8)
+            make.trailing.equalToSuperview().offset(-8)
+        }
+        
+        title.snp.makeConstraints { make in
+            make.top.leading.equalToSuperview()
+            make.trailing.equalToSuperview().offset(-8)
+            make.centerY.equalToSuperview()
         }
     }
     
@@ -109,7 +123,6 @@ class PageCell: UITableViewCell {
         self.title.text = data.prfnm
         self.place.text = data.prfplcnm
         self.period.text = data.prfpd
-        print("test \(data)")
     }
     
     override func prepareForReuse() {

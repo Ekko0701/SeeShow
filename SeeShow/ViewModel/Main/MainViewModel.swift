@@ -35,10 +35,11 @@ protocol MainViewModelType {
     var activated: Observable<Bool> { get }
     var showDetailPage: Observable<String> { get }
     
+    var errorMessage: Observable<NSError> { get }
+    
 }
 
 class MainViewModel: MainViewModelType {
-    
     
     let disposeBag = DisposeBag()
 
@@ -70,6 +71,8 @@ class MainViewModel: MainViewModelType {
     
     let showDetailPage: Observable<String> // ID 전달할거야
     
+    var errorMessage: Observable<NSError>
+    
     
     init(domain: BoxOfficeFetchable = BoxOfficeStore()) {
 
@@ -79,6 +82,8 @@ class MainViewModel: MainViewModelType {
         let fetchingUNI = PublishSubject<Void>()
         let fetchingOpenRun = PublishSubject<Void>()
         let fetchingKids = PublishSubject<Void>()
+        
+        let error = PublishSubject<Error>()
         
         // Cell Event
         let cellTouching = PublishSubject<IndexPath>()
@@ -117,11 +122,12 @@ class MainViewModel: MainViewModelType {
             .do(onNext: { _ in activating.onNext(true) })
             .flatMap(domain.fetchBoxOffices) // -> [BoxOfficeModel]
             .map { $0.map { ViewBoxOffice($0) }} // -> [ViewBoxOffice]
+            .do(onError: { err in error.onNext(err) })
             .subscribe(onNext: boxoffices.onNext) // boxoffice의 onNext로 전달
             .disposed(by: disposeBag)
         
         fetchingTheathers
-            .do(onNext: { _ in activating.onNext(true) })
+            //.do(onNext: { _ in activating.onNext(true) })
             .flatMap(domain.fetchTheaterBoxOffice)
             .map{ $0.map { ViewBoxOffice($0) }}
             .subscribe(onNext: theaterBoxOffices.onNext) // Relay는 accept로 이벤트를 보낸다.
@@ -153,6 +159,8 @@ class MainViewModel: MainViewModelType {
         pushUNIBoxOffices = uniBoxOffices
         pushOpenRunBoxOffices = openrunBoxOffices
         pushKidsBoxOffices = kidsBoxOffices
+        
+        errorMessage = error.map { $0 as NSError }
         
         // allBoxOffices랑 pushKidsBoxOffice를 묶었다.
         let ziptest = Observable.zip(allBoxOffices, pushKidsBoxOffices,pushTheaterBoxOffices,pushUNIBoxOffices,pushOpenRunBoxOffices)
@@ -217,16 +225,16 @@ class MainViewModel: MainViewModelType {
         section = [
             MainSectionModel.BannerSection(title: "Banner", items: bannerSectionItemArr),
             MainSectionModel.CategorySection(title: "Category", items: [
-                .CategorySectionItem(image: UIImage(named: "test1")!, title: "연극"),
-                .CategorySectionItem(image: UIImage(named: "test2")!, title: "뮤지컬"),
-                .CategorySectionItem(image: UIImage(named: "test3")!, title: "무용"),
-                .CategorySectionItem(image: UIImage(named: "test4")!, title: "클래식"),
-                .CategorySectionItem(image: UIImage(named: "test5")!, title: "오페라"),
-                .CategorySectionItem(image: UIImage(named: "test6")!, title: "국악"),
-                .CategorySectionItem(image: UIImage(named: "test7")!, title: "기타"),
-                .CategorySectionItem(image: UIImage(named: "test8")!, title: "축제"),
-                .CategorySectionItem(image: UIImage(named: "test9")!, title: "공연장"),
-                .CategorySectionItem(image: UIImage(named: "test10")!, title: "더보기"),
+                .CategorySectionItem(image: UIImage(named: "all_icon")!, title: "전체"),
+                .CategorySectionItem(image: UIImage(named: "act_icon")!, title: "연극"),
+                .CategorySectionItem(image: UIImage(named: "musical_icon")!, title: "뮤지컬"),
+                .CategorySectionItem(image: UIImage(named: "classic_icon")!, title: "클래식"),
+                .CategorySectionItem(image: UIImage(named: "opera_icon")!, title: "오페라"),
+                .CategorySectionItem(image: UIImage(named: "dancing_icon")!, title: "무용"),
+                .CategorySectionItem(image: UIImage(named: "korean_icon")!, title: "국악"),
+                .CategorySectionItem(image: UIImage(named: "mix_icon")!, title: "복합"),
+                .CategorySectionItem(image: UIImage(named: "kids_icon")!, title: "아동"),
+                .CategorySectionItem(image: UIImage(named: "open_run_icon")!, title: "오픈런"),
             ]),
             MainSectionModel.TheaterSection(title: "Theater", items: theaterSectionItemsArr),
             MainSectionModel.TheaterSection(title: "UNI", items: uniSectionItemArr),
@@ -242,9 +250,9 @@ class MainViewModel: MainViewModelType {
             switch indexPath.section {
             case 0:
                 return bannerData[indexPath.item].mt20id
-            case 1:
-            #warning("TODO : - Category View로 이동해야함. ")
-                return theaterData[indexPath.item].mt20id
+//            case 1:
+//            #warning("TODO : - Category View로 이동해야함. ")
+//                return String(indexPath.section)
             case 2:
                 return theaterData[indexPath.item].mt20id
             case 3:

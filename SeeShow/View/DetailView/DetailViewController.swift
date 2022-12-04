@@ -140,11 +140,17 @@ class DetailViewController: UIViewController {
         return imageView
     }()
     
+    var placeBehindView: UIView = {
+        let view = UIView()
+        
+        return view
+    }()
+    
     /// 공연 장소 entrpsnm
     let placeLabel: UILabel = {
         let label = UILabel()
-        label.applyNoToSansKR(text: "광림아트센터 (BBCH홀)", style: .medium, size: 18, color: .black)
-        label.numberOfLines = 1
+        label.applyNoToSansKR(text: "", style: .medium, size: 18, color: .black)
+        label.numberOfLines = 2
         return label
     }()
     
@@ -179,7 +185,7 @@ class DetailViewController: UIViewController {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .leading
-        stackView.distribution = .fill
+        stackView.distribution = .fillProportionally
         stackView.spacing = 8
         return stackView
     }()
@@ -198,7 +204,7 @@ class DetailViewController: UIViewController {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .fill
-        stackView.distribution = .fillProportionally
+        stackView.distribution = .fill
         stackView.spacing = 4
         return stackView
     }()
@@ -287,8 +293,11 @@ class DetailViewController: UIViewController {
         
         // 1. Add SubView to 'First' StackView
         
+        
         locationStack.addArrangedSubview(placeIcon)
-        locationStack.addArrangedSubview(placeLabel)
+        locationStack.addArrangedSubview(placeBehindView)
+        
+        placeBehindView.addSubview(placeLabel)
         
         fromToStack.addArrangedSubview(fromToIcon)
         fromToStack.addArrangedSubview(prfpdfromToLabel)
@@ -304,6 +313,11 @@ class DetailViewController: UIViewController {
         secondStack.addArrangedSubview(playtime)
         
         // Autolayout
+        
+        placeLabel.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
         navigationBar.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.leading.trailing.equalToSuperview()
@@ -340,12 +354,14 @@ class DetailViewController: UIViewController {
             make.bottom.equalTo(contentView)
         }
         
+        
+        
         firstStack.snp.makeConstraints { make in
             make.top.equalTo(infoBoxView).offset(16)
             make.leading.equalTo(infoBoxView).offset(16)
             make.trailing.equalTo(infoBoxView).offset(-16)
         }
-        
+    
         secondStack.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(16)
             make.trailing.equalToSuperview().offset(-16)
@@ -472,7 +488,6 @@ class DetailViewController: UIViewController {
                             }
                         })
                     } else {
-                        print("상세 포스터 없음 !!!!! ")
                         guard let self = self else { return }
                         self.detailPosterStack.addArrangedSubview(self.defaultDetailPoster)
                     }
@@ -518,16 +533,12 @@ extension DetailViewController: UIScrollViewDelegate {
 //MARK: - Detail NavigationBar Protocol
 extension DetailViewController: DetailNavigationBarProtocol {
     func touchBackButton() {
-        print("backward")
         navigationController?.popViewController(animated: true)
     }
     
     func touchHomeButton() {
-        print("homebutton")
-        
         navigationController?.popToRootViewController(animated: true)
         tabBarController?.selectedIndex = 0
-        print(navigationController?.viewControllers)
     }
     
     

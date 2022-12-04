@@ -14,10 +14,8 @@ class CategoryCell: UICollectionViewCell {
     
     private let image: UIImageView = {
         let imageView = UIImageView()
-        //imageView.image = UIImage(systemName: "house")
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFit
-        imageView.layer.cornerRadius = 16
         
         return imageView
     }()
@@ -54,8 +52,11 @@ class CategoryCell: UICollectionViewCell {
         
         // Configure Constraints
         image.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview()
-            make.width.equalToSuperview()
+//            make.top.leading.trailing.equalToSuperview()
+//            make.width.equalToSuperview()
+//            make.height.equalTo(image.snp.width).multipliedBy(1)
+            make.top.leading.equalToSuperview().offset(8)
+            make.trailing.equalToSuperview().offset(-8)
             make.height.equalTo(image.snp.width).multipliedBy(1)
         }
         

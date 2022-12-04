@@ -20,13 +20,7 @@ class MainViewController: UIViewController, TouchCellProtocol {
     
     var navigationBar = MainNavigationBar()
     
-    private var loadingView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .systemBlue
-        view.alpha = 1
-        
-        return view
-    }()
+    var loadingView = MainLoadingView()
     
     private var topBackGroundView: UIView = {
         let view = UIView()
@@ -53,6 +47,20 @@ class MainViewController: UIViewController, TouchCellProtocol {
         configureNavBar()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        skeletonLoading()
+        
+    }
+    
+    private func skeletonLoading() {
+        let loadingView = self.loadingView
+        loadingView.firstView.animateShimmer()
+        loadingView.secondView.animateShimmer()
+        loadingView.thirdView.animateShimmer()
+        loadingView.bannerView.animateShimmer()
+        loadingView.categoryView.animateShimmer()
+    }
+    
     /// NavigationBar 설정
     private func configureNavBar() {
         
@@ -65,6 +73,7 @@ class MainViewController: UIViewController, TouchCellProtocol {
     
     /// View Style 설정
     private func configureStyle() {
+        self.tabBarController?.tabBar.isHidden = true
         view.backgroundColor = .backgroundWhite
     }
     
@@ -94,7 +103,11 @@ class MainViewController: UIViewController, TouchCellProtocol {
         collectionView.register(OpenRunHeader.self, forSupplementaryViewOfKind: OpenRunHeader.sectionHeaderID, withReuseIdentifier: OpenRunHeader.identifier)
         
         // Add UIRefreshControl()
-        collectionView.refreshControl = UIRefreshControl()
+        // 현재 refresh 제거한싱테
+        // collectionView.refreshControl = UIRefreshControl()
+        
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.showsVerticalScrollIndicator = false
     }
     
     /// Compositional 레이아웃 생성
@@ -120,18 +133,16 @@ class MainViewController: UIViewController, TouchCellProtocol {
                 let layoutSection = NSCollectionLayoutSection(group: layoutGroup)
                 layoutSection.orthogonalScrollingBehavior = .groupPagingCentered
                 
-                
                 return layoutSection
-                
             }
             // Category Section
             else if sectionNumber == 1 {
                 
                 // item
-                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(0.2), heightDimension: .fractionalWidth(0.3)))
+                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(0.2), heightDimension: .fractionalWidth(0.25)))
                 item.contentInsets.top = 8
                 item.contentInsets.trailing = 8
-                item.contentInsets.bottom = 8
+                item.contentInsets.bottom = 0
                 item.contentInsets.leading = 8
                 
                 // group
@@ -139,7 +150,7 @@ class MainViewController: UIViewController, TouchCellProtocol {
                 
                 // section
                 let section = NSCollectionLayoutSection(group: group)
-                section.contentInsets.top = 16
+                section.contentInsets.top = 0
                 section.contentInsets.leading = 16
                 section.contentInsets.trailing = 16
                 section.contentInsets.bottom = 16
@@ -304,7 +315,8 @@ class MainViewController: UIViewController, TouchCellProtocol {
         }
         
         loadingView.snp.makeConstraints { make in
-            make.top.leading.trailing.bottom.equalToSuperview()
+            make.top.leading.trailing.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
     
@@ -347,11 +359,25 @@ class MainViewController: UIViewController, TouchCellProtocol {
             .bind(to: viewModel.fetchKidsBoxOffices)
             .disposed(by: disposeBag)
         
-        
-        
+    
         // ------------------------------
         //  OUTPUT
         // ------------------------------
+        
+        // Error
+        viewModel.errorMessage
+            .map { $0.domain }
+            .subscribe(onNext: { [weak self] err in
+                let alert = UIAlertController(title: "Network Error", message: err, preferredStyle: UIAlertController.Style.alert)
+                let endAction = UIAlertAction(title: "종료", style: .default) { (action) in
+                    UIApplication.shared.perform(#selector(NSXPCConnection.suspend))
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        exit(0)
+                    }
+                }
+                alert.addAction(endAction)
+                self?.present(alert, animated: false, completion: nil)
+            }).disposed(by: disposeBag)
         
         // Loading View
         viewModel.activated
@@ -403,8 +429,18 @@ class MainViewController: UIViewController, TouchCellProtocol {
         
         //MARK: - CollectionView Item seleted & Push View
         collectionView.rx.itemSelected.subscribe(onNext: { [weak self] indexPath in
-            self?.collectionView.deselectItem(at: indexPath, animated: true)
-            self?.viewModel.touchCell.onNext(indexPath)
+            if indexPath.section == 1 {
+                let vc = CategoryViewController(selectedPage: indexPath.item)
+                
+                vc.navigationBar.updateLayout()
+                
+                self?.navigationController?.pushViewController(vc, animated: true)
+                
+            } else {
+                self?.collectionView.deselectItem(at: indexPath, animated: true)
+                self?.viewModel.touchCell.onNext(indexPath)
+            }
+            
         }).disposed(by: disposeBag)
         
         // 화면 전환
@@ -419,8 +455,8 @@ class MainViewController: UIViewController, TouchCellProtocol {
     
     func touchBannerCell(_ IndexPath: IndexPath) {
         viewModel.touchCell.onNext(IndexPath)
-    
     }
+    
     /// CollectionView의 DataSource생성
     private func createDataSource() -> RxCollectionViewSectionedReloadDataSource<MainSectionModel> {
         return RxCollectionViewSectionedReloadDataSource<MainSectionModel>(configureCell: {dataSource, collection, indexPath, item in
@@ -462,10 +498,8 @@ class MainViewController: UIViewController, TouchCellProtocol {
 
 extension MainViewController: MainNavigationBarProtocol {
     func touchRightButton() {
-        print("네비게이션바 터치")
+        self.tabBarController?.selectedIndex = 2
     }
-    
-    
 }
 
 //MARK: - Preview
@@ -481,5 +515,3 @@ struct MainViewController_Previews: PreviewProvider {
 /// option + command +enter -> 접었다 폈다
 /// option + command + p -> 미리보기 실행
 #endif
-
-

@@ -14,8 +14,8 @@ class CultureAPIService {
     
     static func fetchWithGPS(gpsxfrom: Double, gpsyfrom: Double, gpsxto: Double, gpsyto: Double) -> Observable<Data> {
         let parameters: Parameters = [
-            "from" : String(20220101),
-            "to" : String(20221124),
+            "from" : dateToString(date: Date()),
+            "to" : dateToString(date: getDateTo()),
             "place" : "1",
             "gpsxfrom" : String(gpsxfrom),
             "gpsyfrom" : String(gpsyfrom),
@@ -34,15 +34,8 @@ class CultureAPIService {
                 print("response")
                 switch response.result {
                 case .success(let data):
-//                    print("success")
-//
-//                    var xml = XMLHash.parse(data)
-//                    for elem in xml["response"]["msgBody"]["perforList"].all {
-//                        print(elem["title"].element?.text ?? "알수없음")
-//                        print(elem["gpsX"].element?.text ?? "0")
-//                        print(elem["gpsY"].element?.text ?? "0")
-//                    }
                   observer.onNext(data)
+                    
                 case .failure(let error):
                     observer.onError(error)
                 }
@@ -55,7 +48,14 @@ class CultureAPIService {
     static func dateToString(date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyyMMdd"
+        dateFormatter.locale = Locale(identifier: "ko_KR")
         return dateFormatter.string(from: date)
+    }
+    
+    static func getDateTo() -> Date {
+        let dateFrom = Date()
+        let dateTo = Calendar.current.date(byAdding: .month, value: 2, to: dateFrom) ?? dateFrom
+        return dateTo
     }
     
     static func fetchCultureDetail(seq: String) -> Observable<Data> {
@@ -70,13 +70,8 @@ class CultureAPIService {
             .responseData { response in
                 switch response.result {
                 case .success(let data):
-                    print("성공: \(data)")
-                    var xml = XMLHash.parse(data)
-                    for elem in xml["response"]["msgBody"]["perforInfo"].all {
-                        print(elem["title"].element?.text ?? "알수없음")
-                        print(elem["place"].element?.text ?? "메롱")
-                    }
                     observer.onNext(data)
+                    
                 case .failure(let error):
                     observer.onError(error)
                 }

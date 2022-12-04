@@ -10,6 +10,7 @@ import UIKit
 import Kingfisher
 import SnapKit
 import RxSwift
+import ChameleonFramework
 
 
 protocol BannerItemCellDelegate: AnyObject {
@@ -19,8 +20,6 @@ protocol BannerItemCellDelegate: AnyObject {
 class BannerItemCell: UICollectionViewCell {
     static let identifier = "BannerCollectionViewCell"
     
-    //weak var delegate: BannerItemCellDelegate?
-    
     private let cellDisposeBag = DisposeBag()
     
     var disposeBag = DisposeBag()
@@ -29,8 +28,8 @@ class BannerItemCell: UICollectionViewCell {
     
     private let label: UILabel = {
         let label = UILabel()
-        label.text = "기본값 test"
-        label.textColor = .white
+        label.text = ""
+        label.textColor = .backgroundWhite
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 25, weight: .semibold)
         return label
@@ -38,8 +37,9 @@ class BannerItemCell: UICollectionViewCell {
     
     let bannerImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(systemName: "house") // test
+        imageView.contentMode = .scaleAspectFill
+        imageView.backgroundColor = .backgroundWhite
+        
         return imageView
     }()
     
@@ -55,7 +55,6 @@ class BannerItemCell: UICollectionViewCell {
         // data가 변하면 동작
         data.observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] boxoffice in
-                //self?.bannerImage.image = UIImage(systemName: "house")
                 let url = URL(string: boxoffice.poster)
                 let processor = RoundCornerImageProcessor(cornerRadius: 4)
                 self?.bannerImage.kf.indicatorType = .activity
@@ -64,7 +63,16 @@ class BannerItemCell: UICollectionViewCell {
                                               options: [.processor(processor),
                                                         .cacheOriginalImage
                                                        ]
-                )
+                ) { result in
+                    switch result {
+                    case .success(let value):
+                        let themeColor = AverageColorFromImage(value.image)
+                        self?.bannerImage.backgroundColor = themeColor
+                        
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
+                }
             })
             .disposed(by: cellDisposeBag)
     }
@@ -96,19 +104,4 @@ class BannerItemCell: UICollectionViewCell {
     func gesture() {
         
     }
-    
-//    @objc
-//    private func handlePan(_ pan: UIPanGestureRecognizer) {
-//        print("BannerCollectionViewCell - handlePan(_:) called")
-//        delegate?.invalidateTimer()
-//    }
 }
-
-////MARK: - UIGestureRecognizerDelegate
-//extension BannerItemCell: UIGestureRecognizerDelegate {
-//    /// if true
-//    /// 동시 여러 제스처 인식 허용
-//    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-//        return true
-//    }
-//}

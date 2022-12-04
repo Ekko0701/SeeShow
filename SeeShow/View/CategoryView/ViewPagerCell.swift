@@ -33,7 +33,7 @@ class ViewPagerCell: UICollectionViewCell {
     
     private let underBar: UIView = {
         let view = UIView()
-        view.backgroundColor = .black
+        view.backgroundColor = .flatRed()
         
         return view
     }()
@@ -80,11 +80,12 @@ class ViewPagerCell: UICollectionViewCell {
         underBar.snp.makeConstraints { make in
             make.bottom.equalTo(pageTitle.snp.bottom)
             make.leading.trailing.equalToSuperview()
-            make.height.equalTo(8)
+            make.height.equalTo(4)
         }
     }
     
     private func configureStyle() {
+        backgroundColor = .backgroundWhite
         underBar.alpha = 0
     }
     

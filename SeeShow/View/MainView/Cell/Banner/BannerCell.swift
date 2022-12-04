@@ -67,6 +67,7 @@ class BannerCell: UICollectionViewCell {
         var layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .backgroundWhite
         return collectionView
     }()
     
@@ -111,8 +112,8 @@ class BannerCell: UICollectionViewCell {
         collectionView.register(BannerItemCell.self, forCellWithReuseIdentifier: BannerItemCell.identifier)
         collectionView.delegate = self
         
-//        collectionView.layer.borderWidth = 10
-//        collectionView.layer.borderColor = UIColor.black.cgColor
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.showsVerticalScrollIndicator = false
     }
     
     private func configureLayout() {
@@ -222,49 +223,6 @@ extension BannerCell: UICollectionViewDelegate {
         progress?.completedUnitCount = Int64(unitCount)
         progressView.setProgress(Float(progress!.fractionCompleted), animated: false)
     }
-    
-    
-    ///
-    ////// Scroll View Did Scroll
-    /// Add Hight Effect
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        // Cell의 너비
-//        let width: CGFloat = collectionView.frame.size.width * cellWidthMultiplier
-//
-//        // Cell간 간격을 포함한 Cell의 너비
-//        let cellWidthIncludingSpacing = width + minimumLineSpacing
-//
-//        let offsetX = collectionView.contentOffset.x
-//        let index = (offsetX + collectionView.contentInset.left) / cellWidthIncludingSpacing
-//        let roundedIndex = round(index)
-//        let indexPath = IndexPath(item: Int(roundedIndex), section: 0)
-//
-//        // 1번 방법
-//        // 작동 but 비정상
-//        if let cell = collectionView.cellForItem(at: indexPath) {
-//            applyAnimation(cell: cell)
-//        }
-//
-//        if Int(roundedIndex) != previousIndex {
-//            let preIndexPath = IndexPath(item: previousIndex, section: 0)
-//            if let preCell = collectionView.cellForItem(at: preIndexPath) {
-//                removeAnimation(cell: preCell)
-//            }
-//            previousIndex = indexPath.item
-//        }
-//    }
-//
-//    /// willDisplay
-//    /// 첫번째 Item 크기 조절
-//    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-//
-//        if indexPath.row == 0 && firstItemHlighted == true {
-//            firstItemHlighted = false
-//            applyAnimation(cell: cell)
-//        } else {
-//            removeAnimation(cell: cell)
-//        }
-//    }
 }
 
 //MARK: - UICollectionViewFlowLayout

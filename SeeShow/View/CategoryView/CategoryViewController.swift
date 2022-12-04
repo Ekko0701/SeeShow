@@ -12,17 +12,29 @@ import RxSwift
 import RxGesture
 
 class CategoryViewController: UIViewController {
+    
     let disposeBag = DisposeBag()
     let viewModel = CategoryViewModel()
     
     /// NavigationBar
-    private let navigationBar = CategoryNavigationBar()
+    let navigationBar = CategoryViewHeader()
     
     /// ViewPager의 CollectionView
     private let viewPagerCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        
+        collectionView.layer.masksToBounds = false
+        collectionView.layer.shadowColor = UIColor.systemGray.cgColor
+        collectionView.layer.shadowOffset = CGSize(width: 0, height: 10)
+        collectionView.layer.shadowOpacity = 0.3
+        collectionView.layer.shadowRadius = 14
+
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.showsVerticalScrollIndicator = false
+        
+        collectionView.backgroundColor = .backgroundWhite
         
         return collectionView
     }()
@@ -43,23 +55,36 @@ class CategoryViewController: UIViewController {
     
     var previousPage: Int = 0
     
+    var selectedPage: Int = 0
+    
+    init(selectedPage: Int) {
+        self.selectedPage = selectedPage
+        previousPage = selectedPage
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         print("MapViewController - viewDidLoad()")
         
         configurePageView(index: currentPage)
         configurePagerCollection()
-        configureLayout()
         configureStyle()
+        configureLayout()
         configureFirstPage(item: currentPage)
-//        viewPagerCollectionView.scrollToItem(at: IndexPath(row: currentPage, section: 0), at: .centeredVertically, animated: true)
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         currentPage = previousPage
+        DispatchQueue.main.async { [weak self] in
+            self?.viewPagerCollectionView.scrollToItem(at: IndexPath(row: self?.currentPage ?? 0, section: 0), at: .centeredHorizontally, animated: true) }
+        
         tabBarController?.tabBar.isHidden = false
         configureNavBar()
     }
@@ -93,9 +118,9 @@ class CategoryViewController: UIViewController {
     
     private func configureLayout() {
         // Add Subview
-        view.addSubview(viewPagerCollectionView)
         addChild(pageViewController)
         view.addSubview(pageViewController.view)
+        view.addSubview(viewPagerCollectionView)
         view.addSubview(navigationBar)
         
         // Constraint
@@ -128,17 +153,9 @@ class CategoryViewController: UIViewController {
     }
     
     /// PageViewController 설정
-    #warning("TODO : - 첫번째 페이지 수정해야함 ")
     private func configurePageView(index: Int) {
         pageViewController.delegate = self
-        pageViewController.dataSource = self
-        
-//        if let firstVC = viewModel.pageViewControllers.first {
-//            pageViewController.setViewControllers([firstVC], direction: .forward, animated: true, completion: nil)
-//        }
-//        if let firstVC = viewModel.pageViewControllers[index] {
-//            pageViewController.setViewControllers([firstVC], direction: .forward, animated: true, completion: nil)
-//        }
+        pageViewController.dataSource = self 
         let firstVC = viewModel.pageViewControllers[index]
         
         pageViewController.setViewControllers([firstVC], direction: .forward, animated: true, completion: nil)
@@ -220,19 +237,24 @@ extension CategoryViewController: UIPageViewControllerDelegate, UIPageViewContro
 }
 
 //MARK: - CategoryNavigationBarProtocol
-extension CategoryViewController: CategoryNavigationBarProtocol {
+extension CategoryViewController: CategoryViewHeaderProtocol {
+    
+    func touchBackButton() {
+        navigationController?.popToRootViewController(animated: true)
+    }
+    
     
 }
 //MARK: - Preview
 
-#if DEBUG
-import SwiftUI
-struct CategoryViewController_Previews: PreviewProvider {
-    static var previews: some View {
-        CategoryViewController().getPreview()
-            .ignoresSafeArea()
-    }
-}
-/// option + command +enter -> 접었다 폈다
-/// option + command + p -> 미리보기 실행
-#endif
+//#if DEBUG
+//import SwiftUI
+//struct CategoryViewController_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CategoryViewController().getPreview()
+//            .ignoresSafeArea()
+//    }
+//}
+///// option + command +enter -> 접었다 폈다
+///// option + command + p -> 미리보기 실행
+//#endif
