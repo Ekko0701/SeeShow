@@ -74,11 +74,24 @@ class BottomSheetViewModel: BottomSheetViewModelType {
         pushDetails = details
         activated = activating.distinctUntilChanged()
         
-                    title = details.debug().map { $0.title }
+        title = details.debug().map { $0.title }
         place = details.map { $0.place }
         thumbnail = details.map { $0.imageURL }
         realmName = details.map { $0.realmName }
-        period = details.map { $0.period }
-                
+        //period = details.map { $0.period }
+        
+        period = details.map { data in
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy년 MM월 dd일"
+            dateFormatter.timeZone = NSTimeZone(name: "UTC") as TimeZone?
+            
+            if let date = dateFormatter.date(from: data.period) {
+               let secondFormatter = DateFormatter()
+                secondFormatter.dateFormat = "yyyy년 MM월 dd일"
+                return secondFormatter.string(from: date)
+            } else {
+                return ""
+            }
+        }
     }
 }

@@ -134,7 +134,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         viewModel.errorMessage
             .map { $0.domain }
             .subscribe(onNext: { [weak self] message in
-                self?.showAlert("Network Error", message)
+                //self?.showAlert("Network Error", message)
+                print(message)
             }).disposed(by: disposeBag)
         
         firstLoad.bind(to: viewModel.fetchCultures)
@@ -181,6 +182,7 @@ extension MapViewController: NMFMapViewCameraDelegate {
                         
                         self?.bottomSheet.title.text = marker.title
                         self?.bottomSheet.place.text = marker.place
+                        
                         self?.bottomSheet.period.text = marker.period
                         
                         self?.bottomSheet.realmName.text = marker.realmName

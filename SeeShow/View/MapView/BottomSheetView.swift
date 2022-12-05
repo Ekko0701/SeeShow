@@ -28,7 +28,7 @@ class BottomSheetView: UIView {
     
     var title: UILabel = {
         let label = UILabel()
-        label.applyNoToSansKR(text: "타이틀", style: .regular, size: 18, color: .black)
+        label.applyNoToSansKR(text: "타이틀", style: .bold, size: 18, color: .black)
         label.numberOfLines = 0
         
         return label

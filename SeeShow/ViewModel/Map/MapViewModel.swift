@@ -80,7 +80,13 @@ class MapViewModel: MapViewModelType {
                 marker.iconImage = NMF_MARKER_IMAGE_BLACK
                 marker.iconTintColor = UIColor.flatRed()
                 
-                markers.append(MapMarkerModel(marker: marker, seq: viewCulture.seq, thumbnail: viewCulture.thumbnail, title: viewCulture.title, place: viewCulture.place, period: viewCulture.startDate + "~" + viewCulture.endDate, realmName: viewCulture.realmName))
+                markers.append(MapMarkerModel(marker: marker,
+                                              seq: viewCulture.seq,
+                                              thumbnail: viewCulture.thumbnail,
+                                              title: viewCulture.title,
+                                              place: viewCulture.place,
+                                              period: viewCulture.startDate.stringToDateString() + "~" + viewCulture.endDate.stringToDateString(),
+                                              realmName: viewCulture.realmName))
             }
             return markers
         }
